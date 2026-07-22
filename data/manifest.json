@@ -1,0 +1,8 @@
+{
+  "driver_hash_rows": 2003,
+  "drivers_sha256": "68bf829f404a6a7eda562becf255bb020cf2117e3fea2f82b85be70f68e2d1f6",
+  "drivers_url": "https://www.loldrivers.io/api/drivers.json",
+  "rmm_domain_rows": 660,
+  "rmm_sha256": "6d4f106a571f2c183e217f2e55575d0d79743b2ec8eecfdc638bd1f37310821f",
+  "rmm_url": "https://raw.githubusercontent.com/magicsword-io/LOLRMM/main/website/public/api/rmm_domains.csv"
+}
