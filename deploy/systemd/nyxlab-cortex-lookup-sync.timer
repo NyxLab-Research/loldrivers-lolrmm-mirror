@@ -1,0 +1,11 @@
+[Unit]
+Description=Run NyxLab Cortex lookup synchronization daily
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 UTC
+RandomizedDelaySec=5m
+Persistent=true
+Unit=nyxlab-cortex-lookup-sync.service
+
+[Install]
+WantedBy=timers.target

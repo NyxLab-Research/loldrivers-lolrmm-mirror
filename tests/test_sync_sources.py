@@ -1,4 +1,5 @@
 import csv
+import hashlib
 import io
 import json
 import tempfile
@@ -110,6 +111,14 @@ class SyncSourceTests(unittest.TestCase):
                 self.assertEqual(next(csv.DictReader(handle))["domain"], "nezhahq.github.io")
             manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest["rmm_excluded_rows"], 1)
+            self.assertEqual(
+                manifest["loldrivers_csv_sha256"],
+                hashlib.sha256((output_dir / "loldrivers_hashes.csv").read_bytes()).hexdigest(),
+            )
+            self.assertEqual(
+                manifest["lolrmm_csv_sha256"],
+                hashlib.sha256((output_dir / "lolrmm_domains.csv").read_bytes()).hexdigest(),
+            )
 
 
 if __name__ == "__main__":

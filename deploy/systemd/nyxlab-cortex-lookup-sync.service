@@ -1,0 +1,32 @@
+[Unit]
+Description=Synchronize NyxLab LOLDrivers and LOLRMM Cortex XDR lookups
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=30min
+StartLimitBurst=3
+
+[Service]
+Type=exec
+User=nyx-cortex-sync
+Group=nyx-cortex-sync
+WorkingDirectory=/opt/nyxlab-cortex-sync
+ExecStart=/usr/bin/python3 /opt/nyxlab-cortex-sync/scripts/sync_cortex_lookups.py --env-dir /etc/nyxlab-cortex-sync/tenants
+Environment=PYTHONDONTWRITEBYTECODE=1
+UMask=0077
+Restart=on-failure
+RestartSec=5min
+TimeoutStartSec=2h
+
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target

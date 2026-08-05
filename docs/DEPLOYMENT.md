@@ -56,9 +56,10 @@ lookup datasets (replace existing data on every refresh):
 The current documented UI path is **Settings -> Configurations -> Data
 Management -> Dataset Management -> + Lookup**. Cortex documents a 30 MB UI
 upload limit (50 MB through XQL/API) and supports replacing an existing lookup.
-For automatic customer-side refresh, download the GitHub CSV on a controlled
-host and use the tenant's supported lookup/API or Files and Folders Collector;
-do not point XQL directly at GitHub.
+The UI remains a useful manual fallback. For multiple customer tenants, use the
+official Dataset and Lookup APIs with the Ubuntu one-shot synchronizer described in
+[`CORTEX_SERVER_SYNC.md`](CORTEX_SERVER_SYNC.md). It creates missing lookups and
+applies verified incremental updates; do not point XQL directly at GitHub.
 
 The XQL queries use documented fields `action_module_sha256`,
 `action_file_sha256`, and `action_external_hostname`, and the documented `join`
@@ -80,3 +81,5 @@ results before turning the hunt into a correlation/prevention rule.
 - [Import a lookup dataset](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/Import-a-lookup-dataset)
 - [XQL supported operators](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/Supported-operators)
 - [Cortex XDR XQL datasets](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/Datasets-and-presets)
+- [Cortex XDR Add Dataset API](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-Platform-APIs/Add-Dataset)
+- [Cortex XDR lookup update API](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-Platform-APIs/Add-or-update-data-in-a-lookup-dataset)

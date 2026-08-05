@@ -255,12 +255,12 @@ def write_bytes(path: Path, payload: bytes) -> None:
     temp_name.replace(path)
 
 
-def write_csv(path: Path, rows: list[dict[str, str]], fieldnames: list[str]) -> None:
+def csv_bytes(rows: list[dict[str, str]], fieldnames: list[str]) -> bytes:
     buffer = io.StringIO(newline="")
     writer = csv.DictWriter(buffer, fieldnames=fieldnames, lineterminator="\n")
     writer.writeheader()
     writer.writerows(rows)
-    write_bytes(path, buffer.getvalue().encode("utf-8"))
+    return buffer.getvalue().encode("utf-8")
 
 
 def sha256_bytes(payload: bytes) -> str:
@@ -279,21 +279,24 @@ def sync(
     upstream_domains = rmm_rows(rmm_payload)
     exclusions = load_rmm_exclusions(rmm_exclusions_file)
     domains, excluded_domains = filter_rmm_rows(upstream_domains, exclusions)
+    driver_csv = csv_bytes(
+        drivers,
+        ["sha256", "sha1", "md5", "driver_name", "category", "verified", "source_id", "created"],
+    )
+    rmm_csv = csv_bytes(domains, ["domain", "rmm_tool", "pattern", "regex"])
 
     raw_dir = output_dir / "raw"
     write_bytes(raw_dir / "drivers.json", drivers_payload)
     write_bytes(raw_dir / "rmm_domains.csv", rmm_payload)
-    write_csv(
-        output_dir / "loldrivers_hashes.csv",
-        drivers,
-        ["sha256", "sha1", "md5", "driver_name", "category", "verified", "source_id", "created"],
-    )
-    write_csv(output_dir / "lolrmm_domains.csv", domains, ["domain", "rmm_tool", "pattern", "regex"])
+    write_bytes(output_dir / "loldrivers_hashes.csv", driver_csv)
+    write_bytes(output_dir / "lolrmm_domains.csv", rmm_csv)
     write_bytes(output_dir / "manifest.json", json.dumps({
         "drivers_url": drivers_url,
         "rmm_url": rmm_url,
         "drivers_sha256": sha256_bytes(drivers_payload),
         "rmm_sha256": sha256_bytes(rmm_payload),
+        "loldrivers_csv_sha256": sha256_bytes(driver_csv),
+        "lolrmm_csv_sha256": sha256_bytes(rmm_csv),
         "driver_hash_rows": len(drivers),
         "rmm_domain_rows": len(domains),
         "rmm_upstream_rows": len(upstream_domains),

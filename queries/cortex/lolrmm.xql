@@ -1,7 +1,8 @@
 // Cortex XDR: known RMM domain hunting.
-// Import data/lolrmm_domains.csv as a Cortex lookup dataset named
-// `lolrmm_domains` before running this query. The contains branch handles
-// subdomains; investigate/allowlist sanctioned domains in the lookup or query.
+// Maintain the Cortex lookup dataset `lolrmm_domains` with the Ubuntu/API
+// synchronizer documented in docs/CORTEX_SERVER_SYNC.md. The contains branch
+// handles subdomains; investigate/allowlist sanctioned domains in the lookup
+// or query.
 config timeframe = 1h
 | dataset = xdr_data
 | filter action_external_hostname != null

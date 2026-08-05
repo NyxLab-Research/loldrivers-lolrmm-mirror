@@ -19,7 +19,10 @@ The configured mirror is
 [NyxLab-Research/loldrivers-lolrmm-mirror](https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror).
 MDE queries already point to this repository. Cortex XDR queries use imported
 lookup datasets and therefore do not contain a GitHub URL; XQL has no
-`externaldata()` equivalent.
+`externaldata()` equivalent. Multi-tenant Cortex lookup maintenance can be
+automated from Ubuntu using the official APIs and the one-shot synchronizer in
+`scripts/sync_cortex_lookups.py`; see
+[`docs/CORTEX_SERVER_SYNC.md`](docs/CORTEX_SERVER_SYNC.md).
 
 Shared infrastructure domains that are too noisy for domain-only RMM hunting
 are maintained centrally in

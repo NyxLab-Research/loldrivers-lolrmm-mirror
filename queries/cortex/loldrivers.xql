@@ -1,7 +1,7 @@
 // Cortex XDR: LOLDrivers BYOVD hunting.
-// Import data/loldrivers_hashes.csv as a Cortex lookup dataset named
-// `loldrivers_hashes` before running this query. XQL cannot read GitHub URLs
-// with KQL-style externaldata(). See docs/DEPLOYMENT.md.
+// Maintain the Cortex lookup dataset `loldrivers_hashes` with the Ubuntu/API
+// synchronizer documented in docs/CORTEX_SERVER_SYNC.md. XQL cannot read
+// GitHub URLs with KQL-style externaldata().
 // action_module_sha256 represents the closer driver/module-load signal. The
 // action_file_sha256 branch also finds known drivers written or accessed on an
 // endpoint and is intentionally broader than MDE ActionType="DriverLoad".
