@@ -205,7 +205,7 @@ class CortexLookupSyncTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             env_dir = root / "tenants"
-            env_dir.mkdir()
+            env_dir.mkdir(mode=0o700)
             (env_dir / "test.env").write_text(
                 "CORTEX_TENANT_NAME=test\n"
                 "CORTEX_API_FQDN=api.example.test\n"

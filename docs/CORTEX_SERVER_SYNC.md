@@ -1,8 +1,8 @@
 # Cortex XDR server synchronization
 
-This deployment uses one Python script and a systemd timer on Ubuntu 24.04. It
-does not require Docker, a database, third-party Python packages, or a listening
-network port.
+This deployment uses one Python script and either a user cron entry or a
+systemd timer on Ubuntu 22.04/24.04. It does not require Docker, a database,
+third-party Python packages, or a listening network port.
 
 The job uses the official Cortex XDR APIs to create the `loldrivers_hashes` and
 `lolrmm_domains` lookup datasets, apply incremental changes, remove stale rows,
@@ -33,7 +33,57 @@ CORTEX_API_KEY_TYPE=advanced
 CORTEX_ENABLED=true
 ```
 
-## Install on Ubuntu 24.04
+## User-home install without sudo
+
+This option is suitable when an existing service account already has a working
+user crontab. The public GitHub repository can be cloned and fetched over HTTPS
+without a deploy key. Source data is downloaded from the public mirror on each
+run, so unattended `git pull` is not required.
+
+Create one private project directory, keeping configuration and state beside
+the Git worktree rather than inside it:
+
+```bash
+install -d -m 0700 \
+  "$HOME/loldrivers-lolrmm-mirror" \
+  "$HOME/loldrivers-lolrmm-mirror/config/tenants" \
+  "$HOME/loldrivers-lolrmm-mirror/state"
+git clone --depth 1 \
+  https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror.git \
+  "$HOME/loldrivers-lolrmm-mirror/repo"
+install -m 0600 \
+  "$HOME/loldrivers-lolrmm-mirror/repo/config/cortex_tenant.example.env" \
+  "$HOME/loldrivers-lolrmm-mirror/config/tenants/customer-a.env"
+```
+
+Edit the tenant file, then run a read-only preview:
+
+```bash
+python3 "$HOME/loldrivers-lolrmm-mirror/repo/scripts/sync_cortex_lookups.py" \
+  --env-dir "$HOME/loldrivers-lolrmm-mirror/config/tenants" \
+  --tenant customer-a \
+  --dry-run
+```
+
+Append a clearly marked block with `crontab -e`; preserve every existing entry.
+The example below is for a server in `Asia/Hong_Kong`: 11:00 local time is
+03:00 UTC, after the GitHub source refresh at 02:17 UTC.
+
+```cron
+# BEGIN LOLDRIVERS_LOLRMM_SYNC
+0 11 * * * /usr/bin/flock -n "$HOME/loldrivers-lolrmm-mirror/state/sync.lock" /usr/bin/python3 "$HOME/loldrivers-lolrmm-mirror/repo/scripts/sync_cortex_lookups.py" --env-dir "$HOME/loldrivers-lolrmm-mirror/config/tenants" >> "$HOME/loldrivers-lolrmm-mirror/state/sync.log" 2>&1
+# END LOLDRIVERS_LOLRMM_SYNC
+```
+
+`flock` prevents overlapping runs. Keep code updates manual and controlled:
+
+```bash
+cd "$HOME/loldrivers-lolrmm-mirror/repo"
+git pull --ff-only
+python3 -m unittest discover -s tests -v
+```
+
+## System service install on Ubuntu 22.04/24.04
 
 Create a non-login service account and install the repository:
 
