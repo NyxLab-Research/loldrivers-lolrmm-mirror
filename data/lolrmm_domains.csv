@@ -233,9 +233,6 @@ getscreen.me,GetScreen,*.getscreen.me,^(?:.*\.getscreen\.me)$
 getscreen.me,GetScreen,getscreen.me,^(?:getscreen\.me)$
 getscreen.me,GetScreen,px-*.getscreen.me,^(?:px-.*\.getscreen\.me)$
 ghcr.io,Komari,ghcr.io,^(?:ghcr\.io)$
-github.com,GLPI Agent,github.com,^(?:github\.com)$
-github.com,Komari,github.com,^(?:github\.com)$
-github.com,Nezha,github.com,^(?:github\.com)$
 global.rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
 glpi-network.com,GLPI Agent,glpi-network.com,^(?:glpi-network\.com)$
 glpi-project.org,GLPI Agent,glpi-project.org,^(?:glpi-project\.org)$
@@ -413,7 +410,6 @@ ntrsupport.com,NTR Remote,*.ntrsupport.com,^(?:.*\.ntrsupport\.com)$
 nv0mddxkh7.execute-api.us-west-2.amazonaws.com,Faronics Deploy,nv0mddxkh7.execute-api.us-west-2.amazonaws.com,^(?:nv0mddxkh7\.execute-api\.us-west-2\.amazonaws\.com)$
 nvaccess.org,NVDA (Non-Visual Desktop Access),*.nvaccess.org,^(?:.*\.nvaccess\.org)$
 nvaccess.org,NVDA (Non-Visual Desktop Access),nvaccess.org,^(?:nvaccess\.org)$
-objects.githubusercontent.com,GLPI Agent,objects.githubusercontent.com,^(?:objects\.githubusercontent\.com)$
 ocsinventory-ng.org,OCS inventory,ocsinventory-ng.org,^(?:ocsinventory-ng\.org)$
 one.comodo.com,Comodo RMM,one.comodo.com,^(?:one\.comodo\.com)$
 online.level.io,Level,online.level.io,^(?:online\.level\.io)$
@@ -441,8 +437,6 @@ pulseway.com,Pulseway,pulseway.com,^(?:pulseway\.com)$
 qq-messenger.en.softonic.com,QQ IM-remote assistance,qq-messenger.en.softonic.com,^(?:qq-messenger\.en\.softonic\.com)$
 r1.rmm.uw.gorelo.tech,Gorelo RMM,r1.rmm.uw.gorelo.tech,^(?:r1\.rmm\.uw\.gorelo\.tech)$
 radmin.com,RAdmin,radmin.com,^(?:radmin\.com)$
-raw.githubusercontent.com,Komari,raw.githubusercontent.com,^(?:raw\.githubusercontent\.com)$
-raw.githubusercontent.com,Nezha,raw.githubusercontent.com,^(?:raw\.githubusercontent\.com)$
 rdp.duetdisplay.com,Duet Display,rdp.duetdisplay.com,^(?:rdp\.duetdisplay\.com)$
 real-time-collaboration.com,Mikogo,*.real-time-collaboration.com,^(?:.*\.real-time-collaboration\.com)$
 rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,*.rel.tunnels.api.visualstudio.com,^(?:.*\.rel\.tunnels\.api\.visualstudio\.com)$

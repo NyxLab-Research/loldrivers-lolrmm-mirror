@@ -1,0 +1,4 @@
+domain,reason
+github.com,Shared development platform with high domain-only false-positive risk
+objects.githubusercontent.com,Shared GitHub object hosting with high domain-only false-positive risk
+raw.githubusercontent.com,Shared GitHub content hosting with high domain-only false-positive risk

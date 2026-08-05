@@ -20,3 +20,8 @@ The configured mirror is
 MDE queries already point to this repository. Cortex XDR queries use imported
 lookup datasets and therefore do not contain a GitHub URL; XQL has no
 `externaldata()` equivalent.
+
+Shared infrastructure domains that are too noisy for domain-only RMM hunting
+are maintained centrally in
+[`config/lolrmm_domain_exclusions.csv`](config/lolrmm_domain_exclusions.csv).
+The upstream raw CSV remains unchanged for auditability.

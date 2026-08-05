@@ -6,7 +6,13 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.sync_sources import driver_rows, rmm_rows, sync
+from scripts.sync_sources import (
+    driver_rows,
+    filter_rmm_rows,
+    load_rmm_exclusions,
+    rmm_rows,
+    sync,
+)
 
 
 class SyncSourceTests(unittest.TestCase):
@@ -62,16 +68,48 @@ class SyncSourceTests(unittest.TestCase):
         self.assertIn(".*", by_pattern["*.example.com"]["regex"])
         self.assertNotIn(":443", by_pattern["relay-[a-f0-9]{8}.net.anydesk.com:443"]["regex"])
 
+    def test_rmm_exclusions_remove_only_exact_shared_domains(self):
+        rows = rmm_rows(
+            b"URI,RMM_Tool\n"
+            b"github.com,Tool A\n"
+            b"raw.githubusercontent.com,Tool B\n"
+            b"nezhahq.github.io,Nezha\n"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            exclusions_file = Path(directory) / "exclusions.csv"
+            exclusions_file.write_text(
+                "domain,reason\n"
+                "github.com,Shared platform\n"
+                "raw.githubusercontent.com,Shared content hosting\n",
+                encoding="utf-8",
+            )
+            effective, excluded = filter_rmm_rows(rows, load_rmm_exclusions(exclusions_file))
+
+        self.assertEqual([row["domain"] for row in effective], ["nezhahq.github.io"])
+        self.assertEqual({row["domain"] for row in excluded}, {"github.com", "raw.githubusercontent.com"})
+        self.assertTrue(all(row["exclusion_reason"] for row in excluded))
+
     def test_sync_writes_raw_and_derived_files(self):
         drivers = b'[{"Id":"1","Tags":["x.sys"],"Category":"malicious","Verified":"TRUE","KnownVulnerableSamples":[{"SHA256":"' + b'a' * 64 + b'"}]}]'
-        rmm = b"URI,RMM_Tool\nexample.com,Example\n"
+        rmm = b"URI,RMM_Tool\ngithub.com,Generic\nnezhahq.github.io,Nezha\n"
         with tempfile.TemporaryDirectory() as directory:
+            output_dir = Path(directory) / "data"
+            exclusions_file = Path(directory) / "exclusions.csv"
+            exclusions_file.write_text(
+                "domain,reason\ngithub.com,Shared platform\n",
+                encoding="utf-8",
+            )
             with patch("scripts.sync_sources.fetch", side_effect=[drivers, rmm]):
-                summary = sync(Path(directory))
+                summary = sync(output_dir, rmm_exclusions_file=exclusions_file)
             self.assertEqual(summary["driver_hash_rows"], 1)
-            self.assertTrue((Path(directory) / "raw" / "drivers.json").exists())
-            with (Path(directory) / "lolrmm_domains.csv").open(newline="", encoding="utf-8") as handle:
-                self.assertEqual(next(csv.DictReader(handle))["domain"], "example.com")
+            self.assertEqual(summary["rmm_upstream_rows"], 2)
+            self.assertEqual(summary["rmm_excluded_rows"], 1)
+            self.assertEqual(summary["rmm_effective_rows"], 1)
+            self.assertIn("github.com", (output_dir / "raw" / "rmm_domains.csv").read_text())
+            with (output_dir / "lolrmm_domains.csv").open(newline="", encoding="utf-8") as handle:
+                self.assertEqual(next(csv.DictReader(handle))["domain"], "nezhahq.github.io")
+            manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["rmm_excluded_rows"], 1)
 
 
 if __name__ == "__main__":

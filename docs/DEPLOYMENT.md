@@ -17,14 +17,27 @@ The workflow preserves the upstream files under `data/raw/` and produces:
 
 - `data/loldrivers_hashes.csv`: one deterministic row per unique SHA256 sample.
 - `data/lolrmm_domains.csv`: normalized domains plus the original pattern and a
-  regex representation.
-- `data/manifest.json`: source URLs, hashes, and row counts for auditability.
+  regex representation, after applying the shared-infrastructure exclusions.
+- `data/manifest.json`: source URLs, hashes, and pre-filter, excluded, and
+  effective row counts for auditability.
+
+### Shared infrastructure exclusions
+
+Generic shared services such as `github.com` and `raw.githubusercontent.com`
+are high-noise indicators when only the destination domain is available. They
+are excluded from the customer-facing `data/lolrmm_domains.csv` using
+`config/lolrmm_domain_exclusions.csv`. The original upstream entries remain in
+`data/raw/rmm_domains.csv`.
+
+The exclusion is an exact normalized-domain match. Product-specific domains
+such as `nezhahq.github.io` remain available. Add or remove exclusions only in
+the configuration CSV; both MDE and Cortex consume the same filtered output.
 
 ## Microsoft Defender for Endpoint
 
-Paste the relevant file under `queries/mde/` into Advanced Hunting after
-replacing the repository placeholder. The LOLDrivers query uses a flat CSV and
-two joins (SHA256/SHA1), which avoids the published query's invalid
+Paste the relevant file under `queries/mde/` into Advanced Hunting. The MDE
+queries already point to this repository. The LOLDrivers query uses a flat CSV
+and two joins (SHA256/SHA1), which avoids the published query's invalid
 `ingestionMapping=@'...'` construct. The RMM query uses `parse_url()` and
 suffix matching and keeps a visible `SanctionRMM` allowlist for approved tools.
 
@@ -54,9 +67,9 @@ equivalent to a driver/module load; the file-hash branch is broader and can
 also report a known driver that was written or accessed but not loaded. Remove
 the file-hash branch if the use case requires only module-load telemetry.
 
-RMM matching is exact domain or a subdomain suffix. Replace the placeholder in
-the Cortex query's `not in` filter with approved remote hosts. Suffix matching
-is intentionally broad for hunting and can match a crafted hostname that
+RMM matching is exact domain or a subdomain suffix. Add an optional `not in`
+filter to the Cortex query for customer-approved exact remote hosts. Suffix
+matching is intentionally broad for hunting and can match a crafted hostname that
 contains a known RMM suffix before additional labels; review and allowlist
 results before turning the hunt into a correlation/prevention rule.
 
