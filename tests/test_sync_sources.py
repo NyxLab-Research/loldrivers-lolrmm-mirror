@@ -31,6 +31,12 @@ class SyncSourceTests(unittest.TestCase):
         )
         self.assertNotIn("externaldata", cortex_code.lower())
         self.assertIn("dataset = lolrmm_domains", cortex_rmm_query)
+        self.assertIn("action_module_sha256 = lol.sha256", cortex_driver_query)
+        self.assertIn("driver_name,\n         category, verified, source_id, created", cortex_driver_query)
+        self.assertNotIn("lol.driver_name", cortex_driver_query)
+        self.assertIn("remote_host = rmm.domain", cortex_rmm_query)
+        self.assertIn("domain, rmm_tool, pattern", cortex_rmm_query)
+        self.assertNotIn("rmm.rmm_tool", cortex_rmm_query)
 
     def test_driver_rows_deduplicate_sha256_and_validate_hashes(self):
         payload = json.dumps([

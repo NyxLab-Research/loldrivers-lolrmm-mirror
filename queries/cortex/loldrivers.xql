@@ -15,5 +15,5 @@ config timeframe = 30d
 | fields _time, agent_hostname, agent_id, agent_os_type, event_type, event_sub_type,
          action_module_sha256, action_file_sha256, action_file_name, action_file_path,
          event_address_mapped_image_path,
-         action_process_image_name, action_process_image_path, lol.driver_name,
-         lol.category, lol.verified, lol.source_id, lol.created
+         action_process_image_name, action_process_image_path, driver_name,
+         category, verified, source_id, created

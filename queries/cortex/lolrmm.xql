@@ -17,4 +17,4 @@ config timeframe = 1h
 | fields _time, agent_hostname, agent_id, event_type, event_sub_type,
          action_external_hostname, action_remote_ip, action_remote_port,
          action_process_image_name, action_process_image_path,
-         rmm.domain, rmm.rmm_tool, rmm.pattern
+         domain, rmm_tool, pattern
