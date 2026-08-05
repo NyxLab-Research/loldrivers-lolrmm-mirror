@@ -1,5 +1,6 @@
-// Detect connections to known RMM domains in Microsoft Defender for Endpoint.
+// Weekly report query for connections to known RMM domains in Microsoft Defender for Endpoint.
 // Mirror: https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror
+// Keep the seven-day window aligned with the weekly report schedule.
 // Add customer-approved exact remote hosts to this array.
 let SanctionRMM = dynamic([]);
 let RMMList = externaldata(Domain:string, RMMTool:string, Pattern:string, Regex:string)
@@ -14,6 +15,7 @@ let RMMDomains = toscalar(
     | summarize make_set(Domain)
 );
 DeviceNetworkEvents
+| where Timestamp > ago(7d)
 | where ActionType == "ConnectionSuccess"
 | extend RemoteHost = tolower(tostring(parse_url(RemoteUrl).Host))
 | where isnotempty(RemoteHost)

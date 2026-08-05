@@ -38,8 +38,11 @@ the configuration CSV; both MDE and Cortex consume the same filtered output.
 Paste the relevant file under `queries/mde/` into Advanced Hunting. The MDE
 queries already point to this repository. The LOLDrivers query uses a flat CSV
 and two joins (SHA256/SHA1), which avoids the published query's invalid
-`ingestionMapping=@'...'` construct. The RMM query uses `parse_url()` and
-suffix matching and keeps a visible `SanctionRMM` allowlist for approved tools.
+`ingestionMapping=@'...'` construct. It is intended for an hourly Custom
+Detection; configure **Every hour** in the portal and let Defender apply its
+ingestion-aware lookback. The RMM query is a seven-day weekly-report query. It
+uses `parse_url()` and suffix matching and keeps a visible `SanctionRMM`
+allowlist for approved tools.
 
 ## Cortex XDR
 
@@ -61,12 +64,14 @@ official Dataset and Lookup APIs with the Ubuntu one-shot synchronizer described
 [`CORTEX_SERVER_SYNC.md`](CORTEX_SERVER_SYNC.md). It creates missing lookups and
 applies verified incremental updates; do not point XQL directly at GitHub.
 
-The XQL queries use documented fields `action_module_sha256`,
-`action_file_sha256`, and `action_external_hostname`, and the documented `join`
-stage. Driver matching is exact SHA256. The module-hash branch is the closer
-equivalent to a driver/module load; the file-hash branch is broader and can
-also report a known driver that was written or accessed but not loaded. Remove
-the file-hash branch if the use case requires only module-load telemetry.
+The XQL queries use documented fields `action_module_sha256` and
+`action_external_hostname`, and the documented `join` stage. The LOLDrivers
+query uses a one-hour timeframe for an hourly
+BIOC/correlation rule. The LOLRMM query uses a seven-day timeframe for a weekly
+dashboard report. Driver matching is exact SHA256. The module-hash branch is the
+closer equivalent to a driver/module load. File-hash matches are intentionally
+excluded from the scheduled rule so a file write or access alone does not
+create an alert.
 
 RMM matching is exact domain or a subdomain suffix. Add an optional `not in`
 filter to the Cortex query for customer-approved exact remote hosts. Suffix

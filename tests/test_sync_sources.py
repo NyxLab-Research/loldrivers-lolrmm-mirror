@@ -20,22 +20,33 @@ class SyncSourceTests(unittest.TestCase):
     def test_query_templates_use_the_supported_data_delivery_model(self):
         root = Path(__file__).resolve().parents[1]
         mde_driver_query = (root / "queries" / "mde" / "loldrivers.kql").read_text(encoding="utf-8")
+        mde_rmm_query = (root / "queries" / "mde" / "lolrmm.kql").read_text(encoding="utf-8")
         cortex_driver_query = (root / "queries" / "cortex" / "loldrivers.xql").read_text(encoding="utf-8")
         cortex_rmm_query = (root / "queries" / "cortex" / "lolrmm.xql").read_text(encoding="utf-8")
 
         self.assertIn("loldrivers_hashes.csv", mde_driver_query)
         self.assertNotIn("ingestionMapping=@'", mde_driver_query)
+        self.assertIn("Custom Detection frequency to Every hour", mde_driver_query)
+        self.assertIn("ReportId", mde_driver_query)
+        self.assertIn("Timestamp > ago(7d)", mde_rmm_query)
         self.assertIn("dataset = loldrivers_hashes", cortex_driver_query)
         cortex_code = "\n".join(
             line for line in cortex_driver_query.splitlines() if not line.lstrip().startswith("//")
         )
         self.assertNotIn("externaldata", cortex_code.lower())
         self.assertIn("dataset = lolrmm_domains", cortex_rmm_query)
+        self.assertIn("config timeframe = 1h", cortex_driver_query)
+        self.assertIn("config timeframe = 7d", cortex_rmm_query)
+        self.assertIn("join conflict_strategy = left type = inner", cortex_driver_query)
+        self.assertIn("join conflict_strategy = left type = inner", cortex_rmm_query)
         self.assertIn("action_module_sha256 = lol.sha256", cortex_driver_query)
-        self.assertIn("driver_name,\n         category, verified, source_id, created", cortex_driver_query)
+        self.assertNotIn("action_file_sha256 = lol.sha256", cortex_driver_query)
+        self.assertIn("category, verified, source_id, created", cortex_driver_query)
+        self.assertIn("actor_process_image_name", cortex_driver_query)
         self.assertNotIn("lol.driver_name", cortex_driver_query)
         self.assertIn("remote_host = rmm.domain", cortex_rmm_query)
         self.assertIn("domain, rmm_tool, pattern", cortex_rmm_query)
+        self.assertIn("actor_process_image_name", cortex_rmm_query)
         self.assertNotIn("rmm.rmm_tool", cortex_rmm_query)
 
     def test_driver_rows_deduplicate_sha256_and_validate_hashes(self):

@@ -1,5 +1,7 @@
-// LOLDrivers BYOVD hunting for Microsoft Defender for Endpoint.
+// LOLDrivers BYOVD detection for Microsoft Defender for Endpoint.
 // Mirror: https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror
+// Set the Custom Detection frequency to Every hour. Defender applies its own
+// ingestion-aware lookback, so this query does not add a fixed Timestamp filter.
 // The CSV is deliberately flattened so this query does not depend on the
 // broken multiline ingestionMapping/@' syntax published by LOLDrivers.
 let LOLDrivers = externaldata(
@@ -13,20 +15,24 @@ let LOLDrivers = externaldata(
     Created:string
 )[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/loldrivers_hashes.csv']
 with (format="csv", ignoreFirstRecord=true);
-let DriverLoadsBySha256 =
+let DriverLoads =
     DeviceEvents
-    | where ActionType == "DriverLoad"
+    | where ActionType == "DriverLoad";
+let DriverLoadsBySha256 =
+    DriverLoads
     | extend ObservedSHA256 = tolower(tostring(SHA256))
     | where isnotempty(ObservedSHA256)
     | join kind=inner (LOLDrivers | where isnotempty(SHA256)) on $left.ObservedSHA256 == $right.SHA256;
 let DriverLoadsBySha1 =
-    DeviceEvents
-    | where ActionType == "DriverLoad"
+    DriverLoads
     | extend ObservedSHA1 = tolower(tostring(SHA1))
     | where isnotempty(ObservedSHA1)
     | join kind=inner (LOLDrivers | where isnotempty(SHA1)) on $left.ObservedSHA1 == $right.SHA1;
 union DriverLoadsBySha256, DriverLoadsBySha1
-| project Timestamp, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+| project Timestamp, DeviceId, DeviceName, ReportId, ActionType, FileName, FolderPath,
           SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
           InitiatingProcessFileName, InitiatingProcessCommandLine
+| distinct Timestamp, DeviceId, DeviceName, ReportId, ActionType, FileName, FolderPath,
+           SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+           InitiatingProcessFileName, InitiatingProcessCommandLine
 | order by Timestamp desc

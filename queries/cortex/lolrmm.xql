@@ -1,15 +1,15 @@
-// Cortex XDR: known RMM domain hunting.
+// Cortex XDR: weekly report query for known RMM domain activity.
 // Maintain the Cortex lookup dataset `lolrmm_domains` with the Ubuntu/API
 // synchronizer documented in docs/CORTEX_SERVER_SYNC.md. The contains branch
 // handles subdomains; investigate/allowlist sanctioned domains in the lookup
 // or query.
-config timeframe = 1h
+config timeframe = 7d
 | dataset = xdr_data
 | filter action_external_hostname != null
 | alter remote_host = lowercase(action_external_hostname)
 // Optional exact-host allowlist, for example:
 // | filter remote_host not in ("approved-rmm.example")
-| join type = inner (
+| join conflict_strategy = left type = inner (
     dataset = lolrmm_domains
     | filter domain != null
     | fields domain, rmm_tool, pattern
@@ -17,4 +17,6 @@ config timeframe = 1h
 | fields _time, agent_hostname, agent_id, event_type, event_sub_type,
          action_external_hostname, action_remote_ip, action_remote_port,
          action_process_image_name, action_process_image_path,
-         domain, rmm_tool, pattern
+         actor_process_image_name, actor_process_image_path,
+         actor_process_command_line, actor_process_os_pid,
+         actor_primary_username, remote_host, domain, rmm_tool, pattern
