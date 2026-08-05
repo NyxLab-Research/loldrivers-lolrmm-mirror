@@ -206,13 +206,15 @@ class CortexLookupSyncTests(unittest.TestCase):
             root = Path(directory)
             env_dir = root / "tenants"
             env_dir.mkdir(mode=0o700)
-            (env_dir / "test.env").write_text(
+            env_file = env_dir / "test.env"
+            env_file.write_text(
                 "CORTEX_TENANT_NAME=test\n"
                 "CORTEX_API_FQDN=api.example.test\n"
                 "CORTEX_API_KEY_ID=1\n"
                 "CORTEX_API_KEY='secret'\n",
                 encoding="utf-8",
             )
+            env_file.chmod(0o600)
             (root / "loldrivers_hashes.csv").write_bytes(drivers)
             (root / "lolrmm_domains.csv").write_bytes(rmm)
             (root / "manifest.json").write_text(
