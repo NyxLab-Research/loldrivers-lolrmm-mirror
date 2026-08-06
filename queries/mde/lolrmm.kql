@@ -9,11 +9,15 @@ with (format="csv", ignoreFirstRecord=true);
 let RMMEnrichment =
     RMMList
     | where isnotempty(Domain)
-    | summarize RMMTools=make_set(RMMTool), SourcePatterns=make_set(Pattern) by Domain;
-let RMMDomains = toscalar(
-    RMMEnrichment
-    | summarize make_set(Domain)
-);
+    | summarize
+        RMMTools=make_set(RMMTool),
+        SourcePatterns=make_set(Pattern)
+      by Domain;
+let RMMDomains =
+    toscalar(
+        RMMEnrichment
+        | summarize make_set(Domain)
+    );
 DeviceNetworkEvents
 | where Timestamp > ago(7d)
 | where ActionType == "ConnectionSuccess"
@@ -21,10 +25,19 @@ DeviceNetworkEvents
 | where isnotempty(RemoteHost)
 | mv-expand Domain = RMMDomains to typeof(string)
 | where RemoteHost == Domain or RemoteHost endswith strcat(".", Domain)
-| where not(RemoteHost in~ (SanctionRMM))
-| summarize arg_max(Timestamp, *) by DeviceId, RemoteHost, Domain
+| where RemoteHost !in~ (SanctionRMM)
+| project Timestamp, DeviceId, DeviceName, ActionType, RemoteUrl,
+          RemoteHost, RemoteIP, RemotePort, InitiatingProcessFileName,
+          InitiatingProcessCommandLine, Domain
+| summarize
+    FirstSeen=min(Timestamp),
+    EventCount=count(),
+    arg_max(Timestamp, *)
+  by DeviceId, RemoteHost, Domain, InitiatingProcessFileName
+| extend LastSeen = Timestamp
 | join kind=leftouter RMMEnrichment on Domain
-| project Timestamp, DeviceId, DeviceName, ActionType, RemoteUrl, RemoteHost,
-          RemoteIP, RemotePort, InitiatingProcessFileName,
-          InitiatingProcessCommandLine, Domain, RMMTools, SourcePatterns
-| order by Timestamp desc
+| project FirstSeen, LastSeen, EventCount, DeviceId, DeviceName, ActionType,
+          RemoteUrl, RemoteHost, RemoteIP, RemotePort, Domain, RMMTools,
+          SourcePatterns, InitiatingProcessFileName,
+          InitiatingProcessCommandLine
+| order by LastSeen desc

@@ -45,7 +45,10 @@ class SyncSourceTests(unittest.TestCase):
         self.assertIn("actor_process_image_name", cortex_driver_query)
         self.assertNotIn("lol.driver_name", cortex_driver_query)
         self.assertIn("remote_host = rmm.domain", cortex_rmm_query)
-        self.assertIn("domain, rmm_tool, pattern", cortex_rmm_query)
+        self.assertIn("values(rmm_tool) as rmm_tools", cortex_rmm_query)
+        self.assertIn("values(pattern) as patterns", cortex_rmm_query)
+        self.assertIn("FirstSeen=min(Timestamp)", mde_rmm_query)
+        self.assertIn("arg_max(Timestamp, *)", mde_rmm_query)
         self.assertIn("actor_process_image_name", cortex_rmm_query)
         self.assertNotIn("rmm.rmm_tool", cortex_rmm_query)
 
