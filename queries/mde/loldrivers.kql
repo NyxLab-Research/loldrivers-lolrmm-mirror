@@ -38,70 +38,20 @@ let DriverLoadsBySha1 =
         | extend SHA1 = tolower(SHA1)
     ) on $left.ObservedSHA1 == $right.SHA1;
 union DriverLoadsBySha256, DriverLoadsBySha1
-| project
-    Timestamp,
-    ReportId,
-    DeviceId,
-    DeviceName,
-    ActionType,
-    FileName,
-    FolderPath,
-    SHA1,
-    SHA256,
-    MD5,
-    DriverName,
-    Category,
-    Verified,
-    SourceId,
-    Created,
-    InitiatingProcessFileName,
-    InitiatingProcessCommandLine
-| distinct
-    Timestamp,
-    ReportId,
-    DeviceId,
-    DeviceName,
-    ActionType,
-    FileName,
-    FolderPath,
-    SHA1,
-    SHA256,
-    MD5,
-    DriverName,
-    Category,
-    Verified,
-    SourceId,
-    Created,
-    InitiatingProcessFileName,
-    InitiatingProcessCommandLine
+| project Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+          SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+          InitiatingProcessFileName, InitiatingProcessCommandLine
+| distinct Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+           SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+           InitiatingProcessFileName, InitiatingProcessCommandLine
 | summarize
     FirstSeen = min(Timestamp),
     EventCount = count(),
     arg_max(Timestamp, *)
-  by DeviceId,
-     FileName,
-     SHA1,
-     SHA256
+  by DeviceId, FileName, SHA1, SHA256
 | extend LastSeen = Timestamp
-| project
-    Timestamp,
-    ReportId,
-    DeviceId,
-    DeviceName,
-    ActionType,
-    FileName,
-    FolderPath,
-    SHA1,
-    SHA256,
-    MD5,
-    DriverName,
-    Category,
-    Verified,
-    SourceId,
-    Created,
-    InitiatingProcessFileName,
-    InitiatingProcessCommandLine,
-    EventCount,
-    FirstSeen,
-    LastSeen
+| project Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+          SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+          InitiatingProcessFileName, InitiatingProcessCommandLine,
+          EventCount, FirstSeen, LastSeen
 | order by LastSeen desc
