@@ -1,0 +1,655 @@
+domain,rmm_tool,pattern,regex
+-dms.zoho.com.cn,Manage Engine (Desktop Central),*.-dms.zoho.com.cn,^(?:.*\.-dms\.zoho\.com\.cn)$
+01com.com,I'm InTouch,*.01com.com,^(?:.*\.01com\.com)$
+136.243.104.235,Ammyy Admin,136.243.104.235,^(?:136\.243\.104\.235)$
+136.243.104.242,Ammyy Admin,136.243.104.242,^(?:136\.243\.104\.242)$
+136.243.18.122,Ammyy Admin,136.243.18.122,^(?:136\.243\.18\.122)$
+160.191.182.41,SimpleHelp,160.191.182.41,^(?:160\.191\.182\.41)$
+192.144.34.42,SimpleHelp,192.144.34.42,^(?:192\.144\.34\.42)$
+192.3.95.152,NetBird,192.3.95.152,^(?:192\.3\.95\.152)$
+198.46.178.135,NetBird,198.46.178.135,^(?:198\.46\.178\.135)$
+1wuccjc4a3.execute-api.eu-west-1.amazonaws.com,Faronics Deploy,1wuccjc4a3.execute-api.eu-west-1.amazonaws.com,^(?:1wuccjc4a3\.execute-api\.eu-west-1\.amazonaws\.com)$
+247ithelp.com,247ithelp.com (ConnectWise),*.247ithelp.com,^(?:.*\.247ithelp\.com)$
+29qoj3q0yf.execute-api.us-west-2.amazonaws.com,Faronics Deploy,29qoj3q0yf.execute-api.us-west-2.amazonaws.com,^(?:29qoj3q0yf\.execute-api\.us-west-2\.amazonaws\.com)$
+51.255.19.178,SimpleHelp,51.255.19.178,^(?:51\.255\.19\.178)$
+51.255.19.179,SimpleHelp,51.255.19.179,^(?:51\.255\.19\.179)$
+8z5x4rqbxi.execute-api.eu-west-1.amazonaws.com,Faronics Deploy,8z5x4rqbxi.execute-api.eu-west-1.amazonaws.com,^(?:8z5x4rqbxi\.execute-api\.eu-west-1\.amazonaws\.com)$
+a1-backend-packages.s3.amazonaws.com,Action1,a1-backend-packages.s3.amazonaws.com,^(?:a1-backend-packages\.s3\.amazonaws\.com)$
+account.flexihub.com,HelpWire,account.flexihub.com,^(?:account\.flexihub\.com)$
+acronis.com,Acronis Cyber Protect (Remotix),agents*-cloud.acronis.com,^(?:agents.*-cloud\.acronis\.com)$
+action1.com,Action1,*.action1.com,^(?:.*\.action1\.com)$
+activation.netreo.net,Netreo,activation.netreo.net,^(?:activation\.netreo\.net)$
+adobeconnect.com,Adobe Connect,*.adobeconnect.com,^(?:.*\.adobeconnect\.com)$
+aeroadmin.com,AeroAdmin,aeroadmin.com,^(?:aeroadmin\.com)$
+aeroadmin.com,AeroAdmin,auth*.aeroadmin.com,^(?:auth.*\.aeroadmin\.com)$
+agent-api.atera.com,Atera,agent-api.atera.com,^(?:agent-api\.atera\.com)$
+agent.tiflux.com,TiFLUX,agent.tiflux.com,^(?:agent\.tiflux\.com)$
+agenthb.atera.com,Atera,agenthb.atera.com,^(?:agenthb\.atera\.com)$
+agentmqtt.fleetdeck.io,FleetDeck.io,agentmqtt.fleetdeck.io,^(?:agentmqtt\.fleetdeck\.io)$
+agentreporting.atera.com,Atera,agentreporting.atera.com,^(?:agentreporting\.atera\.com)$
+agentreportingstore.blob.core.windows.net,Atera,agentreportingstore.blob.core.windows.net,^(?:agentreportingstore\.blob\.core\.windows\.net)$
+agents.addigy.com,Addigy,agents.addigy.com,^(?:agents\.addigy\.com)$
+agents.level.io,Level,agents.level.io,^(?:agents\.level\.io)$
+alpemix.com,Alpemix,*.alpemix.com,^(?:.*\.alpemix\.com)$
+ammyy.com,Ammyy Admin,*.ammyy.com,^(?:.*\.ammyy\.com)$
+ammyy.com,Ammyy Admin,ammyy.com,^(?:ammyy\.com)$
+analytics.insight.rapid7.com,Rapid7,*.analytics.insight.rapid7.com,^(?:.*\.analytics\.insight\.rapid7\.com)$
+anydesk.com,AnyDesk,*.anydesk.com,^(?:.*\.anydesk\.com)$
+anydesk.com,AnyDesk,relay-[a-f0-9]{8}.net.anydesk.com:443,^(?:relay-[a-f0-9]{8}\.net\.anydesk\.com)$
+anyplace-control.com,Anyplace Control,anyplace-control.com,^(?:anyplace-control\.com)$
+anysupport.net,Any Support,*.anysupport.net,^(?:.*\.anysupport\.net)$
+anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
+aomeisoftware.com,AnyViewer,*.aomeisoftware.com,^(?:.*\.aomeisoftware\.com)$
+api.fdcollab.com,Freshservice,api.fdcollab.com,^(?:api\.fdcollab\.com)$
+api.helpwire.app,HelpWire,api.helpwire.app,^(?:api\.helpwire\.app)$
+api.hoptodesk.com,HopToDesk,api.hoptodesk.com,^(?:api\.hoptodesk\.com)$
+api.idrive.com,iDrive,api.idrive.com,^(?:api\.idrive\.com)$
+api.jumpcloud.com,Jump Cloud,*.api.jumpcloud.com,^(?:.*\.api\.jumpcloud\.com)$
+api.localxpose.io,LocalXpose,api.localxpose.io,^(?:api\.localxpose\.io)$
+api.monitic.com,Monitic,api.monitic.com,^(?:api\.monitic\.com)$
+api.netbird.io,NetBird,api.netbird.io,^(?:api\.netbird\.io)$
+api.netreo.com,Netreo,*.api.netreo.com,^(?:.*\.api\.netreo\.com)$
+api.remote.it,Remote.it,api.remote.it,^(?:api\.remote\.it)$
+api.remsupp.com,RemSupp,api.remsupp.com,^(?:api\.remsupp\.com)$
+api.rustdesk.com,RustDesk,api.rustdesk.com,^(?:api\.rustdesk\.com)$
+api.splashtop.com,Splashtop Remote,*.api.splashtop.com,^(?:.*\.api\.splashtop\.com)$
+api.splashtop.eu,Splashtop Remote,*.api.splashtop.eu,^(?:.*\.api\.splashtop\.eu)$
+apicdn-wchat.freshchat.com,Freshservice,apicdn-wchat.freshchat.com,^(?:apicdn-wchat\.freshchat\.com)$
+app.atera.com,Atera,app.atera.com,^(?:app\.atera\.com)$
+app.deskday.ai,DeskDay,app.deskday.ai,^(?:app\.deskday\.ai)$
+app.gorelo.io,Gorelo RMM,app.gorelo.io,^(?:app\.gorelo\.io)$
+app.kabuto.io,Syncro,app.kabuto.io,^(?:app\.kabuto\.io)$
+app.lunixar.com,Lunixar,app.lunixar.com,^(?:app\.lunixar\.com)$
+app.monitic.com,Monitic,app.monitic.com,^(?:app\.monitic\.com)$
+app.netbird.io,NetBird,app.netbird.io,^(?:app\.netbird\.io)$
+app.pdq.com,PDQ Connect,app.pdq.com,^(?:app\.pdq\.com)$
+app.tiflux.com,TiFLUX,app.tiflux.com,^(?:app\.tiflux\.com)$
+appcdn.atera.com,Atera,appcdn.atera.com,^(?:appcdn\.atera\.com)$
+assist.jumpcloud.com,Jump Cloud,*.assist.jumpcloud.com,^(?:.*\.assist\.jumpcloud\.com)$
+assist.zoho.com,Zoho Assist,assist.zoho.com,^(?:assist\.zoho\.com)$
+atera-agent-heartbeat.servicebus.windows.net,Atera,atera-agent-heartbeat.servicebus.windows.net,^(?:atera-agent-heartbeat\.servicebus\.windows\.net)$
+atera.pubnubapi.com,Atera,atera.pubnubapi.com,^(?:atera\.pubnubapi\.com)$
+atled.syspectr.com,Laplink Everywhere,atled.syspectr.com,^(?:atled\.syspectr\.com)$
+attachments.servably.com,Syncro,attachments.servably.com,^(?:attachments\.servably\.com)$
+auth.api.remote.it,Remote.it,auth.api.remote.it,^(?:auth\.api\.remote\.it)$
+auvik.com,Auvik,*.auvik.com,^(?:.*\.auvik\.com)$
+auvik.com,Auvik,auvik.com,^(?:auvik\.com)$
+aweray.net,AweRay,asapi*.aweray.net,^(?:asapi.*\.aweray\.net)$
+baramundi.com,baramundi Management Suite,*.baramundi.com,^(?:.*\.baramundi\.com)$
+barracudamsp.com,Barracuda,barracudamsp.com,^(?:barracudamsp\.com)$
+basecamp.com,Basecamp,basecamp.com,^(?:basecamp\.com)$
+beamyourscreen.com,BeamYourScreen,*.beamyourscreen.com,^(?:.*\.beamyourscreen\.com)$
+beamyourscreen.com,BeamYourScreen,beamyourscreen.com,^(?:beamyourscreen\.com)$
+beanywhere.com,BeAnyWhere,beanywhere.com,^(?:beanywhere\.com)$
+beanywhere.com,N-Able Advanced Monitoring Agent,*.beanywhere.com,^(?:.*\.beanywhere\.com)$
+beanywhere.com,N-Able Advanced Monitoring Agent,beanywhere.com,^(?:beanywhere\.com)$
+beinsync.com,BeInSync,*.beinsync.com,^(?:.*\.beinsync\.com)$
+beinsync.net,BeInSync,*.beinsync.net,^(?:.*\.beinsync\.net)$
+beyondtrustcloud.com,BeyondTrust (Bomgar),*.beyondtrustcloud.com,^(?:.*\.beyondtrustcloud\.com)$
+bluetrait.io,Bluetrait,*.bluetrait.io,^(?:.*\.bluetrait\.io)$
+bluetrait.io,Bluetrait,bluetrait.io,^(?:bluetrait\.io)$
+bomgarcloud.com,BeyondTrust (Bomgar),*.bomgarcloud.com,^(?:.*\.bomgarcloud\.com)$
+bomgarcloud.com,BeyondTrust (Bomgar),bomgarcloud.com,^(?:bomgarcloud\.com)$
+boot.net.anydesk.com,AnyDesk,boot.net.anydesk.com,^(?:boot\.net\.anydesk\.com)$
+builds.level.io,Level,builds.level.io,^(?:builds\.level\.io)$
+c.mid.al,Nezha,c.mid.al,^(?:c\.mid\.al)$
+cc.centrastage.net,CentraStage (Now Datto),*.cc.centrastage.net,^(?:.*\.cc\.centrastage\.net)$
+cc.centrastage.net,CentraStage (Now Datto),cc.centrastage.net,^(?:cc\.centrastage\.net)$
+cdn.getgo.com,GoToAssist,*.cdn.getgo.com,^(?:.*\.cdn\.getgo\.com)$
+cell-1.domotz.com,Domotz,*.cell-1.domotz.com,^(?:.*\.cell-1\.domotz\.com)$
+cell-1.domotz.com,Domotz,cell-1.domotz.com,^(?:cell-1\.domotz\.com)$
+centuriontech.com,Centurion,centuriontech.com,^(?:centuriontech\.com)$
+cfcdn.pdq.com,PDQ Connect,cfcdn.pdq.com,^(?:cfcdn\.pdq\.com)$
+changes.panorama9.com,Panorama9,changes.panorama9.com,^(?:changes\.panorama9\.com)$
+charon.netreo.net,Netreo,charon.netreo.net,^(?:charon\.netreo\.net)$
+checkip.zmazonaws.com,FleetDeck.io,checkip.zmazonaws.com,^(?:checkip\.zmazonaws\.com)$
+chromoting-client.talkgadget.google.com,Chrome Remote Desktop,chromoting-client.talkgadget.google.com,^(?:chromoting-client\.talkgadget\.google\.com)$
+chromoting-host.talkgadget.google.com,Chrome Remote Desktop,chromoting-host.talkgadget.google.com,^(?:chromoting-host\.talkgadget\.google\.com)$
+chromoting-oauth.talkgadget.google.com,Chrome Remote Desktop,chromoting-oauth.talkgadget.google.com,^(?:chromoting-oauth\.talkgadget\.google\.com)$
+client-api.aweray.com,AweRay,client-api.aweray.com,^(?:client-api\.aweray\.com)$
+client.oray.net,SunLogin,client.oray.net,^(?:client\.oray\.net)$
+client.teamviewer.com,TeamViewer,client.teamviewer.com,^(?:client\.teamviewer\.com)$
+cloud-233f9.firebaseapp.com,NetBird,cloud-233f9.firebaseapp.com,^(?:cloud-233f9\.firebaseapp\.com)$
+cloud-ed980.firebaseapp.com,NetBird,cloud-ed980.firebaseapp.com,^(?:cloud-ed980\.firebaseapp\.com)$
+cloud.acronis.com,Acronis Cyber Protect (Remotix),cloud.acronis.com,^(?:cloud\.acronis\.com)$
+cloud.faronics.com,Faronics Deep Freeze,cloud.faronics.com,^(?:cloud\.faronics\.com)$
+cloud.shellhub.io,ShellHub,cloud.shellhub.io,^(?:cloud\.shellhub\.io)$
+cloud.tanium.com,Tanium,*.cloud.tanium.com,^(?:.*\.cloud\.tanium\.com)$
+cloud.tanium.com,Tanium,cloud.tanium.com,^(?:cloud\.tanium\.com)$
+cloudbackup.management,N-Able Advanced Monitoring Agent,*.cloudbackup.management,^(?:.*\.cloudbackup\.management)$
+cloudbackup.management,N-Able Advanced Monitoring Agent,cloudbackup.management,^(?:cloudbackup\.management)$
+cloudberrylab.com,MSP360,*.cloudberrylab.com,^(?:.*\.cloudberrylab\.com)$
+cloudflarestorage.com,PDQ Connect,pdqinstallers.*.r2.cloudflarestorage.com,^(?:pdqinstallers\..*\.r2\.cloudflarestorage\.com)$
+cmdm.comodo.com,Itarian,*.cmdm.comodo.com,^(?:.*\.cmdm\.comodo\.com)$
+connect.acronis.com,Acronis Cyber Protect (Remotix),connect.acronis.com,^(?:connect\.acronis\.com)$
+connect.ap.ngrok-agent.com,ngrok,connect.ap.ngrok-agent.com,^(?:connect\.ap\.ngrok-agent\.com)$
+connect.au.ngrok-agent.com,ngrok,connect.au.ngrok-agent.com,^(?:connect\.au\.ngrok-agent\.com)$
+connect.backdrop.cloud,Netop Remote Control (Impero Connect),*.connect.backdrop.cloud,^(?:.*\.connect\.backdrop\.cloud)$
+connect.eu.ngrok-agent.com,ngrok,connect.eu.ngrok-agent.com,^(?:connect\.eu\.ngrok-agent\.com)$
+connect.in.ngrok-agent.com,ngrok,connect.in.ngrok-agent.com,^(?:connect\.in\.ngrok-agent\.com)$
+connect.jp.ngrok-agent.com,ngrok,connect.jp.ngrok-agent.com,^(?:connect\.jp\.ngrok-agent\.com)$
+connect.ngrok-agent.com,ngrok,connect.ngrok-agent.com,^(?:connect\.ngrok-agent\.com)$
+connect.sa.ngrok-agent.com,ngrok,connect.sa.ngrok-agent.com,^(?:connect\.sa\.ngrok-agent\.com)$
+connect.us.ngrok-agent.com,ngrok,connect.us.ngrok-agent.com,^(?:connect\.us\.ngrok-agent\.com)$
+connectwise.com,LabTech RMM (Now ConnectWise Automate),connectwise.com,^(?:connectwise\.com)$
+connectwise.com,ScreenConnect,*.connectwise.com,^(?:.*\.connectwise\.com)$
+content.rview.com,RemoteView,*.content.rview.com,^(?:.*\.content\.rview\.com)$
+content.rview.com,RemoteView,content.rview.com,^(?:content\.rview\.com)$
+control.connectwise.com,ConnectWise Control,control.connectwise.com,^(?:control\.connectwise\.com)$
+control.connectwise.com,ScreenConnect,control.connectwise.com,^(?:control\.connectwise\.com)$
+crossloop.com,CrossLoop,*.crossloop.com,^(?:.*\.crossloop\.com)$
+crossloop.en.softonic.com,CrossLoop,crossloop.en.softonic.com,^(?:crossloop\.en\.softonic\.com)$
+dameware.com,DameWare,dameware.com,^(?:dameware\.com)$
+dataplicity.com,Dataplicity,*.dataplicity.com,^(?:.*\.dataplicity\.com)$
+dataplicity.com,Dataplicity,dataplicity.com,^(?:dataplicity\.com)$
+deepfreeze.com,Faronics Deep Freeze,deepfreeze.com,^(?:deepfreeze\.com)$
+deploy.faronics.com,Faronics Deploy,deploy.faronics.com,^(?:deploy\.faronics\.com)$
+deploy01.kaseya.com,Kaseya (VSA),deploy01.kaseya.com,^(?:deploy01\.kaseya\.com)$
+deskday.ai,DeskDay,deskday.ai,^(?:deskday\.ai)$
+deskroll.com,SkyFex,*.deskroll.com,^(?:.*\.deskroll\.com)$
+deskroll.com,SkyFex,deskroll.com,^(?:deskroll\.com)$
+desktop.qq.com,QQ IM-remote assistance,*.desktop.qq.com,^(?:.*\.desktop\.qq\.com)$
+desktopcentral.manageengine.cn,Manage Engine (Desktop Central),desktopcentral.manageengine.cn,^(?:desktopcentral\.manageengine\.cn)$
+desktopcentral.manageengine.com,Manage Engine (Desktop Central),desktopcentral.manageengine.com,^(?:desktopcentral\.manageengine\.com)$
+desktopcentral.manageengine.com.eu,Manage Engine (Desktop Central),desktopcentral.manageengine.com.eu,^(?:desktopcentral\.manageengine\.com\.eu)$
+desktopstreaming.com,GoToAssist,*.desktopstreaming.com,^(?:.*\.desktopstreaming\.com)$
+devapi.monitic.com,Monitic,devapi.monitic.com,^(?:devapi\.monitic\.com)$
+devrmm.lunixar.com,Lunixar,devrmm.lunixar.com,^(?:devrmm\.lunixar\.com)$
+devtunnels.ms,Visual Studio Dev Tunnel,*.devtunnels.ms,^(?:.*\.devtunnels\.ms)$
+distantdesktop.com,Distant Desktop,*.distantdesktop.com,^(?:.*\.distantdesktop\.com)$
+dms.zoho.com,Manage Engine (Desktop Central),*.dms.zoho.com,^(?:.*\.dms\.zoho\.com)$
+dms.zoho.com.eu,Manage Engine (Desktop Central),*.dms.zoho.com.eu,^(?:.*\.dms\.zoho\.com\.eu)$
+docs.baramundi.com,baramundi Management Suite,docs.baramundi.com,^(?:docs\.baramundi\.com)$
+docs.faronics.com,Faronics Deploy,docs.faronics.com,^(?:docs\.faronics\.com)$
+docs.faronics.com,Faronics Insight,docs.faronics.com,^(?:docs\.faronics\.com)$
+docs.invgate.net,InvGate,docs.invgate.net,^(?:docs\.invgate\.net)$
+docs.tacticalrmm.com,Tactical RMM,docs.tacticalrmm.com,^(?:docs\.tacticalrmm\.com)$
+domotz.co,Domotz,*.domotz.co,^(?:.*\.domotz\.co)$
+domotz.com,Domotz,domotz.com,^(?:domotz\.com)$
+donkz.nl,Remote Desktop Plus,donkz.nl,^(?:donkz\.nl)$
+download.hoptodesk.com,HopToDesk,download.hoptodesk.com,^(?:download\.hoptodesk\.com)$
+download.pilixo.com,Pilixo,download.pilixo.com,^(?:download\.pilixo\.com)$
+download.remsupp.com,RemSupp,download.remsupp.com,^(?:download\.remsupp\.com)$
+downloads.io,Level,downloads.io,^(?:downloads\.io)$
+downloads.lunixar.com,Lunixar,downloads.lunixar.com,^(?:downloads\.lunixar\.com)$
+downloads.vector-networks.com,VIZOR,downloads.vector-networks.com,^(?:downloads\.vector-networks\.com)$
+downloads.zohocdn.com,Zoho Assist,downloads.zohocdn.com,^(?:downloads\.zohocdn\.com)$
+downloads.zohodl.com.cn,Zoho Assist,downloads.zohodl.com.cn,^(?:downloads\.zohodl\.com\.cn)$
+dronemaker.org,SimpleHelp,dronemaker.org,^(?:dronemaker\.org)$
+duetdisplay.com,Duet Display,*.duetdisplay.com,^(?:.*\.duetdisplay\.com)$
+duetdisplay.com,Duet Display,duetdisplay.com,^(?:duetdisplay\.com)$
+dwservice.net,DW Service,*.dwservice.net,^(?:.*\.dwservice\.net)$
+ehorus.com,eHorus,ehorus.com,^(?:ehorus\.com)$
+electric.ai,Electric AI (Kaseya),electric.ai,^(?:electric\.ai)$
+emcosoftware.com,EMCO Remote Console,emcosoftware.com,^(?:emcosoftware\.com)$
+encapto.com,Encapto,encapto.com,^(?:encapto\.com)$
+endpoint.ingress.rapid7.com,Rapid7,*.endpoint.ingress.rapid7.com,^(?:.*\.endpoint\.ingress\.rapid7\.com)$
+ericom.com,Ericom AccessNow,ericom.com,^(?:ericom\.com)$
+ericom.com,Ericom Connect,ericom.com,^(?:ericom\.com)$
+everywhere.laplink.com,Laplink Everywhere,everywhere.laplink.com,^(?:everywhere\.laplink\.com)$
+ezhelp.co.kr,ezHelp,*.ezhelp.co.kr,^(?:.*\.ezhelp\.co\.kr)$
+ezhelp.co.kr,ezHelp,ezhelp.co.kr,^(?:ezhelp\.co\.kr)$
+faronics-deploy-int-production-installers.s3.eu-west-1.amazonaws.com,Faronics Deploy,faronics-deploy-int-production-installers.s3.eu-west-1.amazonaws.com,^(?:faronics-deploy-int-production-installers\.s3\.eu-west-1\.amazonaws\.com)$
+faronics-deploy-na-production-installers.s3.us-west-2.amazonaws.com,Faronics Deploy,faronics-deploy-na-production-installers.s3.us-west-2.amazonaws.com,^(?:faronics-deploy-na-production-installers\.s3\.us-west-2\.amazonaws\.com)$
+faronics.com,Faronics Core,faronics.com,^(?:faronics\.com)$
+faronics.com,Faronics Deep Freeze,faronics.com,^(?:faronics\.com)$
+faronics.com,Faronics Deploy,faronics.com,^(?:faronics\.com)$
+faronics.com,Faronics Insight,faronics.com,^(?:faronics\.com)$
+faronicscloud.com,Faronics Deep Freeze,faronicscloud.com,^(?:faronicscloud\.com)$
+faronicscloud.com,Faronics Deploy,faronicscloud.com,^(?:faronicscloud\.com)$
+fastsupport.com,GoToAssist,*.fastsupport.com,^(?:.*\.fastsupport\.com)$
+fastviewer.com,FastViewer,*.fastviewer.com,^(?:.*\.fastviewer\.com)$
+fastviewer.com,FastViewer,fastviewer.com,^(?:fastviewer\.com)$
+fdcollab.com,Freshservice,*.fdcollab.com,^(?:.*\.fdcollab\.com)$
+fixme.it,FixMe.it,*.fixme.it,^(?:.*\.fixme\.it)$
+fixme.it,FixMe.it,fixme.it,^(?:fixme\.it)$
+fleetdeck.io,FleetDeck.io,*.fleetdeck.io,^(?:.*\.fleetdeck\.io)$
+fleetdeck.io,FleetDeck.io,fleetdeck.io,^(?:fleetdeck\.io)$
+fortra.com,Fortra,fortra.com,^(?:fortra\.com)$
+forum.glpi-project.org,GLPI Agent,forum.glpi-project.org,^(?:forum\.glpi-project\.org)$
+freshasset.com,Freshservice,freshasset.com,^(?:freshasset\.com)$
+freshchat.com,Freshservice,*.freshchat.com,^(?:.*\.freshchat\.com)$
+freshcloud.io,Freshservice,*.freshcloud.io,^(?:.*\.freshcloud\.io)$
+freshconnect.io,Freshservice,*.freshconnect.io,^(?:.*\.freshconnect\.io)$
+freshdev.io,Freshservice,*.freshdev.io,^(?:.*\.freshdev\.io)$
+freshservice.com,Freshservice,*.freshservice.com,^(?:.*\.freshservice\.com)$
+freshservice.com,Freshservice,freshservice.com,^(?:freshservice\.com)$
+freshworks.com,Freshservice,*.freshworks.com,^(?:.*\.freshworks\.com)$
+freshworksapi.com,Freshservice,*.freshworksapi.com,^(?:.*\.freshworksapi\.com)$
+fstools.freshasset.com,Freshservice,fstools.freshasset.com,^(?:fstools\.freshasset\.com)$
+fstools.freshservice.com,Freshservice,fstools.freshservice.com,^(?:fstools\.freshservice\.com)$
+gateway.miradore.com,Miradore,gateway.miradore.com,^(?:gateway\.miradore\.com)$
+gateway.zohoassist.com,Zoho Assist,gateway.zohoassist.com,^(?:gateway\.zohoassist\.com)$
+gatherplace.com,GatherPlace-desktop sharing,*.gatherplace.com,^(?:.*\.gatherplace\.com)$
+gatherplace.com,GatherPlace-desktop sharing,gatherplace.com,^(?:gatherplace\.com)$
+gatherplace.net,GatherPlace-desktop sharing,*.gatherplace.net,^(?:.*\.gatherplace\.net)$
+gd.bj2.xyz,Nezha,gd.bj2.xyz,^(?:gd\.bj2\.xyz)$
+geo.netsupportsoftware.com,NetSupport Manager,geo.netsupportsoftware.com,^(?:geo\.netsupportsoftware\.com)$
+gerwconline.blob.core.windows.net,Miradore,gerwconline.blob.core.windows.net,^(?:gerwconline\.blob\.core\.windows\.net)$
+get.helpwire.app,HelpWire,get.helpwire.app,^(?:get\.helpwire\.app)$
+getalphacontrol.com,Atera,getalphacontrol.com,^(?:getalphacontrol\.com)$
+getgo.com,GoToAssist,*.getgo.com,^(?:.*\.getgo\.com)$
+getscreen.me,GetScreen,*.getscreen.me,^(?:.*\.getscreen\.me)$
+getscreen.me,GetScreen,getscreen.me,^(?:getscreen\.me)$
+getscreen.me,GetScreen,px-*.getscreen.me,^(?:px-.*\.getscreen\.me)$
+ghcr.io,Komari,ghcr.io,^(?:ghcr\.io)$
+global.rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
+glpi-network.com,GLPI Agent,glpi-network.com,^(?:glpi-network\.com)$
+glpi-project.org,GLPI Agent,glpi-project.org,^(?:glpi-project\.org)$
+go.getscreen.me,GetScreen,go.getscreen.me,^(?:go\.getscreen\.me)$
+googl-165a0.web.app,NetBird,googl-165a0.web.app,^(?:googl-165a0\.web\.app)$
+googl-6c11f.firebaseapp.com,NetBird,googl-6c11f.firebaseapp.com,^(?:googl-6c11f\.firebaseapp\.com)$
+googl-6c11f.web.app,NetBird,googl-6c11f.web.app,^(?:googl-6c11f\.web\.app)$
+gorelo-rmm.azurewebsites.net,Gorelo RMM,gorelo-rmm.azurewebsites.net,^(?:gorelo-rmm\.azurewebsites\.net)$
+goto.com,GoToAssist,goto.com,^(?:goto\.com)$
+gotoassist.at,GoToAssist,*.gotoassist.at,^(?:.*\.gotoassist\.at)$
+gotoassist.com,GoToAssist,*.gotoassist.com,^(?:.*\.gotoassist\.com)$
+gotoassist.me,GoToAssist,*.gotoassist.me,^(?:.*\.gotoassist\.me)$
+gotohttp.com,GotoHTTP,*.gotohttp.com,^(?:.*\.gotohttp\.com)$
+gotohttp.com,GotoHTTP,gotohttp.com,^(?:gotohttp\.com)$
+gotomypc.com,GoToMyPC,*.gotomypc.com,^(?:.*\.gotomypc\.com)$
+goverlan.com,Goverlan,goverlan.com,^(?:goverlan\.com)$
+grtmprod.addigy.com,Addigy,grtmprod.addigy.com,^(?:grtmprod\.addigy\.com)$
+guacamole.apache.org,Guacamole,guacamole.apache.org,^(?:guacamole\.apache\.org)$
+gw.remotix.com,Acronis Cyber Protect (Remotix),gw.remotix.com,^(?:gw\.remotix\.com)$
+gw.usw.gorelo.tech,Gorelo RMM,gw.usw.gorelo.tech,^(?:gw\.usw\.gorelo\.tech)$
+heartbeatrm.com,HeartbeatRM,*.heartbeatrm.com,^(?:.*\.heartbeatrm\.com)$
+heartbeatrm.com,HeartbeatRM,heartbeatrm.com,^(?:heartbeatrm\.com)$
+help.invgate.com,InvGate,help.invgate.com,^(?:help\.invgate\.com)$
+helpbeam.software.informer.com,HelpBeam,helpbeam.software.informer.com,^(?:helpbeam\.software\.informer\.com)$
+helpme.net,GoToAssist,helpme.net,^(?:helpme\.net)$
+helpu.co.kr,HelpU,*.helpu.co.kr,^(?:.*\.helpu\.co\.kr)$
+helpu.co.kr,HelpU,helpu.co.kr,^(?:helpu\.co\.kr)$
+helpwire.app,HelpWire,helpwire.app,^(?:helpwire\.app)$
+hoptodesk.com,HopToDesk,hoptodesk.com,^(?:hoptodesk\.com)$
+hostedrmm.com,Connectwise Automate (LabTech),*.hostedrmm.com,^(?:.*\.hostedrmm\.com)$
+idrive.com,iDrive,*.idrive.com,^(?:.*\.idrive\.com)$
+idrive.com,iDrive,idrive.com,^(?:idrive\.com)$
+image.getscreen.me,GetScreen,image.getscreen.me,^(?:image\.getscreen\.me)$
+immy.bot,ImmyBot,*.immy.bot,^(?:.*\.immy\.bot)$
+immy.bot,ImmyBot,immy.bot,^(?:immy\.bot)$
+imperosoftware.com,Impero Connect,imperosoftware.com,^(?:imperosoftware\.com)$
+in-freshbots.ai,Freshservice,*.in-freshbots.ai,^(?:.*\.in-freshbots\.ai)$
+instances-info.invgate.com,InvGate,instances-info.invgate.com,^(?:instances-info\.invgate\.com)$
+instances-list.invgate.com,InvGate,instances-list.invgate.com,^(?:instances-list\.invgate\.com)$
+instanthousecall.com,Instant Housecall,*.instanthousecall.com,^(?:.*\.instanthousecall\.com)$
+instanthousecall.com,Instant Housecall,instanthousecall.com,^(?:instanthousecall\.com)$
+instanthousecall.net,Instant Housecall,*.instanthousecall.net,^(?:.*\.instanthousecall\.net)$
+intelliadmin.com,IntelliAdmin Remote Control,*.intelliadmin.com,^(?:.*\.intelliadmin\.com)$
+internetid.ru,Remote Manipulator System,*.internetid.ru,^(?:.*\.internetid\.ru)$
+internetid.ru,Remote Utilities,*.internetid.ru,^(?:.*\.internetid\.ru)$
+invgate.com,InvGate,invgate.com,^(?:invgate\.com)$
+invgate.net,InvGate,*.invgate.net,^(?:.*\.invgate\.net)$
+invgate.net,InvGate,invgate.net,^(?:invgate\.net)$
+iperius-rs.com,Iperius Remote,*.iperius-rs.com,^(?:.*\.iperius-rs\.com)$
+iperius.com,Iperius Remote,*.iperius.com,^(?:.*\.iperius\.com)$
+iperiusremote.com,Iperius Remote,*.iperiusremote.com,^(?:.*\.iperiusremote\.com)$
+iperiusremote.com,Iperius Remote,iperiusremote.com,^(?:iperiusremote\.com)$
+islonline.com,ISL Light,islonline.com,^(?:islonline\.com)$
+islonline.com,ISL Online,*.islonline.com,^(?:.*\.islonline\.com)$
+islonline.net,Barracuda,*.islonline.net,^(?:.*\.islonline\.net)$
+islonline.net,ISL Online,*.islonline.net,^(?:.*\.islonline\.net)$
+isodownload.baramundi.com,baramundi Management Suite,isodownload.baramundi.com,^(?:isodownload\.baramundi\.com)$
+itagent.com,Duet Display,*.itagent.com,^(?:.*\.itagent\.com)$
+itagent.com,Duet Display,itagent.com,^(?:itagent\.com)$
+itsm-us1.comodo.com,Comodo RMM,*.itsm-us1.comodo.com,^(?:.*\.itsm-us1\.comodo\.com)$
+itsm-us1.comodo.com,Itarian,*.itsm-us1.comodo.com,^(?:.*\.itsm-us1\.comodo\.com)$
+itsupport247.net,ITSupport247 (ConnectWise),*.itsupport247.net,^(?:.*\.itsupport247\.net)$
+itsupport247.net,ITSupport247 (ConnectWise),itsupport247.net,^(?:itsupport247\.net)$
+ivanti.com,LANDesk,*.ivanti.com,^(?:.*\.ivanti\.com)$
+ivanti.com,LANDesk,ivanti.com,^(?:ivanti\.com)$
+ivanti.com,RES Automation Manager,ivanti.com,^(?:ivanti\.com)$
+ivanticloud.com,Ivanti Remote Control,*.ivanticloud.com,^(?:.*\.ivanticloud\.com)$
+ivanticloud.com,LANDesk,*.ivanticloud.com,^(?:.*\.ivanticloud\.com)$
+jumpdesktop.com,Jump Desktop,*.jumpdesktop.com,^(?:.*\.jumpdesktop\.com)$
+jumpdesktop.com,Jump Desktop,jumpdesktop.com,^(?:jumpdesktop\.com)$
+jumpto.me,Jump Desktop,*.jumpto.me,^(?:.*\.jumpto\.me)$
+jumpto.me,Jump Desktop,jumpto.me,^(?:jumpto\.me)$
+kabuto.io,Kabuto,*.kabuto.io,^(?:.*\.kabuto\.io)$
+kabuto.io,Syncro,kabuto.io,^(?:kabuto\.io)$
+kabutoservices.com,Syncro,*.kabutoservices.com,^(?:.*\.kabutoservices\.com)$
+kabutoservices.com,Syncro,kabutoservices.com,^(?:kabutoservices\.com)$
+kace.com,Quest KACE Agent (formerly Dell KACE),*.kace.com,^(?:.*\.kace\.com)$
+kaseya.com,Kaseya (VSA),kaseya.com,^(?:kaseya\.com)$
+kaseya.net,Kaseya (VSA),*.kaseya.net,^(?:.*\.kaseya\.net)$
+khelpdesk.com.br,KHelpDesk,*.khelpdesk.com.br,^(?:.*\.khelpdesk\.com\.br)$
+kickidler.com,KickIdler,kickidler.com,^(?:kickidler\.com)$
+komari-document.pages.dev,Komari,komari-document.pages.dev,^(?:komari-document\.pages\.dev)$
+lb-insight-001.invgate.net,InvGate,lb-insight-001.invgate.net,^(?:lb-insight-001\.invgate\.net)$
+ld.aurelius.host,Syncro,ld.aurelius.host,^(?:ld\.aurelius\.host)$
+le.laplink.com,Laplink Everywhere,le.laplink.com,^(?:le\.laplink\.com)$
+level.io,Level,level.io,^(?:level\.io)$
+level.io,Level.io,*.level.io,^(?:.*\.level\.io)$
+level.io,Level.io,level.io,^(?:level\.io)$
+litemanager.com,LiteManager,*.litemanager.com,^(?:.*\.litemanager\.com)$
+litemanager.com,LiteManager,litemanager.com,^(?:litemanager\.com)$
+litemanager.ru,LiteManager,*.litemanager.ru,^(?:.*\.litemanager\.ru)$
+live.screenconnect.com,ConnectWise Control,live.screenconnect.com,^(?:live\.screenconnect\.com)$
+localxpose.io,LocalXpose,*.localxpose.io,^(?:.*\.localxpose\.io)$
+localxpose.io,LocalXpose,localxpose.io,^(?:localxpose\.io)$
+logicnow.com,N-Able Advanced Monitoring Agent,*.logicnow.com,^(?:.*\.logicnow\.com)$
+logicnow.com,N-Able Advanced Monitoring Agent,logicnow.com,^(?:logicnow\.com)$
+login.netbird.io,NetBird,login.netbird.io,^(?:login\.netbird\.io)$
+login.tailscale.com,Tactical RMM,login.tailscale.com,^(?:login\.tailscale\.com)$
+logmein-gateway.com,LogMeIn,logmein-gateway.com,^(?:logmein-gateway\.com)$
+logmein-gateway.com,LogMeIn rescue,rescue-list.*.logmein-gateway.com,^(?:rescue-list\..*\.logmein-gateway\.com)$
+logmein.com,LogMeIn,*.logmein.com,^(?:.*\.logmein\.com)$
+logmein.eu,LogMeIn,*.logmein.eu,^(?:.*\.logmein\.eu)$
+logmeininc.com,LogMeIn,*.logmeininc.com,^(?:.*\.logmeininc\.com)$
+logmeinrescue.com,LogMeIn,logmeinrescue.com,^(?:logmeinrescue\.com)$
+logmeinrescue.com,LogMeIn rescue,*.logmeinrescue.com,^(?:.*\.logmeinrescue\.com)$
+logmeinrescue.com,LogMeIn rescue,logmeinrescue.com,^(?:logmeinrescue\.com)$
+logmeinrescue.eu,LogMeIn rescue,*.logmeinrescue.eu,^(?:.*\.logmeinrescue\.eu)$
+lr.rmm.pod1.usw.gorelo.tech,Gorelo RMM,lr.rmm.pod1.usw.gorelo.tech,^(?:lr\.rmm\.pod1\.usw\.gorelo\.tech)$
+lunixar.com,Lunixar,*.lunixar.com,^(?:.*\.lunixar\.com)$
+lunixar.com,Lunixar,lunixar.com,^(?:lunixar\.com)$
+mail.metaquest.com,VIZOR,mail.metaquest.com,^(?:mail\.metaquest\.com)$
+managedsupport.kaseya.net,Kaseya (VSA),*.managedsupport.kaseya.net,^(?:.*\.managedsupport\.kaseya\.net)$
+managedsupport.kaseya.net,Kaseya (VSA),managedsupport.kaseya.net,^(?:managedsupport\.kaseya\.net)$
+manageengine.com,ManageEngine ServiceDesk Plus,*.manageengine.com,^(?:.*\.manageengine\.com)$
+manageengine.com,ManageEngine ServiceDesk Plus,manageengine.com,^(?:manageengine\.com)$
+mdmsupport.comodo.com,Comodo RMM,*.mdmsupport.comodo.com,^(?:.*\.mdmsupport\.comodo\.com)$
+mdmsupport.comodo.com,Comodo RMM,mdmsupport.comodo.com,^(?:mdmsupport\.comodo\.com)$
+mdmsupport.comodo.com,Itarian,mdmsupport.comodo.com,^(?:mdmsupport\.comodo\.com)$
+mdt.qq.com,QQ IM-remote assistance,*.mdt.qq.com,^(?:.*\.mdt\.qq\.com)$
+meshcentral.com,MeshCentral,meshcentral.com,^(?:meshcentral\.com)$
+metaquest.com,VIZOR,metaquest.com,^(?:metaquest\.com)$
+microuptime.com,SimpleHelp,microuptime.com,^(?:microuptime\.com)$
+mikogo.com,Mikogo,*.mikogo.com,^(?:.*\.mikogo\.com)$
+mikogo.com,Mikogo,mikogo.com,^(?:mikogo\.com)$
+mikogo4.com,Mikogo,*.mikogo4.com,^(?:.*\.mikogo4\.com)$
+miradore.com,Miradore,*.miradore.com,^(?:.*\.miradore\.com)$
+miradore.com,Miradore,miradore.com,^(?:miradore\.com)$
+monitic.com,Monitic,monitic.com,^(?:monitic\.com)$
+mremoteng.org,mRemoteNG,mremoteng.org,^(?:mremoteng\.org)$
+msp360.com,MSP360,*.msp360.com,^(?:.*\.msp360\.com)$
+msp360.com,MSP360,msp360.com,^(?:msp360\.com)$
+mspbackups.com,MSP360,*.mspbackups.com,^(?:.*\.mspbackups\.com)$
+my-sharepoint-inc.com,NetBird,my-sharepoint-inc.com,^(?:my-sharepoint-inc\.com)$
+my.auvik.com,Auvik,*.my.auvik.com,^(?:.*\.my\.auvik\.com)$
+my.kickidler.com,KickIdler,my.kickidler.com,^(?:my\.kickidler\.com)$
+my.splashtop.com,TiFLUX,my.splashtop.com,^(?:my\.splashtop\.com)$
+my1cloudlive.com,NetBird,my1cloudlive.com,^(?:my1cloudlive\.com)$
+my2cloudlive.com,NetBird,my2cloudlive.com,^(?:my2cloudlive\.com)$
+myfreshworks.com,Freshservice,*.myfreshworks.com,^(?:.*\.myfreshworks\.com)$
+mygreenpc.com,MyGreenPC,*.mygreenpc.com,^(?:.*\.mygreenpc\.com)$
+mygreenpc.com,MyGreenPC,mygreenpc.com,^(?:mygreenpc\.com)$
+myivo-server.software.informer.com,MyIVO,myivo-server.software.informer.com,^(?:myivo-server\.software\.informer\.com)$
+mymeetinggoogle.com,Lunixar,mymeetinggoogle.com,^(?:mymeetinggoogle\.com)$
+n-able.com,N-ABLE Remote Access Software,n-able.com,^(?:n-able\.com)$
+n-able.com,N-Able Advanced Monitoring Agent,*.n-able.com,^(?:.*\.n-able\.com)$
+n-able.com,N-Able Advanced Monitoring Agent,n-able.com,^(?:n-able\.com)$
+naverisk.com,Naverisk,naverisk.com,^(?:naverisk\.com)$
+nchuser.com,DesktopNow,*.nchuser.com,^(?:.*\.nchuser\.com)$
+net.au,Site24x7,plus*.site24x7.net.au,^(?:plus.*\.site24x7\.net\.au)$
+netbird.io,NetBird,*.netbird.io,^(?:.*\.netbird\.io)$
+netbird.io,NetBird,netbird.io,^(?:netbird\.io)$
+netop.com,Netop Remote Control (Impero Connect),*.netop.com,^(?:.*\.netop\.com)$
+netreo.com,Netreo,netreo.com,^(?:netreo\.com)$
+netsupportmanager.com,NetSupport Manager,*.netsupportmanager.com,^(?:.*\.netsupportmanager\.com)$
+netsupportmanager.com,NetSupport Manager,netsupportmanager.com,^(?:netsupportmanager\.com)$
+neturo.uplus.co.kr,Neturo,neturo.uplus.co.kr,^(?:neturo\.uplus\.co\.kr)$
+netviewer.com,Netviewer (GoToMeet),*.netviewer.com,^(?:.*\.netviewer\.com)$
+netviewer.com,Netviewer (GoToMeet),netviewer.com,^(?:netviewer\.com)$
+networkservice.cyou,TrustConnect,networkservice.cyou,^(?:networkservice\.cyou)$
+nezha.wiki,Nezha,nezha.wiki,^(?:nezha\.wiki)$
+nezhahq.github.io,Nezha,nezhahq.github.io,^(?:nezhahq\.github\.io)$
+ngrok.com,ngrok,ngrok.com,^(?:ngrok\.com)$
+nightly.glpi-project.org,GLPI Agent,nightly.glpi-project.org,^(?:nightly\.glpi-project\.org)$
+ninite.com,Ninite Pro (Ninite Agent),*.ninite.com,^(?:.*\.ninite\.com)$
+ninite.com,Ninite Pro (Ninite Agent),ninite.com,^(?:ninite\.com)$
+ninja-backup.com,NinjaRMM,*.ninja-backup.com,^(?:.*\.ninja-backup\.com)$
+ninja-backup.com,NinjaRMM,ninja-backup.com,^(?:ninja-backup\.com)$
+ninjaone.com,NinjaRMM,*.ninjaone.com,^(?:.*\.ninjaone\.com)$
+ninjaone.com,NinjaRMM,ninjaone.com,^(?:ninjaone\.com)$
+ninjarmm.com,NinjaRMM,*.ninjarmm.com,^(?:.*\.ninjarmm\.com)$
+ninjarmm.net,NinjaRMM,*.ninjarmm.net,^(?:.*\.ninjarmm\.net)$
+ninjarmm.net,NinjaRMM,ninjarmm.net,^(?:ninjarmm\.net)$
+nomachine.com,NoMachine,nomachine.com,^(?:nomachine\.com)$
+ntrsupport.com,NTR Remote,*.ntrsupport.com,^(?:.*\.ntrsupport\.com)$
+nv0mddxkh7.execute-api.us-west-2.amazonaws.com,Faronics Deploy,nv0mddxkh7.execute-api.us-west-2.amazonaws.com,^(?:nv0mddxkh7\.execute-api\.us-west-2\.amazonaws\.com)$
+nvaccess.org,NVDA (Non-Visual Desktop Access),*.nvaccess.org,^(?:.*\.nvaccess\.org)$
+nvaccess.org,NVDA (Non-Visual Desktop Access),nvaccess.org,^(?:nvaccess\.org)$
+ocsinventory-ng.org,OCS inventory,ocsinventory-ng.org,^(?:ocsinventory-ng\.org)$
+one.comodo.com,Comodo RMM,one.comodo.com,^(?:one\.comodo\.com)$
+online.level.io,Level,online.level.io,^(?:online\.level\.io)$
+opti-tune.com,OptiTune,*.opti-tune.com,^(?:.*\.opti-tune\.com)$
+optitune.us,OptiTune,*.optitune.us,^(?:.*\.optitune\.us)$
+packagesstore.blob.core.windows.net,Atera,packagesstore.blob.core.windows.net,^(?:packagesstore\.blob\.core\.windows\.net)$
+panorama9.com,Panorama9,panorama9.com,^(?:panorama9\.com)$
+parallels.com,Parallels Access,*.parallels.com,^(?:.*\.parallels\.com)$
+parsec.app,Parsec,*.parsec.app,^(?:.*\.parsec\.app)$
+parsec.app,Parsec,parsec.app,^(?:parsec\.app)$
+parsec.gg,Parsec,parsec.gg,^(?:parsec\.gg)$
+pcvisit.de,Pcvisit,*.pcvisit.de,^(?:.*\.pcvisit\.de)$
+pcvisit.de,Pcvisit,pcvisit.de,^(?:pcvisit\.de)$
+pilixo.com,Pilixo,*.pilixo.com,^(?:.*\.pilixo\.com)$
+pilixo.com,Pilixo,pilixo.com,^(?:pilixo\.com)$
+pitunnel.com,PiTunnel,*.pitunnel.com,^(?:.*\.pitunnel\.com)$
+pitunnel.com,PiTunnel,pitunnel.com,^(?:pitunnel\.com)$
+pkgs.netbird.io,NetBird,pkgs.netbird.io,^(?:pkgs\.netbird\.io)$
+portal.ehorus.com,Pandora RC (eHorus),portal.ehorus.com,^(?:portal\.ehorus\.com)$
+prod.addigy.com,Addigy,prod.addigy.com,^(?:prod\.addigy\.com)$
+ps.atera.com,Atera,ps.atera.com,^(?:ps\.atera\.com)$
+public.rmm.pod1.usw.gorelo.tech,Gorelo RMM,public.rmm.pod1.usw.gorelo.tech,^(?:public\.rmm\.pod1\.usw\.gorelo\.tech)$
+pubsub.atera.com,Atera,pubsub.atera.com,^(?:pubsub\.atera\.com)$
+pulseway.com,Pulseway,pulseway.com,^(?:pulseway\.com)$
+qq-messenger.en.softonic.com,QQ IM-remote assistance,qq-messenger.en.softonic.com,^(?:qq-messenger\.en\.softonic\.com)$
+r1.rmm.uw.gorelo.tech,Gorelo RMM,r1.rmm.uw.gorelo.tech,^(?:r1\.rmm\.uw\.gorelo\.tech)$
+radmin.com,RAdmin,radmin.com,^(?:radmin\.com)$
+rdp.duetdisplay.com,Duet Display,rdp.duetdisplay.com,^(?:rdp\.duetdisplay\.com)$
+real-time-collaboration.com,Mikogo,*.real-time-collaboration.com,^(?:.*\.real-time-collaboration\.com)$
+rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,*.rel.tunnels.api.visualstudio.com,^(?:.*\.rel\.tunnels\.api\.visualstudio\.com)$
+relay.netbird.io,NetBird,relay.netbird.io,^(?:relay\.netbird\.io)$
+relay.splashtop.com,Splashtop Remote,*.relay.splashtop.com,^(?:.*\.relay\.splashtop\.com)$
+releases.invgate.com,InvGate,releases.invgate.com,^(?:releases\.invgate\.com)$
+remmon.hu,Remmon,*.remmon.hu,^(?:.*\.remmon\.hu)$
+remmon.hu,Remmon,remmon.hu,^(?:remmon\.hu)$
+remobo.en.softonic.com,Remobo,remobo.en.softonic.com,^(?:remobo\.en\.softonic\.com)$
+remote.it,Remote.it,remote.it,^(?:remote\.it)$
+remote.management,N-Able Advanced Monitoring Agent,*.remote.management,^(?:.*\.remote\.management)$
+remote.management,N-Able Advanced Monitoring Agent,remote.management,^(?:remote\.management)$
+remoteaccess.itarian.com,Itarian,remoteaccess.itarian.com,^(?:remoteaccess\.itarian\.com)$
+remotecall.com,RemoteCall,*.remotecall.com,^(?:.*\.remotecall\.com)$
+remotecall.com,RemoteCall,remotecall.com,^(?:remotecall\.com)$
+remotedesktop-pa.googleapis.com,Chrome Remote Desktop,*.remotedesktop-pa.googleapis.com,^(?:.*\.remotedesktop-pa\.googleapis\.com)$
+remotedesktop-pa.googleapis.com,Chrome Remote Desktop,remotedesktop-pa.googleapis.com,^(?:remotedesktop-pa\.googleapis\.com)$
+remotedesktop.com,RemotePC,*.remotedesktop.com,^(?:.*\.remotedesktop\.com)$
+remotedesktop.google.com,Chrome Remote Desktop,*.remotedesktop.google.com,^(?:.*\.remotedesktop\.google\.com)$
+remotedesktop.google.com,Chrome Remote Desktop,remotedesktop.google.com,^(?:remotedesktop\.google\.com)$
+remotepass.com,RemotePass,remotepass.com,^(?:remotepass\.com)$
+remotepc.com,RemotePC,*.remotepc.com,^(?:.*\.remotepc\.com)$
+remotepc.com,RemotePC,remotepc.com,^(?:remotepc\.com)$
+remotepro-ap-southeast-1.faronicsdeploy.com,Faronics Deploy,remotepro-ap-southeast-1.faronicsdeploy.com,^(?:remotepro-ap-southeast-1\.faronicsdeploy\.com)$
+remotepro-ca-central-1.faronics.com,Faronics Deploy,remotepro-ca-central-1.faronics.com,^(?:remotepro-ca-central-1\.faronics\.com)$
+remotepro-eu-west-1.faronicsdeploy.com,Faronics Deploy,remotepro-eu-west-1.faronicsdeploy.com,^(?:remotepro-eu-west-1\.faronicsdeploy\.com)$
+remotepro-sa-east-1.faronicsdeploy.com,Faronics Deploy,remotepro-sa-east-1.faronicsdeploy.com,^(?:remotepro-sa-east-1\.faronicsdeploy\.com)$
+remotepro-us-east-1.faronics.com,Faronics Deploy,remotepro-us-east-1.faronics.com,^(?:remotepro-us-east-1\.faronics\.com)$
+remotepro-us-west-2.faronics.com,Faronics Deploy,remotepro-us-west-2.faronics.com,^(?:remotepro-us-west-2\.faronics\.com)$
+remotepulse.io,RemotePulse,remotepulse.io,^(?:remotepulse\.io)$
+remoteutilities.com,RemoteUtilities,remoteutilities.com,^(?:remoteutilities\.com)$
+repairshopr.com,Syncro,repairshopr.com,^(?:repairshopr\.com)$
+rescue-data-cetner.logmein-gateway.com,LogMeIn rescue,rescue-data-cetner.logmein-gateway.com,^(?:rescue-data-cetner\.logmein-gateway\.com)$
+resources.ninjarmm.com,NinjaRMM,resources.ninjarmm.com,^(?:resources\.ninjarmm\.com)$
+rism.pages.dev,Nezha,rism.pages.dev,^(?:rism\.pages\.dev)$
+rmansys.ru,Remote Manipulator System,rmansys.ru,^(?:rmansys\.ru)$
+rmm.barracudamsp.com,Barracuda,rmm.barracudamsp.com,^(?:rmm\.barracudamsp\.com)$
+rmm.datto.com,CentraStage (Now Datto),*.rmm.datto.com,^(?:.*\.rmm\.datto\.com)$
+rmmservice.ca,NinjaRMM,*.rmmservice.ca,^(?:.*\.rmmservice\.ca)$
+rmmservice.ca,NinjaRMM,rmmservice.ca,^(?:rmmservice\.ca)$
+rmmservice.com.au,NinjaRMM,*.rmmservice.com.au,^(?:.*\.rmmservice\.com\.au)$
+rmmservice.com.au,NinjaRMM,rmmservice.com.au,^(?:rmmservice\.com\.au)$
+rmmservice.eu,NinjaRMM,*.rmmservice.eu,^(?:.*\.rmmservice\.eu)$
+rmmservice.eu,NinjaRMM,rmmservice.eu,^(?:rmmservice\.eu)$
+rodex.cc,Rodex RMM,rodex.cc,^(?:rodex\.cc)$
+router15.teamviewer.com,TeamViewer,router15.teamviewer.com,^(?:router15\.teamviewer\.com)$
+royalapps.com,Royal Server,royalapps.com,^(?:royalapps\.com)$
+royalapps.com,Royal TS,royalapps.com,^(?:royalapps\.com)$
+rport.io,RPort,rport.io,^(?:rport\.io)$
+rs-ny.rustdesk.com,RustDesk,rs-ny.rustdesk.com,^(?:rs-ny\.rustdesk\.com)$
+rt.teramind.co,Teramind,rt.teramind.co,^(?:rt\.teramind\.co)$
+rtschannel.com,Freshservice,*.rtschannel.com,^(?:.*\.rtschannel\.com)$
+rudesktop.ru,RuDesktop,*.rudesktop.ru,^(?:.*\.rudesktop\.ru)$
+rudesktop.ru,RuDesktop,rudesktop.ru,^(?:rudesktop\.ru)$
+runsmart.io,RunSmart,runsmart.io,^(?:runsmart\.io)$
+rustdesk.com,RustDesk,rustdesk.com,^(?:rustdesk\.com)$
+rview.com,RemoteView,*.rview.com,^(?:.*\.rview\.com)$
+screenconnect.com,ScreenConnect,*.screenconnect.com,^(?:.*\.screenconnect\.com)$
+screenmeet.com,ScreenMeet,*.screenmeet.com,^(?:.*\.screenmeet\.com)$
+scrn.mt,ScreenMeet,*.scrn.mt,^(?:.*\.scrn\.mt)$
+search.namequery.com,Absolute (Computrace),*.search.namequery.com,^(?:.*\.search\.namequery\.com)$
+search.namequery.com,Absolute (Computrace),search.namequery.com,^(?:search\.namequery\.com)$
+secure.instanthousecall.com,Instant Housecall,secure.instanthousecall.com,^(?:secure\.instanthousecall\.com)$
+seetrol.co.kr,Seetrol,seetrol.co.kr,^(?:seetrol\.co\.kr)$
+senso.cloud,Senso.cloud,*.senso.cloud,^(?:.*\.senso\.cloud)$
+senso.cloud,Senso.cloud,senso.cloud,^(?:senso\.cloud)$
+sentry.dev.teramind.co,Teramind,sentry.dev.teramind.co,^(?:sentry\.dev\.teramind\.co)$
+serv.superopsalpha.com,SuperOps,serv.superopsalpha.com,^(?:serv\.superopsalpha\.com)$
+servably.com,Syncro,servably.com,^(?:servably\.com)$
+server-eye.de,ServerEye,*.server-eye.de,^(?:.*\.server-eye\.de)$
+server.absolute.com,Absolute (Computrace),*.server.absolute.com,^(?:.*\.server\.absolute\.com)$
+server.absolute.com,Absolute (Computrace),server.absolute.com,^(?:server\.absolute\.com)$
+servicedesk.itarian.com,Itarian,servicedesk.itarian.com,^(?:servicedesk\.itarian\.com)$
+services.glpi-network.com,GLPI Agent,services.glpi-network.com,^(?:services\.glpi-network\.com)$
+set.me,FixMe.it,*.set.me,^(?:.*\.set\.me)$
+set.me,FixMe.it,set.me,^(?:set\.me)$
+setme.net,FixMe.it,*.setme.net,^(?:.*\.setme\.net)$
+setme.net,FixMe.it,setme.net,^(?:setme\.net)$
+shellhub.io,ShellHub,*.shellhub.io,^(?:.*\.shellhub\.io)$
+shellhub.io,ShellHub,shellhub.io,^(?:shellhub\.io)$
+showmypc.com,ShowMyPC,*.showmypc.com,^(?:.*\.showmypc\.com)$
+showmypc.com,ShowMyPC,showmypc.com,^(?:showmypc\.com)$
+signal.hoptodesk.com,HopToDesk,signal.hoptodesk.com,^(?:signal\.hoptodesk\.com)$
+signal.netbird.io,NetBird,signal.netbird.io,^(?:signal\.netbird\.io)$
+signalserver.xyz,Distant Desktop,*.signalserver.xyz,^(?:.*\.signalserver\.xyz)$
+signalserver.xyz,Distant Desktop,signalserver.xyz,^(?:signalserver\.xyz)$
+simple-help.com,SimpleHelp,simple-help.com,^(?:simple-help\.com)$
+site24x7.cn,Site24x7,plus*.site24x7.cn,^(?:plus.*\.site24x7\.cn)$
+site24x7.com,Site24x7,plus*.site24x7.com,^(?:plus.*\.site24x7\.com)$
+site24x7.eu,Site24x7,plus*.site24x7.eu,^(?:plus.*\.site24x7\.eu)$
+site24x7.in,Site24x7,plus*.site24x7.in,^(?:plus.*\.site24x7\.in)$
+skyfex.com,SkyFex,skyfex.com,^(?:skyfex\.com)$
+socket.lunixar.com,Lunixar,socket.lunixar.com,^(?:socket\.lunixar\.com)$
+sophos.com,Sophos-Remote Management System,*.sophos.com,^(?:.*\.sophos\.com)$
+sophosupd.com,Sophos-Remote Management System,*.sophosupd.com,^(?:.*\.sophosupd\.com)$
+sophosupd.net,Sophos-Remote Management System,*.sophosupd.net,^(?:.*\.sophosupd\.net)$
+sorillus.com,Sorillus,*.sorillus.com,^(?:.*\.sorillus\.com)$
+sorillus.com,Sorillus,sorillus.com,^(?:sorillus\.com)$
+soti.net,Pocket Controller (Soti Xsight),*.soti.net,^(?:.*\.soti\.net)$
+soti.net,Pocket Controller (Soti Xsight),soti.net,^(?:soti\.net)$
+splashtop.com,Splashtop,*.splashtop.com,^(?:.*\.splashtop\.com)$
+splashtop.com,Splashtop (Beta),splashtop.com,^(?:splashtop\.com)$
+splashtop.com,Splashtop Remote,splashtop.com,^(?:splashtop\.com)$
+spyanywhere.com,SpyAnywhere,spyanywhere.com,^(?:spyanywhere\.com)$
+spytech-web.com,SpyAnywhere,*.spytech-web.com,^(?:.*\.spytech-web\.com)$
+sr.rmm.pod1.usw.gorelo.tech,Gorelo RMM,sr.rmm.pod1.usw.gorelo.tech,^(?:sr\.rmm\.pod1\.usw\.gorelo\.tech)$
+staging.helpwire.app,HelpWire,staging.helpwire.app,^(?:staging\.helpwire\.app)$
+startsupport.com,RemoteCall,*.startsupport.com,^(?:.*\.startsupport\.com)$
+static.freshdev.io,Freshservice,static.freshdev.io,^(?:static\.freshdev\.io)$
+stun.helpwire.app,HelpWire,stun.helpwire.app,^(?:stun\.helpwire\.app)$
+stunserver.stunprotocol.org,HelpWire,stunserver.stunprotocol.org,^(?:stunserver\.stunprotocol\.org)$
+sunlogin.oray.com,SunLogin,sunlogin.oray.com,^(?:sunlogin\.oray\.com)$
+superops.ai,SuperOps,*.superops.ai,^(?:.*\.superops\.ai)$
+superops.ai,SuperOps,superops.ai,^(?:superops\.ai)$
+superopsalpha.com,SuperOps,*.superopsalpha.com,^(?:.*\.superopsalpha\.com)$
+superopsbeta.com,SuperOps,*.superopsbeta.com,^(?:.*\.superopsbeta\.com)$
+support.faronics.com,Faronics Deploy,support.faronics.com,^(?:support\.faronics\.com)$
+support.faronics.com,Faronics Insight,support.faronics.com,^(?:support\.faronics\.com)$
+support.services.microsoft.com,Microsoft Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
+support.services.microsoft.com,Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
+supremocontrol.com,Supremo,*.supremocontrol.com,^(?:.*\.supremocontrol\.com)$
+swi-tc.com,N-Able Advanced Monitoring Agent,*.swi-tc.com,^(?:.*\.swi-tc\.com)$
+syncroapi.com,Syncro,*.syncroapi.com,^(?:.*\.syncroapi\.com)$
+syncromsp.com,Syncro,*.syncromsp.com,^(?:.*\.syncromsp\.com)$
+syncromsp.com,Syncro,syncromsp.com,^(?:syncromsp\.com)$
+syspectr.com,Syspectr,*.syspectr.com,^(?:.*\.syspectr\.com)$
+syspectr.com,Syspectr,syspectr.com,^(?:syspectr\.com)$
+system-monitor.com,N-Able Advanced Monitoring Agent,*.system-monitor.com,^(?:.*\.system-monitor\.com)$
+system-monitor.com,N-Able Advanced Monitoring Agent,system-monitor.com,^(?:system-monitor\.com)$
+systemmonitor.co.uk,N-Able Advanced Monitoring Agent,*.systemmonitor.co.uk,^(?:.*\.systemmonitor\.co\.uk)$
+systemmonitor.co.uk,N-Able Advanced Monitoring Agent,systemmonitor.co.uk,^(?:systemmonitor\.co\.uk)$
+systemmonitor.eu.com,N-Able Advanced Monitoring Agent,*.systemmonitor.eu.com,^(?:.*\.systemmonitor\.eu\.com)$
+systemmonitor.eu.com,N-Able Advanced Monitoring Agent,systemmonitor.eu.com,^(?:systemmonitor\.eu\.com)$
+systemmonitor.us,N-Able Advanced Monitoring Agent,*.systemmonitor.us,^(?:.*\.systemmonitor\.us)$
+systemmonitor.us,N-Able Advanced Monitoring Agent,systemmonitor.us,^(?:systemmonitor\.us)$
+systemmonitor.us.cdn.cloudflare.net,N-Able Advanced Monitoring Agent,systemmonitor.us.cdn.cloudflare.net,^(?:systemmonitor\.us\.cdn\.cloudflare\.net)$
+taf.teamviewer.com,TeamViewer,taf.teamviewer.com,^(?:taf\.teamviewer\.com)$
+tailscale.com,Tailscale,*.tailscale.com,^(?:.*\.tailscale\.com)$
+tailscale.com,Tailscale,tailscale.com,^(?:tailscale\.com)$
+tailscale.io,Tailscale,*.tailscale.io,^(?:.*\.tailscale\.io)$
+teamviewer.com,TeamViewer,*.teamviewer.com,^(?:.*\.teamviewer\.com)$
+techinline.net,FixMe.it,*.techinline.net,^(?:.*\.techinline\.net)$
+teknopars.com,Alpemix,*.teknopars.com,^(?:.*\.teknopars\.com)$
+tele-desk.com,TeleDesktop,tele-desk.com,^(?:tele-desk\.com)$
+telesupportgroup.com,SimpleHelp,telesupportgroup.com,^(?:telesupportgroup\.com)$
+teramind.co,Teramind,*.teramind.co,^(?:.*\.teramind\.co)$
+teramind.co,Teramind,teramind.co,^(?:teramind\.co)$
+tiflux.com,TiFLUX,*.tiflux.com,^(?:.*\.tiflux\.com)$
+tiflux.com,TiFLUX,tiflux.com,^(?:tiflux\.com)$
+tiflux.com.br,TiFLUX,tiflux.com.br,^(?:tiflux\.com\.br)$
+tightvnc.com,TightVNC,tightvnc.com,^(?:tightvnc\.com)$
+tmate.io,tmate,*.tmate.io,^(?:.*\.tmate\.io)$
+tmate.io,tmate,tmate.io,^(?:tmate\.io)$
+todesk.com,ToDesk,*.todesk.com,^(?:.*\.todesk\.com)$
+todesk.com,ToDesk,todesk.com,^(?:todesk\.com)$
+trust-access.invgate.com,InvGate,trust-access.invgate.com,^(?:trust-access\.invgate\.com)$
+trust.invgate.com,InvGate,trust.invgate.com,^(?:trust\.invgate\.com)$
+trustconnectsoftware.com,TrustConnect,trustconnectsoftware.com,^(?:trustconnectsoftware\.com)$
+trusted.panorama9.com,Panorama9,trusted.panorama9.com,^(?:trusted\.panorama9\.com)$
+turn.hoptodesk.com,HopToDesk,turn.hoptodesk.com,^(?:turn\.hoptodesk\.com)$
+turn.monitic.com,Monitic,turn.monitic.com,^(?:turn\.monitic\.com)$
+ultraviewer.net,UltraViewer,*.ultraviewer.net,^(?:.*\.ultraviewer\.net)$
+ultraviewer.net,UltraViewer,ultraviewer.net,^(?:ultraviewer\.net)$
+ultravnc.com,UltraVNC,ultravnc.com,^(?:ultravnc\.com)$
+upd.faronicslabs.com,Faronics Core,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
+upd.faronicslabs.com,Faronics Deep Freeze,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
+upd.faronicslabs.com,Faronics Deploy,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
+upload_data.qq.com,QQ IM-remote assistance,upload_data.qq.com,^(?:upload_data\.qq\.com)$
+vector-networks.com,VIZOR,vector-networks.com,^(?:vector-networks\.com)$
+vizor.cloud,VIZOR,vizor.cloud,^(?:vizor\.cloud)$
+wangwang.taobao.com,AliWangWang-remote-control,wangwang.taobao.com,^(?:wangwang\.taobao\.com)$
+web-16fe.app,NetBird,web-16fe.app,^(?:web-16fe\.app)$
+web.rustdesk.com,RustDesk,web.rustdesk.com,^(?:web\.rustdesk\.com)$
+webpush.freshchat.com,Freshservice,*.webpush.freshchat.com,^(?:.*\.webpush\.freshchat\.com)$
+weezo.en.softonic.com,Weezo,weezo.en.softonic.com,^(?:weezo\.en\.softonic\.com)$
+weezo.me,Weezo,*.weezo.me,^(?:.*\.weezo\.me)$
+weezo.net,Weezo,*.weezo.net,^(?:.*\.weezo\.net)$
+weezo.net,Weezo,weezo.net,^(?:weezo\.net)$
+wormhole.dataplicity.com,Dataplicity,*.wormhole.dataplicity.com,^(?:.*\.wormhole\.dataplicity\.com)$
+www.baramundi.com,baramundi Management Suite,www.baramundi.com,^(?:www\.baramundi\.com)$
+www.dataplicity.com,Dataplicity,www.dataplicity.com,^(?:www\.dataplicity\.com)$
+www.deepfreeze.com,Faronics Deep Freeze,www.deepfreeze.com,^(?:www\.deepfreeze\.com)$
+www.faronics.com,Faronics Core,www.faronics.com,^(?:www\.faronics\.com)$
+www.faronics.com,Faronics Deep Freeze,www.faronics.com,^(?:www\.faronics\.com)$
+www.faronics.com,Faronics Insight,www.faronics.com,^(?:www\.faronics\.com)$
+www.faronicsdeploy.com,Faronics Deploy,www.faronicsdeploy.com,^(?:www\.faronicsdeploy\.com)$
+www.freshservice.com,Freshservice,www.freshservice.com,^(?:www\.freshservice\.com)$
+www.glpi-project.org,GLPI Agent,www.glpi-project.org,^(?:www\.glpi-project\.org)$
+www.hoptodesk.com,HopToDesk,www.hoptodesk.com,^(?:www\.hoptodesk\.com)$
+www.invgate.com,InvGate,www.invgate.com,^(?:www\.invgate\.com)$
+www.komari.wiki,Komari,www.komari.wiki,^(?:www\.komari\.wiki)$
+www.metaquest.com,VIZOR,www.metaquest.com,^(?:www\.metaquest\.com)$
+www.monitic.com,Monitic,www.monitic.com,^(?:www\.monitic\.com)$
+www.pitunnel.com,PiTunnel,www.pitunnel.com,^(?:www\.pitunnel\.com)$
+www.remotepc.com,RemotePC,www.remotepc.com,^(?:www\.remotepc\.com)$
+www.remotepulse.io,RemotePulse,www.remotepulse.io,^(?:www\.remotepulse\.io)$
+www.rodex.cc,Rodex RMM,www.rodex.cc,^(?:www\.rodex\.cc)$
+www.shellhub.io,ShellHub,www.shellhub.io,^(?:www\.shellhub\.io)$
+www.teramind.co,Teramind,www.teramind.co,^(?:www\.teramind\.co)$
+www.tiflux.com,TiFLUX,www.tiflux.com,^(?:www\.tiflux\.com)$
+www.tiflux.com.br,TiFLUX,www.tiflux.com.br,^(?:www\.tiflux\.com\.br)$
+www.vector-networks.com,VIZOR,www.vector-networks.com,^(?:www\.vector-networks\.com)$
+www.vizor.cloud,VIZOR,www.vizor.cloud,^(?:www\.vizor\.cloud)$
+xeox.com,Xeox,*.xeox.com,^(?:.*\.xeox\.com)$
+xeox.com,Xeox,xeox.com,^(?:xeox\.com)$
+zabbix.com,Zabbix Agent,zabbix.com,^(?:zabbix\.com)$
+zerotier.com,ZeroTier,*.zerotier.com,^(?:.*\.zerotier\.com)$
+zerotier.com,ZeroTier,zerotier.com,^(?:zerotier\.com)$
+zoho.com,Zoho Assist,*.zoho.com,^(?:.*\.zoho\.com)$
+zoho.com.au,Zoho Assist,*.zoho.com.au,^(?:.*\.zoho\.com\.au)$
+zoho.com.cn,Zoho Assist,*.zoho.com.cn,^(?:.*\.zoho\.com\.cn)$
+zoho.eu,Zoho Assist,*.zoho.eu,^(?:.*\.zoho\.eu)$
+zoho.in,Zoho Assist,*.zoho.in,^(?:.*\.zoho\.in)$
+zohoassist.com,Zoho Assist,*.zohoassist.com,^(?:.*\.zohoassist\.com)$
+zohoassist.com.cn,Zoho Assist,*.zohoassist.com.cn,^(?:.*\.zohoassist\.com\.cn)$
+zohoassist.jp,Zoho Assist,*.zohoassist.jp,^(?:.*\.zohoassist\.jp)$

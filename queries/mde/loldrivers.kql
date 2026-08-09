@@ -1,0 +1,57 @@
+// LOLDrivers BYOVD detection for Microsoft Defender for Endpoint.
+// Mirror: https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror
+// Set the Custom Detection frequency to Every hour. The four-hour Timestamp
+// filter prevents the initial 30-day rule lookback from generating alert floods.
+// The CSV is deliberately flattened so this query does not depend on the
+// broken multiline ingestionMapping/@' syntax published by LOLDrivers.
+let LOLDrivers = externaldata(
+    SHA256:string,
+    SHA1:string,
+    MD5:string,
+    DriverName:string,
+    Category:string,
+    Verified:string,
+    SourceId:string,
+    Created:string
+)[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/loldrivers_hashes.csv']
+with (format="csv", ignoreFirstRecord=true);
+let DriverLoads =
+    DeviceEvents
+    | where Timestamp > ago(4h)
+    | where ActionType == "DriverLoad";
+let DriverLoadsBySha256 =
+    DriverLoads
+    | extend ObservedSHA256 = tolower(tostring(SHA256))
+    | where isnotempty(ObservedSHA256)
+    | join kind=inner (
+        LOLDrivers
+        | where isnotempty(SHA256)
+        | extend SHA256 = tolower(SHA256)
+    ) on $left.ObservedSHA256 == $right.SHA256;
+let DriverLoadsBySha1 =
+    DriverLoads
+    | extend ObservedSHA1 = tolower(tostring(SHA1))
+    | where isnotempty(ObservedSHA1)
+    | join kind=inner (
+        LOLDrivers
+        | where isnotempty(SHA1)
+        | extend SHA1 = tolower(SHA1)
+    ) on $left.ObservedSHA1 == $right.SHA1;
+union DriverLoadsBySha256, DriverLoadsBySha1
+| project Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+          SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+          InitiatingProcessFileName, InitiatingProcessCommandLine
+| distinct Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+           SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+           InitiatingProcessFileName, InitiatingProcessCommandLine
+| summarize
+    FirstSeen = min(Timestamp),
+    EventCount = count(),
+    arg_max(Timestamp, *)
+  by DeviceId, FileName, SHA1, SHA256
+| extend LastSeen = Timestamp
+| project Timestamp, ReportId, DeviceId, DeviceName, ActionType, FileName, FolderPath,
+          SHA1, SHA256, MD5, DriverName, Category, Verified, SourceId, Created,
+          InitiatingProcessFileName, InitiatingProcessCommandLine,
+          EventCount, FirstSeen, LastSeen
+| order by LastSeen desc

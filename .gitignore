@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local credentials and runtime state
+.env
+*.env
+*.log
+*.lock
+
+# Internal deployment, documentation, and test files
+/config/
+/deploy/
+/docs/
+/tests/
+/scripts/sync_cortex_lookups.py
+/data/raw/
+/data/.gitkeep
+/output/
+/tmp/

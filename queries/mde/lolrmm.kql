@@ -1,0 +1,43 @@
+// Weekly report query for connections to known RMM domains in Microsoft Defender for Endpoint.
+// Mirror: https://github.com/NyxLab-Research/loldrivers-lolrmm-mirror
+// Keep the seven-day window aligned with the weekly report schedule.
+// Add customer-approved exact remote hosts to this array.
+let SanctionRMM = dynamic([]);
+let RMMList = externaldata(Domain:string, RMMTool:string, Pattern:string, Regex:string)
+[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/lolrmm_domains.csv']
+with (format="csv", ignoreFirstRecord=true);
+let RMMEnrichment =
+    RMMList
+    | where isnotempty(Domain)
+    | summarize
+        RMMTools=make_set(RMMTool),
+        SourcePatterns=make_set(Pattern)
+      by Domain;
+let RMMDomains =
+    toscalar(
+        RMMEnrichment
+        | summarize make_set(Domain)
+    );
+DeviceNetworkEvents
+| where Timestamp > ago(7d)
+| where ActionType == "ConnectionSuccess"
+| extend RemoteHost = tolower(tostring(parse_url(RemoteUrl).Host))
+| where isnotempty(RemoteHost)
+| mv-expand Domain = RMMDomains to typeof(string)
+| where RemoteHost == Domain or RemoteHost endswith strcat(".", Domain)
+| where RemoteHost !in~ (SanctionRMM)
+| project Timestamp, DeviceId, DeviceName, ActionType, RemoteUrl,
+          RemoteHost, RemoteIP, RemotePort, InitiatingProcessFileName,
+          InitiatingProcessCommandLine, Domain
+| summarize
+    FirstSeen=min(Timestamp),
+    EventCount=count(),
+    arg_max(Timestamp, *)
+  by DeviceId, RemoteHost, Domain, InitiatingProcessFileName
+| extend LastSeen = Timestamp
+| join kind=leftouter RMMEnrichment on Domain
+| project FirstSeen, LastSeen, EventCount, DeviceId, DeviceName, ActionType,
+          RemoteUrl, RemoteHost, RemoteIP, RemotePort, Domain, RMMTools,
+          SourcePatterns, InitiatingProcessFileName,
+          InitiatingProcessCommandLine
+| order by LastSeen desc
