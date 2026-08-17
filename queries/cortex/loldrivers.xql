@@ -4,8 +4,9 @@
 // GitHub URLs with KQL-style externaldata().
 // Match only action_module_sha256 so an alert represents a module/driver load.
 // File-write and file-access matches are intentionally excluded from this rule.
-config timeframe = 1h
-| dataset = xdr_data
+// In the Correlation Rule UI, set Time Schedule to Hourly and Query Time Frame
+// to 1 Hour; the editor does not accept config timeframe in the rule query.
+dataset = xdr_data
 | filter action_module_sha256 != null
 | join conflict_strategy = left type = inner (
     dataset = loldrivers_hashes
