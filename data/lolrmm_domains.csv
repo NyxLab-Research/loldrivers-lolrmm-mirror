@@ -91,6 +91,8 @@ bluetrait.io,Bluetrait,bluetrait.io,^(?:bluetrait\.io)$
 bomgarcloud.com,BeyondTrust (Bomgar),*.bomgarcloud.com,^(?:.*\.bomgarcloud\.com)$
 bomgarcloud.com,BeyondTrust (Bomgar),bomgarcloud.com,^(?:bomgarcloud\.com)$
 boot.net.anydesk.com,AnyDesk,boot.net.anydesk.com,^(?:boot\.net\.anydesk\.com)$
+breeze.app,BreezeRMM,breeze.app,^(?:breeze\.app)$
+breezermm.com,BreezeRMM,breezermm.com,^(?:breezermm\.com)$
 builds.level.io,Level,builds.level.io,^(?:builds\.level\.io)$
 c.mid.al,Nezha,c.mid.al,^(?:c\.mid\.al)$
 cc.centrastage.net,CentraStage (Now Datto),*.cc.centrastage.net,^(?:.*\.cc\.centrastage\.net)$
@@ -188,6 +190,7 @@ encapto.com,Encapto,encapto.com,^(?:encapto\.com)$
 endpoint.ingress.rapid7.com,Rapid7,*.endpoint.ingress.rapid7.com,^(?:.*\.endpoint\.ingress\.rapid7\.com)$
 ericom.com,Ericom AccessNow,ericom.com,^(?:ericom\.com)$
 ericom.com,Ericom Connect,ericom.com,^(?:ericom\.com)$
+eu.2breeze.app,BreezeRMM,eu.2breeze.app,^(?:eu\.2breeze\.app)$
 everywhere.laplink.com,Laplink Everywhere,everywhere.laplink.com,^(?:everywhere\.laplink\.com)$
 ezhelp.co.kr,ezHelp,*.ezhelp.co.kr,^(?:.*\.ezhelp\.co\.kr)$
 ezhelp.co.kr,ezHelp,ezhelp.co.kr,^(?:ezhelp\.co\.kr)$
@@ -609,6 +612,7 @@ upd.faronicslabs.com,Faronics Core,upd.faronicslabs.com,^(?:upd\.faronicslabs\.c
 upd.faronicslabs.com,Faronics Deep Freeze,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
 upd.faronicslabs.com,Faronics Deploy,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
 upload_data.qq.com,QQ IM-remote assistance,upload_data.qq.com,^(?:upload_data\.qq\.com)$
+us.2breeze.app,BreezeRMM,us.2breeze.app,^(?:us\.2breeze\.app)$
 usage.teleport.dev,Teleport Connect,usage.teleport.dev,^(?:usage\.teleport\.dev)$
 vector-networks.com,VIZOR,vector-networks.com,^(?:vector-networks\.com)$
 vizor.cloud,VIZOR,vizor.cloud,^(?:vizor\.cloud)$
