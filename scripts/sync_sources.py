@@ -31,6 +31,19 @@ MD5_RE = re.compile(r"^[0-9a-f]{32}$", re.IGNORECASE)
 DEFAULT_RMM_EXCLUSIONS_FILE = (
     Path(__file__).resolve().parents[1] / ".github" / "lolrmm_domain_exclusions.csv"
 )
+DEFAULT_DRIVER_ADDITIONS_FILE = (
+    Path(__file__).resolve().parents[1] / ".github" / "loldrivers_hash_additions.csv"
+)
+DRIVER_FIELDS = [
+    "sha256",
+    "sha1",
+    "md5",
+    "driver_name",
+    "category",
+    "verified",
+    "source_id",
+    "created",
+]
 
 
 def fetch(url: str) -> bytes:
@@ -131,6 +144,51 @@ def driver_rows(payload: bytes) -> list[dict[str, str]]:
     if not output:
         raise ValueError("LOLDrivers JSON contained no valid SHA256 samples")
     return output
+
+
+def load_driver_additions(path: Path) -> list[dict[str, str]]:
+    """Read locally curated driver hashes that upstream LOLDrivers does not carry.
+
+    This file ships in the public repository, so it must only ever contain
+    hashes taken from public research. Never add customer-specific or private
+    intelligence here.
+    """
+    if not path.is_file():
+        return []
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames != DRIVER_FIELDS:
+            raise ValueError(
+                f"driver additions must use the columns {DRIVER_FIELDS}, got {reader.fieldnames}"
+            )
+        rows: dict[str, dict[str, str]] = {}
+        for source in reader:
+            sha256 = valid_hash(source.get("sha256"), SHA256_RE)
+            if not sha256:
+                raise ValueError("driver addition rows require a valid SHA256")
+            if sha256 in rows:
+                raise ValueError(f"driver additions contain duplicate SHA256 {sha256}")
+            row = {"sha256": sha256}
+            row["sha1"] = valid_hash(source.get("sha1"), SHA1_RE)
+            row["md5"] = valid_hash(source.get("md5"), MD5_RE)
+            for field in ("driver_name", "category", "verified", "source_id", "created"):
+                row[field] = clean(source.get(field))
+            if not row["driver_name"] or not row["category"] or not row["source_id"]:
+                raise ValueError(
+                    f"driver addition {sha256} needs driver_name, category and source_id"
+                )
+            rows[sha256] = row
+    return [rows[sha256] for sha256 in sorted(rows)]
+
+
+def merge_driver_additions(
+    upstream: list[dict[str, str]], additions: list[dict[str, str]]
+) -> tuple[list[dict[str, str]], int]:
+    """Merge curated rows into the upstream set. Upstream always wins."""
+    known = {row["sha256"] for row in upstream}
+    applied = [row for row in additions if row["sha256"] not in known]
+    merged = sorted(upstream + applied, key=lambda row: row["sha256"])
+    return merged, len(applied)
 
 
 def strip_host(value: str) -> str:
@@ -272,17 +330,17 @@ def sync(
     drivers_url: str = DRIVERS_URL,
     rmm_url: str = RMM_URL,
     rmm_exclusions_file: Path = DEFAULT_RMM_EXCLUSIONS_FILE,
+    driver_additions_file: Path = DEFAULT_DRIVER_ADDITIONS_FILE,
 ) -> dict[str, int]:
     drivers_payload = fetch(drivers_url)
     rmm_payload = fetch(rmm_url)
-    drivers = driver_rows(drivers_payload)
+    upstream_drivers = driver_rows(drivers_payload)
+    additions = load_driver_additions(driver_additions_file)
+    drivers, applied_additions = merge_driver_additions(upstream_drivers, additions)
     upstream_domains = rmm_rows(rmm_payload)
     exclusions = load_rmm_exclusions(rmm_exclusions_file)
     domains, excluded_domains = filter_rmm_rows(upstream_domains, exclusions)
-    driver_csv = csv_bytes(
-        drivers,
-        ["sha256", "sha1", "md5", "driver_name", "category", "verified", "source_id", "created"],
-    )
+    driver_csv = csv_bytes(drivers, DRIVER_FIELDS)
     rmm_csv = csv_bytes(domains, ["domain", "rmm_tool", "pattern", "regex"])
 
     raw_dir = output_dir / "raw"
@@ -298,6 +356,8 @@ def sync(
         "loldrivers_csv_sha256": sha256_bytes(driver_csv),
         "lolrmm_csv_sha256": sha256_bytes(rmm_csv),
         "driver_hash_rows": len(drivers),
+        "driver_upstream_rows": len(upstream_drivers),
+        "driver_addition_rows": applied_additions,
         "rmm_domain_rows": len(domains),
         "rmm_upstream_rows": len(upstream_domains),
         "rmm_excluded_rows": len(excluded_domains),
@@ -305,6 +365,8 @@ def sync(
     }, indent=2, sort_keys=True).encode("utf-8"))
     return {
         "driver_hash_rows": len(drivers),
+        "driver_upstream_rows": len(upstream_drivers),
+        "driver_addition_rows": applied_additions,
         "rmm_domain_rows": len(domains),
         "rmm_upstream_rows": len(upstream_domains),
         "rmm_excluded_rows": len(excluded_domains),
@@ -318,14 +380,23 @@ def main() -> int:
     parser.add_argument("--drivers-url", default=DRIVERS_URL)
     parser.add_argument("--rmm-url", default=RMM_URL)
     parser.add_argument("--rmm-exclusions", type=Path, default=DEFAULT_RMM_EXCLUSIONS_FILE)
+    parser.add_argument("--driver-additions", type=Path, default=DEFAULT_DRIVER_ADDITIONS_FILE)
     args = parser.parse_args()
     try:
-        summary = sync(args.output_dir, args.drivers_url, args.rmm_url, args.rmm_exclusions)
+        summary = sync(
+            args.output_dir,
+            args.drivers_url,
+            args.rmm_url,
+            args.rmm_exclusions,
+            args.driver_additions,
+        )
     except Exception as exc:  # noqa: BLE001 - CLI should show a concise failure and non-zero status.
         print(f"sync failed: {exc}", file=sys.stderr)
         return 1
     print(
-        f"synced {summary['driver_hash_rows']} unique driver hashes and "
+        f"synced {summary['driver_hash_rows']} unique driver hashes "
+        f"({summary['driver_upstream_rows']} upstream + "
+        f"{summary['driver_addition_rows']} curated) and "
         f"{summary['rmm_effective_rows']} effective RMM rows "
         f"({summary['rmm_excluded_rows']} excluded from "
         f"{summary['rmm_upstream_rows']} normalized upstream rows)"

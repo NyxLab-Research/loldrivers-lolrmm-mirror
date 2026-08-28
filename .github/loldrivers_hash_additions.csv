@@ -1,0 +1,6 @@
+sha256,sha1,md5,driver_name,category,verified,source_id,created
+221a34f7b4cc76aa5b802aa330252c657afeb7863ad42e568c23aaa67862e3a3,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
+41989526b4eb8d60a5e158f835ee90eea5fe4e499705109317cd6f72114c852f,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
+466395e00d2652367e60bd98af386d80f7faa278ab549f06b4ee86ece9c4ec0d,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
+55d998973c182c395b5407a42b63dbb528c65d829a7af6cd08797b0ede631eef,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
+b8c6a3dc5f655d25d60954c1ef82e3f2981cf6cc264c9c3f50fbdff024902ae8,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
