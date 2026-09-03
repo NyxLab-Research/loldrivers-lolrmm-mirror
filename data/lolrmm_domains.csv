@@ -418,6 +418,7 @@ nvaccess.org,NVDA (Non-Visual Desktop Access),nvaccess.org,^(?:nvaccess\.org)$
 ocsinventory-ng.org,OCS inventory,ocsinventory-ng.org,^(?:ocsinventory-ng\.org)$
 one.comodo.com,Comodo RMM,one.comodo.com,^(?:one\.comodo\.com)$
 online.level.io,Level,online.level.io,^(?:online\.level\.io)$
+opsbridge.digital,OpsBridge Agent,opsbridge.digital,^(?:opsbridge\.digital)$
 opti-tune.com,OptiTune,*.opti-tune.com,^(?:.*\.opti-tune\.com)$
 optitune.us,OptiTune,*.optitune.us,^(?:.*\.optitune\.us)$
 packagesstore.blob.core.windows.net,Atera,packagesstore.blob.core.windows.net,^(?:packagesstore\.blob\.core\.windows\.net)$
@@ -517,10 +518,8 @@ server.absolute.com,Absolute (Computrace),*.server.absolute.com,^(?:.*\.server\.
 server.absolute.com,Absolute (Computrace),server.absolute.com,^(?:server\.absolute\.com)$
 servicedesk.itarian.com,Itarian,servicedesk.itarian.com,^(?:servicedesk\.itarian\.com)$
 services.glpi-network.com,GLPI Agent,services.glpi-network.com,^(?:services\.glpi-network\.com)$
-set.me,FixMe.it,*.set.me,^(?:.*\.set\.me)$
-set.me,FixMe.it,set.me,^(?:set\.me)$
-setme.net,FixMe.it,*.setme.net,^(?:.*\.setme\.net)$
-setme.net,FixMe.it,setme.net,^(?:setme\.net)$
+set.me,SetMe PRO,*.set.me,^(?:.*\.set\.me)$
+set.me,SetMe PRO,set.me,^(?:set\.me)$
 shellhub.io,ShellHub,*.shellhub.io,^(?:.*\.shellhub\.io)$
 shellhub.io,ShellHub,shellhub.io,^(?:shellhub\.io)$
 showmypc.com,ShowMyPC,*.showmypc.com,^(?:.*\.showmypc\.com)$
