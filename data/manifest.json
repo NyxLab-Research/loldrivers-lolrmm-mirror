@@ -5,11 +5,11 @@
   "drivers_sha256": "0a905fd15b9de42444c137ba080a691ba5950e5a9dd5bc34d4c8c19379977b5b",
   "drivers_url": "https://www.loldrivers.io/api/drivers.json",
   "loldrivers_csv_sha256": "b55147973506d4a5bf0002e54f91eeed2334f4610aa92d0caa0424a28f6e2f7b",
-  "lolrmm_csv_sha256": "2ba5f971bae4685876282776e5ea7b2a5c16ee441548f1463d9445f113b4511a",
-  "rmm_domain_rows": 662,
-  "rmm_effective_rows": 662,
+  "lolrmm_csv_sha256": "f803fe94dab3e0c3118d506ab3ffba6dedf9052dd8b1fe74146cab89a442dbf8",
+  "rmm_domain_rows": 663,
+  "rmm_effective_rows": 663,
   "rmm_excluded_rows": 6,
-  "rmm_sha256": "9c74699998ba8056831d1f55bc6f692f7964595adf65091c4715888a48fbab5f",
-  "rmm_upstream_rows": 668,
+  "rmm_sha256": "c12d252eb686043b22abbeefa735908df406a9bcb077f2401a65f51e4f1debc3",
+  "rmm_upstream_rows": 669,
   "rmm_url": "https://raw.githubusercontent.com/magicsword-io/LOLRMM/main/website/public/api/rmm_domains.csv"
 }

@@ -51,6 +51,7 @@ api.netbird.io,NetBird,api.netbird.io,^(?:api\.netbird\.io)$
 api.netreo.com,Netreo,*.api.netreo.com,^(?:.*\.api\.netreo\.com)$
 api.remote.it,Remote.it,api.remote.it,^(?:api\.remote\.it)$
 api.remsupp.com,RemSupp,api.remsupp.com,^(?:api\.remsupp\.com)$
+api.rmmmax.com,RMMmax,api.rmmmax.com,^(?:api\.rmmmax\.com)$
 api.rustdesk.com,RustDesk,api.rustdesk.com,^(?:api\.rustdesk\.com)$
 api.splashtop.com,Splashtop Remote,*.api.splashtop.com,^(?:.*\.api\.splashtop\.com)$
 api.splashtop.eu,Splashtop Remote,*.api.splashtop.eu,^(?:.*\.api\.splashtop\.eu)$
