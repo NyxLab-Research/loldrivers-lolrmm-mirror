@@ -4,3 +4,5 @@ sha256,sha1,md5,driver_name,category,verified,source_id,created
 466395e00d2652367e60bd98af386d80f7faa278ab549f06b4ee86ece9c4ec0d,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
 55d998973c182c395b5407a42b63dbb528c65d829a7af6cd08797b0ede631eef,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
 b8c6a3dc5f655d25d60954c1ef82e3f2981cf6cc264c9c3f50fbdff024902ae8,,,BTR.sys,vulnerable driver,TRUE,nyx-custom-btr-reforged,2026-08-28
+f58c4562fc2e6d40f3763ba503d0f723055791948051f19deaa4ff0366468570,284b7f4c77ee9a16a2e178ca00ecc7c300283264,6b10fadfe57a2b6d5bcc01ffe6e20063,ForceDelete.sys;IMFForceDelete;IMFForceDelete.sys,vulnerable driver,TRUE,nyx-custom-forcedelete,2026-09-03
+507be923f8889525382240c490e903e78bb6c1fe0365b36851c93688bc905caf,d5c6de15bc98221d1613e653d0d499703395f8b8,419bc84f5619b8bb36f663b0b2046aa3,EnPortv.sys,vulnerable driver,TRUE,nyx-custom-encase,2026-09-03
