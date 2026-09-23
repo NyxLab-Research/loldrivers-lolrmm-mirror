@@ -40,6 +40,7 @@ anyplace-control.com,Anyplace Control,anyplace-control.com,^(?:anyplace-control\
 anysupport.net,Any Support,*.anysupport.net,^(?:.*\.anysupport\.net)$
 anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
 aomeisoftware.com,AnyViewer,*.aomeisoftware.com,^(?:.*\.aomeisoftware\.com)$
+api-ca-1.lavawall.com,Lavawall,api-ca-1.lavawall.com,^(?:api-ca-1\.lavawall\.com)$
 api.fdcollab.com,Freshservice,api.fdcollab.com,^(?:api\.fdcollab\.com)$
 api.helpwire.app,HelpWire,api.helpwire.app,^(?:api\.helpwire\.app)$
 api.hoptodesk.com,HopToDesk,api.hoptodesk.com,^(?:api\.hoptodesk\.com)$
@@ -51,6 +52,7 @@ api.netbird.io,NetBird,api.netbird.io,^(?:api\.netbird\.io)$
 api.netreo.com,Netreo,*.api.netreo.com,^(?:.*\.api\.netreo\.com)$
 api.remote.it,Remote.it,api.remote.it,^(?:api\.remote\.it)$
 api.remsupp.com,RemSupp,api.remsupp.com,^(?:api\.remsupp\.com)$
+api.rg-supervision.com,RG System (RG Supervision),api.rg-supervision.com,^(?:api\.rg-supervision\.com)$
 api.rmmmax.com,RMMmax,api.rmmmax.com,^(?:api\.rmmmax\.com)$
 api.rustdesk.com,RustDesk,api.rustdesk.com,^(?:api\.rustdesk\.com)$
 api.splashtop.com,Splashtop Remote,*.api.splashtop.com,^(?:.*\.api\.splashtop\.com)$
@@ -65,6 +67,7 @@ app.monitic.com,Monitic,app.monitic.com,^(?:app\.monitic\.com)$
 app.netbird.io,NetBird,app.netbird.io,^(?:app\.netbird\.io)$
 app.pdq.com,PDQ Connect,app.pdq.com,^(?:app\.pdq\.com)$
 app.tiflux.com,TiFLUX,app.tiflux.com,^(?:app\.tiflux\.com)$
+app.zecurit.com,Zecurit,app.zecurit.com,^(?:app\.zecurit\.com)$
 appcdn.atera.com,Atera,appcdn.atera.com,^(?:appcdn\.atera\.com)$
 assist.jumpcloud.com,Jump Cloud,*.assist.jumpcloud.com,^(?:.*\.assist\.jumpcloud\.com)$
 assist.zoho.com,Zoho Assist,assist.zoho.com,^(?:assist\.zoho\.com)$
@@ -96,6 +99,7 @@ breeze.app,BreezeRMM,breeze.app,^(?:breeze\.app)$
 breezermm.com,BreezeRMM,breezermm.com,^(?:breezermm\.com)$
 builds.level.io,Level,builds.level.io,^(?:builds\.level\.io)$
 c.mid.al,Nezha,c.mid.al,^(?:c\.mid\.al)$
+caremote1.lavawall.com,Lavawall,caremote1.lavawall.com,^(?:caremote1\.lavawall\.com)$
 cc.centrastage.net,CentraStage (Now Datto),*.cc.centrastage.net,^(?:.*\.cc\.centrastage\.net)$
 cc.centrastage.net,CentraStage (Now Datto),cc.centrastage.net,^(?:cc\.centrastage\.net)$
 cdn.getgo.com,GoToAssist,*.cdn.getgo.com,^(?:.*\.cdn\.getgo\.com)$
@@ -143,7 +147,9 @@ control.connectwise.com,ConnectWise Control,control.connectwise.com,^(?:control\
 control.connectwise.com,ScreenConnect,control.connectwise.com,^(?:control\.connectwise\.com)$
 crossloop.com,CrossLoop,*.crossloop.com,^(?:.*\.crossloop\.com)$
 crossloop.en.softonic.com,CrossLoop,crossloop.en.softonic.com,^(?:crossloop\.en\.softonic\.com)$
+d1m8kha1zyjal6.cloudfront.net,Zecurit,d1m8kha1zyjal6.cloudfront.net,^(?:d1m8kha1zyjal6\.cloudfront\.net)$
 dameware.com,DameWare,dameware.com,^(?:dameware\.com)$
+dashboard.rg-supervision.com,RG System (RG Supervision),dashboard.rg-supervision.com,^(?:dashboard\.rg-supervision\.com)$
 dataplicity.com,Dataplicity,*.dataplicity.com,^(?:.*\.dataplicity\.com)$
 dataplicity.com,Dataplicity,dataplicity.com,^(?:dataplicity\.com)$
 deepfreeze.com,Faronics Deep Freeze,deepfreeze.com,^(?:deepfreeze\.com)$
@@ -162,6 +168,7 @@ devapi.monitic.com,Monitic,devapi.monitic.com,^(?:devapi\.monitic\.com)$
 devrmm.lunixar.com,Lunixar,devrmm.lunixar.com,^(?:devrmm\.lunixar\.com)$
 devtunnels.ms,Visual Studio Dev Tunnel,*.devtunnels.ms,^(?:.*\.devtunnels\.ms)$
 distantdesktop.com,Distant Desktop,*.distantdesktop.com,^(?:.*\.distantdesktop\.com)$
+dms.zecurit.com,Zecurit,dms.zecurit.com,^(?:dms\.zecurit\.com)$
 dms.zoho.com,Manage Engine (Desktop Central),*.dms.zoho.com,^(?:.*\.dms\.zoho\.com)$
 dms.zoho.com.eu,Manage Engine (Desktop Central),*.dms.zoho.com.eu,^(?:.*\.dms\.zoho\.com\.eu)$
 docs.baramundi.com,baramundi Management Suite,docs.baramundi.com,^(?:docs\.baramundi\.com)$
@@ -321,12 +328,14 @@ kaseya.net,Kaseya (VSA),*.kaseya.net,^(?:.*\.kaseya\.net)$
 khelpdesk.com.br,KHelpDesk,*.khelpdesk.com.br,^(?:.*\.khelpdesk\.com\.br)$
 kickidler.com,KickIdler,kickidler.com,^(?:kickidler\.com)$
 komari-document.pages.dev,Komari,komari-document.pages.dev,^(?:komari-document\.pages\.dev)$
+lavawinupdate.lavawall.com,Lavawall,lavawinupdate.lavawall.com,^(?:lavawinupdate\.lavawall\.com)$
 lb-insight-001.invgate.net,InvGate,lb-insight-001.invgate.net,^(?:lb-insight-001\.invgate\.net)$
 ld.aurelius.host,Syncro,ld.aurelius.host,^(?:ld\.aurelius\.host)$
 le.laplink.com,Laplink Everywhere,le.laplink.com,^(?:le\.laplink\.com)$
 level.io,Level,level.io,^(?:level\.io)$
 level.io,Level.io,*.level.io,^(?:.*\.level\.io)$
 level.io,Level.io,level.io,^(?:level\.io)$
+lisa.rg-supervision.com,RG System (RG Supervision),lisa.rg-supervision.com,^(?:lisa\.rg-supervision\.com)$
 litemanager.com,LiteManager,*.litemanager.com,^(?:.*\.litemanager\.com)$
 litemanager.com,LiteManager,litemanager.com,^(?:litemanager\.com)$
 litemanager.ru,LiteManager,*.litemanager.ru,^(?:.*\.litemanager\.ru)$
