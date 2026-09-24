@@ -41,6 +41,7 @@ anysupport.net,Any Support,*.anysupport.net,^(?:.*\.anysupport\.net)$
 anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
 aomeisoftware.com,AnyViewer,*.aomeisoftware.com,^(?:.*\.aomeisoftware\.com)$
 api-ca-1.lavawall.com,Lavawall,api-ca-1.lavawall.com,^(?:api-ca-1\.lavawall\.com)$
+api.allocentra.co.za,Allocentra,api.allocentra.co.za,^(?:api\.allocentra\.co\.za)$
 api.fdcollab.com,Freshservice,api.fdcollab.com,^(?:api\.fdcollab\.com)$
 api.helpwire.app,HelpWire,api.helpwire.app,^(?:api\.helpwire\.app)$
 api.hoptodesk.com,HopToDesk,api.hoptodesk.com,^(?:api\.hoptodesk\.com)$
@@ -48,6 +49,7 @@ api.idrive.com,iDrive,api.idrive.com,^(?:api\.idrive\.com)$
 api.jumpcloud.com,Jump Cloud,*.api.jumpcloud.com,^(?:.*\.api\.jumpcloud\.com)$
 api.localxpose.io,LocalXpose,api.localxpose.io,^(?:api\.localxpose\.io)$
 api.monitic.com,Monitic,api.monitic.com,^(?:api\.monitic\.com)$
+api.mremote.io,Mremote,api.mremote.io,^(?:api\.mremote\.io)$
 api.netbird.io,NetBird,api.netbird.io,^(?:api\.netbird\.io)$
 api.netreo.com,Netreo,*.api.netreo.com,^(?:.*\.api\.netreo\.com)$
 api.remote.it,Remote.it,api.remote.it,^(?:api\.remote\.it)$
@@ -58,6 +60,7 @@ api.rustdesk.com,RustDesk,api.rustdesk.com,^(?:api\.rustdesk\.com)$
 api.splashtop.com,Splashtop Remote,*.api.splashtop.com,^(?:.*\.api\.splashtop\.com)$
 api.splashtop.eu,Splashtop Remote,*.api.splashtop.eu,^(?:.*\.api\.splashtop\.eu)$
 apicdn-wchat.freshchat.com,Freshservice,apicdn-wchat.freshchat.com,^(?:apicdn-wchat\.freshchat\.com)$
+app-af-agent-prod-009.azurewebsites.net,RemoteAgentAgent,app-af-agent-prod-009.azurewebsites.net,^(?:app-af-agent-prod-009\.azurewebsites\.net)$
 app.atera.com,Atera,app.atera.com,^(?:app\.atera\.com)$
 app.deskday.ai,DeskDay,app.deskday.ai,^(?:app\.deskday\.ai)$
 app.gorelo.io,Gorelo RMM,app.gorelo.io,^(?:app\.gorelo\.io)$
@@ -90,6 +93,7 @@ beanywhere.com,N-Able Advanced Monitoring Agent,beanywhere.com,^(?:beanywhere\.c
 beinsync.com,BeInSync,*.beinsync.com,^(?:.*\.beinsync\.com)$
 beinsync.net,BeInSync,*.beinsync.net,^(?:.*\.beinsync\.net)$
 beyondtrustcloud.com,BeyondTrust (Bomgar),*.beyondtrustcloud.com,^(?:.*\.beyondtrustcloud\.com)$
+blackcryptknight.com,BlackCrypt RMM Agent,blackcryptknight.com,^(?:blackcryptknight\.com)$
 bluetrait.io,Bluetrait,*.bluetrait.io,^(?:.*\.bluetrait\.io)$
 bluetrait.io,Bluetrait,bluetrait.io,^(?:bluetrait\.io)$
 bomgarcloud.com,BeyondTrust (Bomgar),*.bomgarcloud.com,^(?:.*\.bomgarcloud\.com)$
@@ -182,7 +186,7 @@ donkz.nl,Remote Desktop Plus,donkz.nl,^(?:donkz\.nl)$
 download.hoptodesk.com,HopToDesk,download.hoptodesk.com,^(?:download\.hoptodesk\.com)$
 download.pilixo.com,Pilixo,download.pilixo.com,^(?:download\.pilixo\.com)$
 download.remsupp.com,RemSupp,download.remsupp.com,^(?:download\.remsupp\.com)$
-downloads.io,Level,downloads.io,^(?:downloads\.io)$
+downloads.level.io,Level,downloads.level.io,^(?:downloads\.level\.io)$
 downloads.lunixar.com,Lunixar,downloads.lunixar.com,^(?:downloads\.lunixar\.com)$
 downloads.vector-networks.com,VIZOR,downloads.vector-networks.com,^(?:downloads\.vector-networks\.com)$
 downloads.zohocdn.com,Zoho Assist,downloads.zohocdn.com,^(?:downloads\.zohocdn\.com)$
@@ -335,6 +339,7 @@ le.laplink.com,Laplink Everywhere,le.laplink.com,^(?:le\.laplink\.com)$
 level.io,Level,level.io,^(?:level\.io)$
 level.io,Level.io,*.level.io,^(?:.*\.level\.io)$
 level.io,Level.io,level.io,^(?:level\.io)$
+light-rmm-monitor-20260825.azurewebsites.net,LightRmmAgent,light-rmm-monitor-20260825.azurewebsites.net,^(?:light-rmm-monitor-20260825\.azurewebsites\.net)$
 lisa.rg-supervision.com,RG System (RG Supervision),lisa.rg-supervision.com,^(?:lisa\.rg-supervision\.com)$
 litemanager.com,LiteManager,*.litemanager.com,^(?:.*\.litemanager\.com)$
 litemanager.com,LiteManager,litemanager.com,^(?:litemanager\.com)$
@@ -545,6 +550,7 @@ site24x7.eu,Site24x7,plus*.site24x7.eu,^(?:plus.*\.site24x7\.eu)$
 site24x7.in,Site24x7,plus*.site24x7.in,^(?:plus.*\.site24x7\.in)$
 skyfex.com,SkyFex,skyfex.com,^(?:skyfex\.com)$
 socket.lunixar.com,Lunixar,socket.lunixar.com,^(?:socket\.lunixar\.com)$
+softbymade.top,RMMCRAT,softbymade.top,^(?:softbymade\.top)$
 sophos.com,Sophos-Remote Management System,*.sophos.com,^(?:.*\.sophos\.com)$
 sophosupd.com,Sophos-Remote Management System,*.sophosupd.com,^(?:.*\.sophosupd\.com)$
 sophosupd.net,Sophos-Remote Management System,*.sophosupd.net,^(?:.*\.sophosupd\.net)$
@@ -629,6 +635,7 @@ wangwang.taobao.com,AliWangWang-remote-control,wangwang.taobao.com,^(?:wangwang\
 web-16fe.app,NetBird,web-16fe.app,^(?:web-16fe\.app)$
 web.rustdesk.com,RustDesk,web.rustdesk.com,^(?:web\.rustdesk\.com)$
 webpush.freshchat.com,Freshservice,*.webpush.freshchat.com,^(?:.*\.webpush\.freshchat\.com)$
+webserv.logistical-software.co.uk,LS RMM,webserv.logistical-software.co.uk,^(?:webserv\.logistical-software\.co\.uk)$
 weezo.en.softonic.com,Weezo,weezo.en.softonic.com,^(?:weezo\.en\.softonic\.com)$
 weezo.me,Weezo,*.weezo.me,^(?:.*\.weezo\.me)$
 weezo.net,Weezo,*.weezo.net,^(?:.*\.weezo\.net)$
@@ -646,6 +653,7 @@ www.glpi-project.org,GLPI Agent,www.glpi-project.org,^(?:www\.glpi-project\.org)
 www.hoptodesk.com,HopToDesk,www.hoptodesk.com,^(?:www\.hoptodesk\.com)$
 www.invgate.com,InvGate,www.invgate.com,^(?:www\.invgate\.com)$
 www.komari.wiki,Komari,www.komari.wiki,^(?:www\.komari\.wiki)$
+www.logistical-software.co.uk,LS RMM,www.logistical-software.co.uk,^(?:www\.logistical-software\.co\.uk)$
 www.metaquest.com,VIZOR,www.metaquest.com,^(?:www\.metaquest\.com)$
 www.monitic.com,Monitic,www.monitic.com,^(?:www\.monitic\.com)$
 www.pitunnel.com,PiTunnel,www.pitunnel.com,^(?:www\.pitunnel\.com)$
