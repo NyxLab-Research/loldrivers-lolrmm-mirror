@@ -14,7 +14,12 @@ domain,rmm_tool,pattern,regex
 51.255.19.178,SimpleHelp,51.255.19.178,^(?:51\.255\.19\.178)$
 51.255.19.179,SimpleHelp,51.255.19.179,^(?:51\.255\.19\.179)$
 8z5x4rqbxi.execute-api.eu-west-1.amazonaws.com,Faronics Deploy,8z5x4rqbxi.execute-api.eu-west-1.amazonaws.com,^(?:8z5x4rqbxi\.execute-api\.eu-west-1\.amazonaws\.com)$
+_v2-origintunneld._tcp.argotunnel.com,CloudFlare Tunnel,_v2-origintunneld._tcp.argotunnel.com,^(?:_v2-origintunneld\._tcp\.argotunnel\.com)$
 a1-backend-packages.s3.amazonaws.com,Action1,a1-backend-packages.s3.amazonaws.com,^(?:a1-backend-packages\.s3\.amazonaws\.com)$
+a33d8yamkwy4nx-ats.iot.ap-southeast-2.amazonaws.com,N-able N-central,a33d8yamkwy4nx-ats.iot.ap-southeast-2.amazonaws.com,^(?:a33d8yamkwy4nx-ats\.iot\.ap-southeast-2\.amazonaws\.com)$
+a33d8yamkwy4nx-ats.iot.eu-central-1.amazonaws.com,N-able N-central,a33d8yamkwy4nx-ats.iot.eu-central-1.amazonaws.com,^(?:a33d8yamkwy4nx-ats\.iot\.eu-central-1\.amazonaws\.com)$
+a33d8yamkwy4nx-ats.iot.eu-west-1.amazonaws.com,N-able N-central,a33d8yamkwy4nx-ats.iot.eu-west-1.amazonaws.com,^(?:a33d8yamkwy4nx-ats\.iot\.eu-west-1\.amazonaws\.com)$
+a33d8yamkwy4nx-ats.iot.us-west-2.amazonaws.com,N-able N-central,a33d8yamkwy4nx-ats.iot.us-west-2.amazonaws.com,^(?:a33d8yamkwy4nx-ats\.iot\.us-west-2\.amazonaws\.com)$
 account.flexihub.com,HelpWire,account.flexihub.com,^(?:account\.flexihub\.com)$
 acronis.com,Acronis Cyber Protect (Remotix),agents*-cloud.acronis.com,^(?:agents.*-cloud\.acronis\.com)$
 action1.com,Action1,*.action1.com,^(?:.*\.action1\.com)$
@@ -34,14 +39,14 @@ alpemix.com,Alpemix,*.alpemix.com,^(?:.*\.alpemix\.com)$
 ammyy.com,Ammyy Admin,*.ammyy.com,^(?:.*\.ammyy\.com)$
 ammyy.com,Ammyy Admin,ammyy.com,^(?:ammyy\.com)$
 analytics.insight.rapid7.com,Rapid7,*.analytics.insight.rapid7.com,^(?:.*\.analytics\.insight\.rapid7\.com)$
-anydesk.com,AnyDesk,*.anydesk.com,^(?:.*\.anydesk\.com)$
-anydesk.com,AnyDesk,relay-[a-f0-9]{8}.net.anydesk.com:443,^(?:relay-[a-f0-9]{8}\.net\.anydesk\.com)$
+anydesk.com,AnyDesk,relay-*.net.anydesk.com,^(?:relay-.*\.net\.anydesk\.com)$
 anyplace-control.com,Anyplace Control,anyplace-control.com,^(?:anyplace-control\.com)$
 anysupport.net,Any Support,*.anysupport.net,^(?:.*\.anysupport\.net)$
 anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
 aomeisoftware.com,AnyViewer,*.aomeisoftware.com,^(?:.*\.aomeisoftware\.com)$
 api-ca-1.lavawall.com,Lavawall,api-ca-1.lavawall.com,^(?:api-ca-1\.lavawall\.com)$
 api.allocentra.co.za,Allocentra,api.allocentra.co.za,^(?:api\.allocentra\.co\.za)$
+api.cloudflare.com,CloudFlare Tunnel,api.cloudflare.com,^(?:api\.cloudflare\.com)$
 api.fdcollab.com,Freshservice,api.fdcollab.com,^(?:api\.fdcollab\.com)$
 api.helpwire.app,HelpWire,api.helpwire.app,^(?:api\.helpwire\.app)$
 api.hoptodesk.com,HopToDesk,api.hoptodesk.com,^(?:api\.hoptodesk\.com)$
@@ -111,7 +116,9 @@ cdn.teleport.dev,Teleport Connect,cdn.teleport.dev,^(?:cdn\.teleport\.dev)$
 cell-1.domotz.com,Domotz,*.cell-1.domotz.com,^(?:.*\.cell-1\.domotz\.com)$
 cell-1.domotz.com,Domotz,cell-1.domotz.com,^(?:cell-1\.domotz\.com)$
 centuriontech.com,Centurion,centuriontech.com,^(?:centuriontech\.com)$
+cfargotunnel.com,CloudFlare Tunnel,*.cfargotunnel.com,^(?:.*\.cfargotunnel\.com)$
 cfcdn.pdq.com,PDQ Connect,cfcdn.pdq.com,^(?:cfcdn\.pdq\.com)$
+cftunnel.com,CloudFlare Tunnel,cftunnel.com,^(?:cftunnel\.com)$
 changes.panorama9.com,Panorama9,changes.panorama9.com,^(?:changes\.panorama9\.com)$
 charon.netreo.net,Netreo,charon.netreo.net,^(?:charon\.netreo\.net)$
 checkip.zmazonaws.com,FleetDeck.io,checkip.zmazonaws.com,^(?:checkip\.zmazonaws\.com)$
@@ -133,6 +140,10 @@ cloudbackup.management,N-Able Advanced Monitoring Agent,cloudbackup.management,^
 cloudberrylab.com,MSP360,*.cloudberrylab.com,^(?:.*\.cloudberrylab\.com)$
 cloudflarestorage.com,PDQ Connect,pdqinstallers.*.r2.cloudflarestorage.com,^(?:pdqinstallers\..*\.r2\.cloudflarestorage\.com)$
 cmdm.comodo.com,Itarian,*.cmdm.comodo.com,^(?:.*\.cmdm\.comodo\.com)$
+comserver.eu1.mspa.n-able.com,N-able N-central,comserver.eu1.mspa.n-able.com,^(?:comserver\.eu1\.mspa\.n-able\.com)$
+comserver.global.mspa.n-able.com,N-able N-central,comserver.global.mspa.n-able.com,^(?:comserver\.global\.mspa\.n-able\.com)$
+comserver.us1.mspa.n-able.com,N-able N-central,comserver.us1.mspa.n-able.com,^(?:comserver\.us1\.mspa\.n-able\.com)$
+comserver.us2.mspa.n-able.com,N-able N-central,comserver.us2.mspa.n-able.com,^(?:comserver\.us2\.mspa\.n-able\.com)$
 connect.acronis.com,Acronis Cyber Protect (Remotix),connect.acronis.com,^(?:connect\.acronis\.com)$
 connect.ap.ngrok-agent.com,ngrok,connect.ap.ngrok-agent.com,^(?:connect\.ap\.ngrok-agent\.com)$
 connect.au.ngrok-agent.com,ngrok,connect.au.ngrok-agent.com,^(?:connect\.au\.ngrok-agent\.com)$
@@ -195,6 +206,10 @@ dronemaker.org,SimpleHelp,dronemaker.org,^(?:dronemaker\.org)$
 duetdisplay.com,Duet Display,*.duetdisplay.com,^(?:.*\.duetdisplay\.com)$
 duetdisplay.com,Duet Display,duetdisplay.com,^(?:duetdisplay\.com)$
 dwservice.net,DW Service,*.dwservice.net,^(?:.*\.dwservice\.net)$
+eb.ap-southeast-2.prd.davinci.system-monitor.com,N-able N-central,eb.ap-southeast-2.prd.davinci.system-monitor.com,^(?:eb\.ap-southeast-2\.prd\.davinci\.system-monitor\.com)$
+eb.eu-central-1.prd.davinci.system-monitor.com,N-able N-central,eb.eu-central-1.prd.davinci.system-monitor.com,^(?:eb\.eu-central-1\.prd\.davinci\.system-monitor\.com)$
+eb.eu-west-1.prd.davinci.system-monitor.com,N-able N-central,eb.eu-west-1.prd.davinci.system-monitor.com,^(?:eb\.eu-west-1\.prd\.davinci\.system-monitor\.com)$
+eb.us-west-2.prd.davinci.system-monitor.com,N-able N-central,eb.us-west-2.prd.davinci.system-monitor.com,^(?:eb\.us-west-2\.prd\.davinci\.system-monitor\.com)$
 ehorus.com,eHorus,ehorus.com,^(?:ehorus\.com)$
 electric.ai,Electric AI (Kaseya),electric.ai,^(?:electric\.ai)$
 emcosoftware.com,EMCO Remote Console,emcosoftware.com,^(?:emcosoftware\.com)$
@@ -218,6 +233,7 @@ fastsupport.com,GoToAssist,*.fastsupport.com,^(?:.*\.fastsupport\.com)$
 fastviewer.com,FastViewer,*.fastviewer.com,^(?:.*\.fastviewer\.com)$
 fastviewer.com,FastViewer,fastviewer.com,^(?:fastviewer\.com)$
 fdcollab.com,Freshservice,*.fdcollab.com,^(?:.*\.fdcollab\.com)$
+feeds.n-able.com,N-able N-central,feeds.n-able.com,^(?:feeds\.n-able\.com)$
 fixme.it,FixMe.it,*.fixme.it,^(?:.*\.fixme\.it)$
 fixme.it,FixMe.it,fixme.it,^(?:fixme\.it)$
 fleetdeck.io,FleetDeck.io,*.fleetdeck.io,^(?:.*\.fleetdeck\.io)$
@@ -270,6 +286,7 @@ grtmprod.addigy.com,Addigy,grtmprod.addigy.com,^(?:grtmprod\.addigy\.com)$
 guacamole.apache.org,Guacamole,guacamole.apache.org,^(?:guacamole\.apache\.org)$
 gw.remotix.com,Acronis Cyber Protect (Remotix),gw.remotix.com,^(?:gw\.remotix\.com)$
 gw.usw.gorelo.tech,Gorelo RMM,gw.usw.gorelo.tech,^(?:gw\.usw\.gorelo\.tech)$
+h2.cftunnel.com,CloudFlare Tunnel,h2.cftunnel.com,^(?:h2\.cftunnel\.com)$
 heartbeatrm.com,HeartbeatRM,*.heartbeatrm.com,^(?:.*\.heartbeatrm\.com)$
 heartbeatrm.com,HeartbeatRM,heartbeatrm.com,^(?:heartbeatrm\.com)$
 help.invgate.com,InvGate,help.invgate.com,^(?:help\.invgate\.com)$
@@ -401,6 +418,7 @@ n-able.com,N-Able Advanced Monitoring Agent,*.n-able.com,^(?:.*\.n-able\.com)$
 n-able.com,N-Able Advanced Monitoring Agent,n-able.com,^(?:n-able\.com)$
 naverisk.com,Naverisk,naverisk.com,^(?:naverisk\.com)$
 nchuser.com,DesktopNow,*.nchuser.com,^(?:.*\.nchuser\.com)$
+net.anydesk.com,AnyDesk,*.net.anydesk.com,^(?:.*\.net\.anydesk\.com)$
 net.au,Site24x7,plus*.site24x7.net.au,^(?:plus.*\.site24x7\.net\.au)$
 netbird.io,NetBird,*.netbird.io,^(?:.*\.netbird\.io)$
 netbird.io,NetBird,netbird.io,^(?:netbird\.io)$
@@ -414,7 +432,17 @@ netviewer.com,Netviewer (GoToMeet),netviewer.com,^(?:netviewer\.com)$
 networkservice.cyou,TrustConnect,networkservice.cyou,^(?:networkservice\.cyou)$
 nezha.wiki,Nezha,nezha.wiki,^(?:nezha\.wiki)$
 nezhahq.github.io,Nezha,nezhahq.github.io,^(?:nezhahq\.github\.io)$
+ngrok-free.app,Overlord,*.ngrok-free.app,^(?:.*\.ngrok-free\.app)$
+ngrok-free.app,ngrok,*.ngrok-free.app,^(?:.*\.ngrok-free\.app)$
+ngrok.app,Overlord,*.ngrok.app,^(?:.*\.ngrok\.app)$
+ngrok.app,ngrok,*.ngrok.app,^(?:.*\.ngrok\.app)$
+ngrok.com,Overlord,*.ngrok.com,^(?:.*\.ngrok\.com)$
 ngrok.com,ngrok,ngrok.com,^(?:ngrok\.com)$
+ngrok.dev,ngrok,*.ngrok.dev,^(?:.*\.ngrok\.dev)$
+ngrok.io,Overlord,*.ngrok.io,^(?:.*\.ngrok\.io)$
+ngrok.io,ngrok,*.ngrok.io,^(?:.*\.ngrok\.io)$
+ngrok.pizza,ngrok,*.ngrok.pizza,^(?:.*\.ngrok\.pizza)$
+ngrok.pro,ngrok,*.ngrok.pro,^(?:.*\.ngrok\.pro)$
 nightly.glpi-project.org,GLPI Agent,nightly.glpi-project.org,^(?:nightly\.glpi-project\.org)$
 ninite.com,Ninite Pro (Ninite Agent),*.ninite.com,^(?:.*\.ninite\.com)$
 ninite.com,Ninite Pro (Ninite Agent),ninite.com,^(?:ninite\.com)$
@@ -437,6 +465,7 @@ opsbridge.digital,OpsBridge Agent,opsbridge.digital,^(?:opsbridge\.digital)$
 opti-tune.com,OptiTune,*.opti-tune.com,^(?:.*\.opti-tune\.com)$
 optitune.us,OptiTune,*.optitune.us,^(?:.*\.optitune\.us)$
 packagesstore.blob.core.windows.net,Atera,packagesstore.blob.core.windows.net,^(?:packagesstore\.blob\.core\.windows\.net)$
+pandoramods.top,Overlord,pandoramods.top,^(?:pandoramods\.top)$
 panorama9.com,Panorama9,panorama9.com,^(?:panorama9\.com)$
 parallels.com,Parallels Access,*.parallels.com,^(?:.*\.parallels\.com)$
 parsec.app,Parsec,*.parsec.app,^(?:.*\.parsec\.app)$
@@ -450,20 +479,25 @@ pitunnel.com,PiTunnel,*.pitunnel.com,^(?:.*\.pitunnel\.com)$
 pitunnel.com,PiTunnel,pitunnel.com,^(?:pitunnel\.com)$
 pkgs.netbird.io,NetBird,pkgs.netbird.io,^(?:pkgs\.netbird\.io)$
 portal.ehorus.com,Pandora RC (eHorus),portal.ehorus.com,^(?:portal\.ehorus\.com)$
+prd.cdo.system-monitor.com,N-able N-central,*.prd.cdo.system-monitor.com,^(?:.*\.prd\.cdo\.system-monitor\.com)$
 prod.addigy.com,Addigy,prod.addigy.com,^(?:prod\.addigy\.com)$
 ps.atera.com,Atera,ps.atera.com,^(?:ps\.atera\.com)$
 public.rmm.pod1.usw.gorelo.tech,Gorelo RMM,public.rmm.pod1.usw.gorelo.tech,^(?:public\.rmm\.pod1\.usw\.gorelo\.tech)$
 pubsub.atera.com,Atera,pubsub.atera.com,^(?:pubsub\.atera\.com)$
 pulseway.com,Pulseway,pulseway.com,^(?:pulseway\.com)$
 qq-messenger.en.softonic.com,QQ IM-remote assistance,qq-messenger.en.softonic.com,^(?:qq-messenger\.en\.softonic\.com)$
+quic.cftunnel.com,CloudFlare Tunnel,quic.cftunnel.com,^(?:quic\.cftunnel\.com)$
 r1.rmm.uw.gorelo.tech,Gorelo RMM,r1.rmm.uw.gorelo.tech,^(?:r1\.rmm\.uw\.gorelo\.tech)$
 radmin.com,RAdmin,radmin.com,^(?:radmin\.com)$
 rdp.duetdisplay.com,Duet Display,rdp.duetdisplay.com,^(?:rdp\.duetdisplay\.com)$
 real-time-collaboration.com,Mikogo,*.real-time-collaboration.com,^(?:.*\.real-time-collaboration\.com)$
+region1.v2.argotunnel.com,CloudFlare Tunnel,region1.v2.argotunnel.com,^(?:region1\.v2\.argotunnel\.com)$
+region2.v2.argotunnel.com,CloudFlare Tunnel,region2.v2.argotunnel.com,^(?:region2\.v2\.argotunnel\.com)$
 rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,*.rel.tunnels.api.visualstudio.com,^(?:.*\.rel\.tunnels\.api\.visualstudio\.com)$
 relay.netbird.io,NetBird,relay.netbird.io,^(?:relay\.netbird\.io)$
 relay.splashtop.com,Splashtop Remote,*.relay.splashtop.com,^(?:.*\.relay\.splashtop\.com)$
 releases.invgate.com,InvGate,releases.invgate.com,^(?:releases\.invgate\.com)$
+releases.n-able.com,N-able N-central,releases.n-able.com,^(?:releases\.n-able\.com)$
 remmon.hu,Remmon,*.remmon.hu,^(?:.*\.remmon\.hu)$
 remmon.hu,Remmon,remmon.hu,^(?:remmon\.hu)$
 remobo.en.softonic.com,Remobo,remobo.en.softonic.com,^(?:remobo\.en\.softonic\.com)$
@@ -516,7 +550,9 @@ rudesktop.ru,RuDesktop,rudesktop.ru,^(?:rudesktop\.ru)$
 runsmart.io,RunSmart,runsmart.io,^(?:runsmart\.io)$
 rustdesk.com,RustDesk,rustdesk.com,^(?:rustdesk\.com)$
 rview.com,RemoteView,*.rview.com,^(?:.*\.rview\.com)$
+savaliyapriyal874-code.github.io,Overlord,savaliyapriyal874-code.github.io,^(?:savaliyapriyal874-code\.github\.io)$
 screenconnect.com,ScreenConnect,*.screenconnect.com,^(?:.*\.screenconnect\.com)$
+screenconnect.com,ScreenConnect,instance-*-relay.screenconnect.com,^(?:instance-.*-relay\.screenconnect\.com)$
 screenmeet.com,ScreenMeet,*.screenmeet.com,^(?:.*\.screenmeet\.com)$
 scrn.mt,ScreenMeet,*.scrn.mt,^(?:.*\.scrn\.mt)$
 search.namequery.com,Absolute (Computrace),*.search.namequery.com,^(?:.*\.search\.namequery\.com)$
@@ -544,6 +580,7 @@ signal.netbird.io,NetBird,signal.netbird.io,^(?:signal\.netbird\.io)$
 signalserver.xyz,Distant Desktop,*.signalserver.xyz,^(?:.*\.signalserver\.xyz)$
 signalserver.xyz,Distant Desktop,signalserver.xyz,^(?:signalserver\.xyz)$
 simple-help.com,SimpleHelp,simple-help.com,^(?:simple-help\.com)$
+sis.n-able.com,N-able N-central,sis.n-able.com,^(?:sis\.n-able\.com)$
 site24x7.cn,Site24x7,plus*.site24x7.cn,^(?:plus.*\.site24x7\.cn)$
 site24x7.com,Site24x7,plus*.site24x7.com,^(?:plus.*\.site24x7\.com)$
 site24x7.eu,Site24x7,plus*.site24x7.eu,^(?:plus.*\.site24x7\.eu)$
@@ -579,6 +616,7 @@ support.faronics.com,Faronics Insight,support.faronics.com,^(?:support\.faronics
 support.services.microsoft.com,Microsoft Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
 support.services.microsoft.com,Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
 supremocontrol.com,Supremo,*.supremocontrol.com,^(?:.*\.supremocontrol\.com)$
+swi-rc.cdn-sw.net,N-able N-central,swi-rc.cdn-sw.net,^(?:swi-rc\.cdn-sw\.net)$
 swi-tc.com,N-Able Advanced Monitoring Agent,*.swi-tc.com,^(?:.*\.swi-tc\.com)$
 syncroapi.com,Syncro,*.syncroapi.com,^(?:.*\.syncroapi\.com)$
 syncromsp.com,Syncro,*.syncromsp.com,^(?:.*\.syncromsp\.com)$
@@ -618,6 +656,7 @@ trust-access.invgate.com,InvGate,trust-access.invgate.com,^(?:trust-access\.invg
 trust.invgate.com,InvGate,trust.invgate.com,^(?:trust\.invgate\.com)$
 trustconnectsoftware.com,TrustConnect,trustconnectsoftware.com,^(?:trustconnectsoftware\.com)$
 trusted.panorama9.com,Panorama9,trusted.panorama9.com,^(?:trusted\.panorama9\.com)$
+trycloudflare.com,CloudFlare Tunnel,*.trycloudflare.com,^(?:.*\.trycloudflare\.com)$
 turn.hoptodesk.com,HopToDesk,turn.hoptodesk.com,^(?:turn\.hoptodesk\.com)$
 turn.monitic.com,Monitic,turn.monitic.com,^(?:turn\.monitic\.com)$
 ultraviewer.net,UltraViewer,*.ultraviewer.net,^(?:.*\.ultraviewer\.net)$
@@ -626,10 +665,32 @@ ultravnc.com,UltraVNC,ultravnc.com,^(?:ultravnc\.com)$
 upd.faronicslabs.com,Faronics Core,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
 upd.faronicslabs.com,Faronics Deep Freeze,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
 upd.faronicslabs.com,Faronics Deploy,upd.faronicslabs.com,^(?:upd\.faronicslabs\.com)$
+update.argotunnel.com,CloudFlare Tunnel,update.argotunnel.com,^(?:update\.argotunnel\.com)$
+update.n-able.com,N-able N-central,update.n-able.com,^(?:update\.n-able\.com)$
 upload_data.qq.com,QQ IM-remote assistance,upload_data.qq.com,^(?:upload_data\.qq\.com)$
+us-region1.v2.argotunnel.com,CloudFlare Tunnel,us-region1.v2.argotunnel.com,^(?:us-region1\.v2\.argotunnel\.com)$
+us-region2.v2.argotunnel.com,CloudFlare Tunnel,us-region2.v2.argotunnel.com,^(?:us-region2\.v2\.argotunnel\.com)$
 us.2breeze.app,BreezeRMM,us.2breeze.app,^(?:us\.2breeze\.app)$
 usage.teleport.dev,Teleport Connect,usage.teleport.dev,^(?:usage\.teleport\.dev)$
 vector-networks.com,VIZOR,vector-networks.com,^(?:vector-networks\.com)$
+vicarius-ap-southeast-3-installer.s3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-installer.s3.amazonaws.com,^(?:vicarius-ap-southeast-3-installer\.s3\.amazonaws\.com)$
+vicarius-ap-southeast-3-installer.s3.ap-southeast-3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-installer.s3.ap-southeast-3.amazonaws.com,^(?:vicarius-ap-southeast-3-installer\.s3\.ap-southeast-3\.amazonaws\.com)$
+vicarius-ap-southeast-3-patches.s3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-patches.s3.amazonaws.com,^(?:vicarius-ap-southeast-3-patches\.s3\.amazonaws\.com)$
+vicarius-ap-southeast-3-patches.s3.ap-southeast-3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-patches.s3.ap-southeast-3.amazonaws.com,^(?:vicarius-ap-southeast-3-patches\.s3\.ap-southeast-3\.amazonaws\.com)$
+vicarius-ap-southeast-3-release.s3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-release.s3.amazonaws.com,^(?:vicarius-ap-southeast-3-release\.s3\.amazonaws\.com)$
+vicarius-ap-southeast-3-release.s3.ap-southeast-3.amazonaws.com,Vicarius vRx,vicarius-ap-southeast-3-release.s3.ap-southeast-3.amazonaws.com,^(?:vicarius-ap-southeast-3-release\.s3\.ap-southeast-3\.amazonaws\.com)$
+vicarius-eu-central-1-installer.s3.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-installer.s3.amazonaws.com,^(?:vicarius-eu-central-1-installer\.s3\.amazonaws\.com)$
+vicarius-eu-central-1-installer.s3.eu-central-1.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-installer.s3.eu-central-1.amazonaws.com,^(?:vicarius-eu-central-1-installer\.s3\.eu-central-1\.amazonaws\.com)$
+vicarius-eu-central-1-patches.s3.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-patches.s3.amazonaws.com,^(?:vicarius-eu-central-1-patches\.s3\.amazonaws\.com)$
+vicarius-eu-central-1-patches.s3.eu-central-1.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-patches.s3.eu-central-1.amazonaws.com,^(?:vicarius-eu-central-1-patches\.s3\.eu-central-1\.amazonaws\.com)$
+vicarius-eu-central-1-release.s3.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-release.s3.amazonaws.com,^(?:vicarius-eu-central-1-release\.s3\.amazonaws\.com)$
+vicarius-eu-central-1-release.s3.eu-central-1.amazonaws.com,Vicarius vRx,vicarius-eu-central-1-release.s3.eu-central-1.amazonaws.com,^(?:vicarius-eu-central-1-release\.s3\.eu-central-1\.amazonaws\.com)$
+vicarius-installer.s3.amazonaws.com,Vicarius vRx,vicarius-installer.s3.amazonaws.com,^(?:vicarius-installer\.s3\.amazonaws\.com)$
+vicarius-patches.s3.amazonaws.com,Vicarius vRx,vicarius-patches.s3.amazonaws.com,^(?:vicarius-patches\.s3\.amazonaws\.com)$
+vicarius-release.s3.amazonaws.com,Vicarius vRx,vicarius-release.s3.amazonaws.com,^(?:vicarius-release\.s3\.amazonaws\.com)$
+vicarius-release.s3.us-east-1.amazonaws.com,Vicarius vRx,vicarius-release.s3.us-east-1.amazonaws.com,^(?:vicarius-release\.s3\.us-east-1\.amazonaws\.com)$
+vicarius-static-organizationinstallations.vicarius-cdn.com,Vicarius vRx,vicarius-static-organizationinstallations.vicarius-cdn.com,^(?:vicarius-static-organizationinstallations\.vicarius-cdn\.com)$
+vicarius.cloud,Vicarius vRx,*.vicarius.cloud,^(?:.*\.vicarius\.cloud)$
 vizor.cloud,VIZOR,vizor.cloud,^(?:vizor\.cloud)$
 wangwang.taobao.com,AliWangWang-remote-control,wangwang.taobao.com,^(?:wangwang\.taobao\.com)$
 web-16fe.app,NetBird,web-16fe.app,^(?:web-16fe\.app)$
