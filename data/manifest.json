@@ -2,7 +2,7 @@
   "driver_addition_rows": 7,
   "driver_hash_rows": 2205,
   "driver_upstream_rows": 2198,
-  "drivers_sha256": "90931370bb4c7c701e76b4e78d82cd900ebc476206b1760e3e3e8f7a2e53c79e",
+  "drivers_sha256": "e52956f2848fca4120b70075c839094b685e63cb9bc9e9b1be38505971132378",
   "drivers_url": "https://www.loldrivers.io/api/drivers.json",
   "loldrivers_csv_sha256": "fdac7868798c89a41d537a4c1018c773c2976113b9324745b8a4b2d36a5a9cd8",
   "lolrmm_csv_sha256": "1dd4778ddb323055c1f8f875c92e6e124b68a7b36637c074cead4372bc6a8eb6",
