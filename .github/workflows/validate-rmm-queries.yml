@@ -15,6 +15,8 @@ on:
       - 'data/rmm_tool_profiles.csv'
       - 'scripts/tests/**'
       - 'scripts/rmm_native_queries.py'
+      - 'scripts/rmm_discovery.py'
+      - 'data/rmm_discovery*'
       - 'scripts/rmm_reference_data.py'
       - 'scripts/tenant_credentials.py'
       - 'scripts/sync_rmm_references.py'
@@ -37,6 +39,8 @@ on:
       - 'data/rmm_tool_profiles.csv'
       - 'scripts/tests/**'
       - 'scripts/rmm_native_queries.py'
+      - 'scripts/rmm_discovery.py'
+      - 'data/rmm_discovery*'
       - 'scripts/rmm_reference_data.py'
       - 'scripts/tenant_credentials.py'
       - 'scripts/sync_rmm_references.py'
@@ -62,6 +66,7 @@ jobs:
           python -m pip install -r requirements-rmm.txt
           python scripts/rmm_identity.py --check
           python scripts/rmm_reference_data.py --check
+          python scripts/rmm_discovery.py --check
           python scripts/build_rmm_queries.py --check
       - name: Check report scope and certificate evidence boundaries
         run: python -m unittest discover -s scripts/tests -p 'test_*.py' -v

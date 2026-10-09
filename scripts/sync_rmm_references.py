@@ -13,7 +13,7 @@ import rmm_reference_data as ref
 import rmm_report_rules as rr
 import tenant_credentials as creds
 
-SPECS={key:api.DatasetSpec(name,name+'.csv',ref.PROFILE_FIELDS if key=='profiles' else ref.POLICY_FIELDS,('row_id',),'','')
+SPECS={key:api.DatasetSpec(name,name+'.csv',ref.fields(key),('row_id',),'','')
        for key,name in ref.REFERENCE_NAMES.items()}
 DOMAIN_SPEC=api.DatasetSpec('lolrmm_domains','lolrmm_domains.csv',('domain','rmm_tool','pattern','regex'),('pattern','rmm_tool'),'','')
 
@@ -31,7 +31,7 @@ def published_references():
     if not re.fullmatch(r'[a-f0-9]{40}',commit):raise ValueError('Invalid published source revision')
     base='https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/'+commit+'/data/'
     result={'commit':commit}
-    for kind in ('profiles','general'):
+    for kind in ('profiles','discovery','general'):
         spec=SPECS[kind];reader=csv.DictReader(io.StringIO(get(base+spec.filename).decode('utf-8-sig')))
         if tuple(reader.fieldnames or ())!=spec.fields:raise ValueError('Published reference schema mismatch')
         rows=list(reader);ref.validate(rows,spec.fields);result[kind]=rows
@@ -129,7 +129,8 @@ def inventory(client):
 def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=None):
     client=api.CortexClient(tenant,90);existing=inventory(client)
     result={'tenant':tenant.name,'existing_lookups':sorted(n for n,k in existing.items() if k=='lookup'),'references':{}}
-    desired={k:published[k] if published else rows for k,rows in [('profiles',ref.profiles()),('general',ref.policy_rows())]}
+    import rmm_discovery
+    desired={k:published[k] if published else rows for k,rows in [('profiles',ref.profiles()),('discovery',rmm_discovery.rows()),('general',ref.policy_rows())]}
     if published:result['source_commit']=published['commit']
     config=customer_config(tenant.name,customer_dir or ref.ROOT/'config/rmm_customers')
     import rmm_native_queries as native

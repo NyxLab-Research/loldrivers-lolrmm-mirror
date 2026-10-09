@@ -14,7 +14,12 @@ PROFILE_FIELDS = ('row_id','record_type','release','tool_id','tool_name','proces
 POLICY_FIELDS = ('row_id','record_type','release','rule_id','rule_kind','rule_target','group_id',
                  'condition_id','condition_count','anchor_key','field_name','operator','value','regex_key',
                  'expires_at','expected_rows','release_digest')
-REFERENCE_NAMES = {'profiles':'rmm_tool_profiles_v2','general':'rmm_general_rules','customer':'rmm_customer_rules'}
+DISCOVERY_FIELDS=('row_id','record_type','release','tool_id','tool_name','software_role',
+                  'anchor_key','pattern','domain','expected_rows','release_digest')
+REFERENCE_NAMES = {'profiles':'rmm_tool_profiles_v2','discovery':'rmm_discovery_indicators',
+                   'general':'rmm_general_rules','customer':'rmm_customer_rules'}
+
+def fields(kind):return PROFILE_FIELDS if kind=='profiles' else DISCOVERY_FIELDS if kind=='discovery' else POLICY_FIELDS
 
 def seal(records, fields, release=RELEASE):
     if not re.fullmatch(r'[0-9]{6}', release): raise ValueError('Invalid reference release')

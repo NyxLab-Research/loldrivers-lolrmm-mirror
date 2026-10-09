@@ -20,9 +20,12 @@ jobs:
         run: python scripts/sync_sources.py --output-dir data
       - name: Refresh identity proposals without changing approved profiles
         run: python scripts/rmm_identity.py --check --refresh-proposals
+      - name: Refresh candidate discovery indicators without granting signer trust
+        run: python scripts/rmm_discovery.py --refresh
       - name: Validate source and query contracts
         run: |
           python scripts/rmm_reference_data.py --check
+          python scripts/rmm_discovery.py --check
           python scripts/build_rmm_queries.py --check
           python -m unittest discover -s scripts/tests -v
       - name: Commit changes
@@ -30,7 +33,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/*.csv data/manifest.json data/rmm_profile_candidates*.json
+          git add data/*.csv data/manifest.json data/rmm_profile_candidates*.json data/rmm_discovery_source.json
           if git diff --cached --quiet; then
             echo 'No upstream changes.'
           else
