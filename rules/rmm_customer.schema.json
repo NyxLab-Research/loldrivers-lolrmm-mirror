@@ -1,0 +1,509 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Private RMM customer whitelist",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "customer_id"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "customer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disabled_default_rules": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "retain_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "enabled",
+          "reason",
+          "target"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,79}$"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "const": "activity"
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "conditions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "field",
+                "operator"
+              ],
+              "properties": {
+                "field": {
+                  "enum": [
+                    "device_id",
+                    "device_name",
+                    "process_name",
+                    "process_path",
+                    "sha1",
+                    "sha256",
+                    "signer",
+                    "signature_valid",
+                    "remote_host",
+                    "matched_domain",
+                    "rmm_tool"
+                  ]
+                },
+                "operator": {
+                  "enum": [
+                    "equals",
+                    "exact",
+                    "in",
+                    "domain_suffix",
+                    "path_prefix",
+                    "glob"
+                  ]
+                },
+                "value": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "values": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "value"
+                  ],
+                  "properties": {
+                    "operator": {
+                      "not": {
+                        "const": "in"
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "values"
+                  ],
+                  "properties": {
+                    "operator": {
+                      "const": "in"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "alternatives": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "operator"
+                ],
+                "properties": {
+                  "field": {
+                    "enum": [
+                      "device_id",
+                      "device_name",
+                      "process_name",
+                      "process_path",
+                      "sha1",
+                      "sha256",
+                      "signer",
+                      "signature_valid",
+                      "remote_host",
+                      "matched_domain",
+                      "rmm_tool"
+                    ]
+                  },
+                  "operator": {
+                    "enum": [
+                      "equals",
+                      "exact",
+                      "in",
+                      "domain_suffix",
+                      "path_prefix",
+                      "glob"
+                    ]
+                  },
+                  "value": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "value"
+                    ],
+                    "properties": {
+                      "operator": {
+                        "not": {
+                          "const": "in"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "values"
+                    ],
+                    "properties": {
+                      "operator": {
+                        "const": "in"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "conditions"
+            ],
+            "not": {
+              "required": [
+                "alternatives"
+              ]
+            }
+          },
+          {
+            "required": [
+              "alternatives"
+            ],
+            "not": {
+              "required": [
+                "conditions"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "whitelist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "enabled",
+          "reason",
+          "target"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,79}$"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "enum": [
+              "activity",
+              "association"
+            ]
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "conditions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "field",
+                "operator"
+              ],
+              "properties": {
+                "field": {
+                  "enum": [
+                    "device_id",
+                    "device_name",
+                    "process_name",
+                    "process_path",
+                    "sha1",
+                    "sha256",
+                    "signer",
+                    "signature_valid",
+                    "remote_host",
+                    "matched_domain",
+                    "rmm_tool"
+                  ]
+                },
+                "operator": {
+                  "enum": [
+                    "equals",
+                    "exact",
+                    "in",
+                    "domain_suffix",
+                    "path_prefix",
+                    "glob"
+                  ]
+                },
+                "value": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "values": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "value"
+                  ],
+                  "properties": {
+                    "operator": {
+                      "not": {
+                        "const": "in"
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "values"
+                  ],
+                  "properties": {
+                    "operator": {
+                      "const": "in"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "alternatives": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "operator"
+                ],
+                "properties": {
+                  "field": {
+                    "enum": [
+                      "device_id",
+                      "device_name",
+                      "process_name",
+                      "process_path",
+                      "sha1",
+                      "sha256",
+                      "signer",
+                      "signature_valid",
+                      "remote_host",
+                      "matched_domain",
+                      "rmm_tool"
+                    ]
+                  },
+                  "operator": {
+                    "enum": [
+                      "equals",
+                      "exact",
+                      "in",
+                      "domain_suffix",
+                      "path_prefix",
+                      "glob"
+                    ]
+                  },
+                  "value": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "value"
+                    ],
+                    "properties": {
+                      "operator": {
+                        "not": {
+                          "const": "in"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "values"
+                    ],
+                    "properties": {
+                      "operator": {
+                        "const": "in"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "conditions"
+            ],
+            "not": {
+              "required": [
+                "alternatives"
+              ]
+            }
+          },
+          {
+            "required": [
+              "alternatives"
+            ],
+            "not": {
+              "required": [
+                "conditions"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

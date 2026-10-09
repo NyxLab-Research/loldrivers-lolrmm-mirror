@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "rule_version": "1.0.0",
+  "rules": [
+    {
+      "id": "rpt-browser-standard",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Standard browser process: outside the RMM report scope",
+      "alternatives": [
+        [
+          {
+            "field": "process_name",
+            "operator": "equals",
+            "value": "chrome.exe"
+          },
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*google\\\\(?:[^\\\\]+\\\\)*chrome[.]exe$"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "google (?:llc|inc)"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "equals",
+            "value": "msedge.exe"
+          },
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*microsoft\\\\edge\\\\(?:[^\\\\]+\\\\)*msedge[.]exe$"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "microsoft corporation"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "equals",
+            "value": "firefox.exe"
+          },
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*mozilla firefox\\\\(?:[^\\\\]+\\\\)*firefox[.]exe$"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "mozilla corporation"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "equals",
+            "value": "vivaldi.exe"
+          },
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*vivaldi\\\\(?:[^\\\\]+\\\\)*vivaldi[.]exe$"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "vivaldi technologies"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "equals",
+            "value": "qqbrowser.exe"
+          },
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*tencent\\\\qqbrowser\\\\(?:[^\\\\]+\\\\)*qqbrowser[.]exe$"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "tencent technology"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "rpt-sogou-input-mdt",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Identified Sogou input component connecting to a shared telemetry domain",
+      "conditions": [
+        {
+          "field": "process_name",
+          "operator": "in",
+          "values": [
+            "biz_helper.exe",
+            "sgbizlauncher.exe",
+            "pinyinup.exe",
+            "sgtool.exe",
+            "sgsmartassistant.exe",
+            "sogouexe.exe",
+            "sogoucloud.exe",
+            "sogousmartassistant.exe",
+            "biz_aurfx.exe",
+            "sgmyinput.exe",
+            "sgwangzai.exe",
+            "usernetschedule.exe",
+            "crashrpt.exe",
+            "biz_tool.exe",
+            "sgpicfacetool.exe",
+            "wubiup.exe",
+            "imeutil.exe",
+            "wbcrashrpt.exe"
+          ]
+        },
+        {
+          "field": "process_path",
+          "operator": "regex",
+          "value": "^[a-z]:\\\\(?:[^\\\\]+\\\\)*(?:sogouinput|sogouwbinput)\\\\"
+        },
+        {
+          "field": "signature_valid",
+          "operator": "equals",
+          "value": true
+        },
+        {
+          "field": "signer",
+          "operator": "regex",
+          "value": "(?:beijing sogou|tencent technology)"
+        },
+        {
+          "field": "remote_host",
+          "operator": "exact",
+          "value": "oth.eve.mdt.qq.com"
+        }
+      ]
+    },
+    {
+      "id": "rpt-manageengine-endpointcentral",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Endpoint Central / Desktop Central excluded by report scope; remote capability is not disproven",
+      "alternatives": [
+        [
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^[a-z]:\\\\program files(?: \\(x86\\))?\\\\(?:manageengine\\\\uems_agent|desktopcentral_agent)\\\\"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "zoho corporation"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "regex",
+            "value": "^/Library/(?:ManageEngine/UEMS_Agent|Desktopcentral_Agent)/"
+          },
+          {
+            "field": "signature_valid",
+            "operator": "equals",
+            "value": true
+          },
+          {
+            "field": "signer",
+            "operator": "regex",
+            "value": "developer id application: zoho corporation"
+          }
+        ]
+      ]
+    }
+  ]
+}

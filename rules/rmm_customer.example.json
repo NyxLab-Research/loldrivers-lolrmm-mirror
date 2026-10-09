@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "customer_id": "customer-example",
+  "disabled_default_rules": [],
+  "retain_rules": [],
+  "whitelist": []
+}
