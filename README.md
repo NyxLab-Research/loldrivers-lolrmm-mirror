@@ -70,6 +70,10 @@ required. Cortex settings share one first stage, for example
 and supply a matching explicit API timeframe of one hour. Poll/download an
 existing query ID rather than submit it again. Fetch a stream when results
 exceed 1,000 rows.
+For API exports, normalize timestamps and numeric strings, treat omitted null
+fields as unknown, and sort the full downloaded result by `last_seen` locally.
+Native checks observed non-monotonic timestamp order in large audit/baseline
+API responses even with the query's final `sort` stage; the cause is unconfirmed.
 
 ```console
 python scripts/build_rmm_queries.py --platform cortex --timeframe 1h --output-dir output/rmm/test
