@@ -32,23 +32,44 @@ let Network = materialize(
               InitiatingProcessId, InitiatingProcessVersionInfoCompanyName,
               InitiatingProcessVersionInfoProductName
 );
-let FileKeys = Network | where isnotempty(InitiatingProcessSHA1) | distinct DeviceId, SHA1=InitiatingProcessSHA1;
-let Certificates = FileKeys
+let CandidateHashes = Network
+    | where InitiatingProcessSHA1 matches regex @"^[a-fA-F0-9]{40}$"
+    | distinct SHA1=tolower(InitiatingProcessSHA1);
+let CertificateObservations = materialize(CandidateHashes
     | join kind=inner hint.strategy=broadcast (
         DeviceFileCertificateInfo
         | where Timestamp between (CertificateStart .. ReportEnd)
-        | project Timestamp, DeviceId, SHA1, IsSigned, IsTrusted, Signer
-    ) on DeviceId, SHA1
+        | project Timestamp, DeviceId, SHA1=tolower(SHA1), IsSigned, IsTrusted, Signer
+    ) on SHA1
+    | project Timestamp, DeviceId, SHA1, IsSigned, IsTrusted, Signer);
+let Certificates = CertificateObservations
     | summarize arg_max(Timestamp, IsSigned, IsTrusted, Signer) by DeviceId, SHA1
-    | project DeviceId, InitiatingProcessSHA1=SHA1, CertificateObservedAt=Timestamp, IsSigned, IsTrusted, Signer;
+    | project DeviceId, RuleSHA1=SHA1, CertificateObservedAt=Timestamp, IsSigned, IsTrusted, Signer;
+let HashEvidence = CertificateObservations
+    | summarize HashBad=countif(IsSigned == false or IsTrusted == false),
+                HashUnknown=countif(isnull(IsSigned) or isnull(IsTrusted) or isempty(trim(@"\s+", Signer))),
+                HashPublishers=make_set(tolower(Signer)), arg_max(Timestamp, Signer, DeviceId) by SHA1
+    | extend HashEvidenceValid=HashBad == 0 and HashUnknown == 0 and array_length(HashPublishers) == 1,
+             HashEvidenceConflict=HashBad > 0 or array_length(HashPublishers) > 1
+    | project RuleSHA1=SHA1, HashEvidenceValid, HashEvidenceConflict,
+              HashEvidenceSigner=Signer, HashEvidenceDeviceId=DeviceId, HashEvidenceTime=Timestamp;
 let Activities = Network
-    | join kind=leftouter Certificates on DeviceId, InitiatingProcessSHA1
-    | extend RuleName=tolower(InitiatingProcessFileName),
+    | extend RuleSHA1=tolower(InitiatingProcessSHA1)
+    | join kind=leftouter Certificates on DeviceId, RuleSHA1
+    | join kind=leftouter HashEvidence on RuleSHA1
+    | extend RuleName=tolower(coalesce(InitiatingProcessFileName, "")),
              RulePath=iff(InitiatingProcessFolderPath matches regex @"^[A-Za-z]:[\\/]", tolower(replace_string(InitiatingProcessFolderPath, "/", "\\")), InitiatingProcessFolderPath),
              RuleSigner=tolower(Signer), RuleDeviceName=tolower(DeviceName),
-             RuleSHA1=tolower(InitiatingProcessSHA1), RuleSHA256=tolower(InitiatingProcessSHA256),
+             RuleSHA256=tolower(InitiatingProcessSHA256),
              SignatureValid=iff(isnull(IsSigned) or isnull(IsTrusted), bool(null), IsSigned and IsTrusted)
+    | extend UseHashEvidence={{MDE_HASH_SIGNATURE_FALLBACK}} and isnull(CertificateObservedAt) and HashEvidenceValid == true
+    | extend RuleEvidenceSigner=iff(UseHashEvidence, tolower(HashEvidenceSigner), RuleSigner),
+             RuleEvidenceValid=iff(UseHashEvidence, true, SignatureValid),
+             SignatureEvidenceSource=case(isnotnull(CertificateObservedAt), "device_sha1", UseHashEvidence, "tenant_sha1", "missing"),
+             SignatureEvidenceDeviceId=iff(UseHashEvidence, HashEvidenceDeviceId, iff(isnotnull(CertificateObservedAt), DeviceId, "")),
+             SignatureEvidenceTime=iff(UseHashEvidence, HashEvidenceTime, CertificateObservedAt)
 {{ACTIVITY_DECISIONS}}
+{{REVIEW_CATEGORY}}
 {{ACTIVITY_FILTER}}
     | summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), EventCount=count(),
                 DeviceNames=make_set(DeviceName), RemoteURLs=make_set(RemoteUrl),
@@ -58,9 +79,12 @@ let Activities = Network
                 CommandLines=make_set(InitiatingProcessCommandLine), ParentNames=make_set(InitiatingProcessParentFileName),
                 ParentIds=make_set(InitiatingProcessParentId), ProcessIds=make_set(InitiatingProcessId),
                 Signers=make_set(Signer), SignedStates=make_set(IsSigned), TrustedStates=make_set(IsTrusted),
-                CertificateTimes=make_set(CertificateObservedAt)
+                CertificateTimes=make_set(CertificateObservedAt),
+                ExclusionSigners=make_set(RuleEvidenceSigner), ExclusionSignatureStates=make_set(RuleEvidenceValid),
+                SignatureEvidenceSources=make_set(SignatureEvidenceSource), SignatureEvidenceDeviceIds=make_set(SignatureEvidenceDeviceId),
+                SignatureEvidenceTimes=make_set(SignatureEvidenceTime), HashEvidenceConflicts=make_set(HashEvidenceConflict)
       by DeviceId, RemoteHost, InitiatingProcessFileName, InitiatingProcessFolderPath,
-         InitiatingProcessSHA1, InitiatingProcessSHA256, ActivityDecision, DefaultRuleIds, RetainRuleIds, CustomerActivityRuleIds
+         InitiatingProcessSHA1, InitiatingProcessSHA256, ReviewCategory, ActivityDecision, DefaultRuleIds, RetainRuleIds, CustomerActivityRuleIds
     | extend Labels=split(RemoteHost, ".")
     | mv-expand LabelIndex=range(0, array_length(Labels)-1, 1) to typeof(long)
     | extend Domain=strcat_array(array_slice(Labels, LabelIndex, -1), ".")
@@ -73,13 +97,20 @@ RMMRows
             CustomerAssociationRuleIds=make_set(CustomerAssociationRuleIds),
             take_any(FirstSeen, LastSeen, EventCount, DeviceNames, RemoteURLs, RemoteIPs, RemotePorts, LocalIPs,
                      AccountNames, AccountDomains, CompanyNames, ProductNames, CommandLines, ParentNames,
-                     ParentIds, ProcessIds, Signers, SignedStates, TrustedStates, CertificateTimes)
+                     ParentIds, ProcessIds, Signers, SignedStates, TrustedStates, CertificateTimes,
+                     ExclusionSigners, ExclusionSignatureStates, SignatureEvidenceSources, SignatureEvidenceDeviceIds,
+                     SignatureEvidenceTimes, HashEvidenceConflicts)
   by DeviceId, RemoteHost, InitiatingProcessFileName, InitiatingProcessFolderPath,
-     InitiatingProcessSHA1, InitiatingProcessSHA256, ActivityDecision, DefaultRuleIds, RetainRuleIds,
+     InitiatingProcessSHA1, InitiatingProcessSHA256, ReviewCategory, ActivityDecision, DefaultRuleIds, RetainRuleIds,
      CustomerActivityRuleIds, AssociationDecision
-| project DeviceNames, DeviceId, RMMTools, RemoteHost, MatchedDomains, SourcePatterns,
-          FirstSeen, LastSeen, EventCount, InitiatingProcessFileName, InitiatingProcessFolderPath,
+| extend IOCRelatedTools=RMMTools, MatchBasis="domain"
+| project DeviceNames, DeviceId, ReviewCategory, InitiatingProcessFileName, ProductNames, IOCRelatedTools,
+          MatchBasis, RemoteHost, MatchedDomains, SourcePatterns, RMMTools,
+          FirstSeen, LastSeen, EventCount, InitiatingProcessFolderPath,
           InitiatingProcessSHA256, InitiatingProcessSHA1, Signers, SignedStates, TrustedStates,
-          CertificateTimes, CommandLines, AccountNames, AccountDomains, ParentNames, ParentIds,
-          ProcessIds, RemoteURLs, RemoteIPs, RemotePorts, LocalIPs, CompanyNames, ProductNames{{AUDIT_FIELDS}}
+          CertificateTimes, SignatureEvidenceSources, ExclusionSigners, ExclusionSignatureStates,
+          SignatureEvidenceDeviceIds, SignatureEvidenceTimes, HashEvidenceConflicts,
+          CommandLines, AccountNames, AccountDomains, ParentNames, ParentIds,
+          ProcessIds, RemoteURLs, RemoteIPs, RemotePorts, LocalIPs, CompanyNames{{AUDIT_FIELDS}}
+{{VIEW_FILTER}}
 | order by LastSeen desc

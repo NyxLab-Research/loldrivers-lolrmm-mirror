@@ -11,20 +11,23 @@ config case_sensitive = true timeframe = {{TIMEFRAME}}
         _signature_valid = if(actor_process_signature_status = null, null, if(actor_process_signature_status = 1, true, false))
 | filter remote_host != ""
 {{ACTIVITY_DECISIONS}}
+{{REVIEW_CATEGORY}}
 {{ACTIVITY_FILTER}}
 | comp min(_time) as first_seen, max(_time) as last_seen, count() as event_count,
        values(actor_primary_username) as usernames, values(actor_effective_username) as effective_usernames,
        values(actor_process_signature_status) as signature_statuses,
        values(actor_process_signature_vendor) as signature_vendors,
+       values(actor_process_signature_product) as product_names,
        values(action_local_ip) as local_ips, values(action_remote_ip) as remote_ips,
        values(action_remote_port) as remote_ports, values(actor_process_instance_id) as process_instance_ids,
        values(actor_process_os_pid) as process_ids, values(event_type) as event_types,
        values(event_sub_type) as event_sub_types, values(actor_process_command_line) as command_lines
   by agent_hostname, agent_id, remote_host, actor_process_image_name, actor_process_image_path,
-     actor_process_image_sha256, ActivityDecision, DefaultRuleIds, RetainRuleIds, CustomerActivityRuleIds
+     actor_process_image_sha256, ReviewCategory, ActivityDecision, DefaultRuleIds, RetainRuleIds, CustomerActivityRuleIds
 | alter _time = first_seen,
         usernames_json = to_json_string(usernames), effective_usernames_json = to_json_string(effective_usernames),
         signature_statuses_json = to_json_string(signature_statuses), signature_vendors_json = to_json_string(signature_vendors),
+        product_names_json = to_json_string(product_names),
         local_ips_json = to_json_string(local_ips), remote_ips_json = to_json_string(remote_ips),
         remote_ports_json = to_json_string(remote_ports), process_instance_ids_json = to_json_string(process_instance_ids),
         process_ids_json = to_json_string(process_ids), event_types_json = to_json_string(event_types),
@@ -43,17 +46,19 @@ config case_sensitive = true timeframe = {{TIMEFRAME}}
        first(first_seen) as first_seen, first(last_seen) as last_seen, first(event_count) as event_count,
        first(usernames_json) as usernames_json, first(effective_usernames_json) as effective_usernames_json,
        first(signature_statuses_json) as signature_statuses_json, first(signature_vendors_json) as signature_vendors_json,
+       first(product_names_json) as product_names_json,
        first(local_ips_json) as local_ips_json, first(remote_ips_json) as remote_ips_json,
        first(remote_ports_json) as remote_ports_json, first(process_instance_ids_json) as process_instance_ids_json,
        first(process_ids_json) as process_ids_json, first(event_types_json) as event_types_json,
        first(event_sub_types_json) as event_sub_types_json, first(command_lines_json) as command_lines_json
   by agent_hostname, agent_id, remote_host, actor_process_image_name, actor_process_image_path,
-     actor_process_image_sha256, ActivityDecision, DefaultRuleIds, RetainRuleIds,
+     actor_process_image_sha256, ReviewCategory, ActivityDecision, DefaultRuleIds, RetainRuleIds,
      CustomerActivityRuleIds, AssociationDecision
 | alter usernames = json_extract_scalar_array(usernames_json, "$"),
         effective_usernames = json_extract_scalar_array(effective_usernames_json, "$"),
         signature_statuses = arraymap(json_extract_scalar_array(signature_statuses_json, "$"), to_integer("@element")),
         signature_vendors = json_extract_scalar_array(signature_vendors_json, "$"),
+        product_names = json_extract_scalar_array(product_names_json, "$"),
         local_ips = json_extract_scalar_array(local_ips_json, "$"), remote_ips = json_extract_scalar_array(remote_ips_json, "$"),
         remote_ports = arraymap(json_extract_scalar_array(remote_ports_json, "$"), to_integer("@element")),
         process_instance_ids = json_extract_scalar_array(process_instance_ids_json, "$"),
@@ -61,9 +66,13 @@ config case_sensitive = true timeframe = {{TIMEFRAME}}
         event_types = arraymap(json_extract_scalar_array(event_types_json, "$"), to_integer("@element")),
         event_sub_types = arraymap(json_extract_scalar_array(event_sub_types_json, "$"), to_integer("@element")),
         command_lines = json_extract_scalar_array(command_lines_json, "$")
-| fields agent_hostname, agent_id, rmm_tools, remote_host, matched_domains, patterns,
-         first_seen, last_seen, event_count, actor_process_image_name, actor_process_image_path,
+| alter ioc_related_tools = rmm_tools, match_basis = "domain",
+        signature_evidence_source = "actor_event"
+| fields agent_hostname, agent_id, ReviewCategory, actor_process_image_name, product_names, ioc_related_tools,
+         match_basis, remote_host, matched_domains, patterns, rmm_tools,
+         first_seen, last_seen, event_count, actor_process_image_path,
          actor_process_image_sha256, signature_statuses, signature_vendors, command_lines,
          usernames, effective_usernames, process_instance_ids, process_ids, remote_ips,
-         remote_ports, local_ips, event_types, event_sub_types{{AUDIT_FIELDS}}
+         remote_ports, local_ips, event_types, event_sub_types, signature_evidence_source{{AUDIT_FIELDS}}
+{{VIEW_FILTER}}
 | sort desc last_seen

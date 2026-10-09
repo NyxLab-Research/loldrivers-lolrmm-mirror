@@ -7,6 +7,7 @@ on:
       - 'queries/**'
       - 'scripts/build_rmm_queries.py'
       - 'scripts/rmm_report_rules.py'
+      - 'scripts/tests/**'
       - '.github/workflows/validate-rmm-queries.yml'
   push:
     paths:
@@ -14,6 +15,7 @@ on:
       - 'queries/**'
       - 'scripts/build_rmm_queries.py'
       - 'scripts/rmm_report_rules.py'
+      - 'scripts/tests/**'
       - '.github/workflows/validate-rmm-queries.yml'
 
 permissions:
@@ -29,3 +31,5 @@ jobs:
           python-version: '3.12'
       - name: Validate rules and check generated queries
         run: python scripts/build_rmm_queries.py --check
+      - name: Check report scope and certificate evidence boundaries
+        run: python -m unittest discover -s scripts/tests -p 'test_*.py' -v

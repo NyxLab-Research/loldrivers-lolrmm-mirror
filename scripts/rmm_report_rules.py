@@ -166,8 +166,10 @@ def load_policy(rules_path=None, customer_path=None):
     config = load_json(customer_path) if customer_path else {
         'schema_version': 1, 'customer_id': 'default', 'disabled_default_rules': [],
         'retain_rules': [], 'whitelist': []}
-    if set(config) - {'schema_version', 'customer_id', 'disabled_default_rules', 'retain_rules', 'whitelist'} or type(config.get('schema_version')) is not int or config.get('schema_version') != 1:
+    if set(config) - {'schema_version', 'customer_id', 'disabled_default_rules', 'retain_rules', 'whitelist', 'mde_hash_signature_fallback'} or type(config.get('schema_version')) is not int or config.get('schema_version') != 1:
         raise ValueError('Unsupported customer schema or unknown keys')
+    if type(config.get('mde_hash_signature_fallback', True)) is not bool:
+        raise ValueError('mde_hash_signature_fallback must be boolean')
     if not isinstance(config.get('customer_id'), str) or not config['customer_id'].strip():
         raise ValueError('customer_id required')
     ids = set()
@@ -239,7 +241,11 @@ def rule_matches(rule, row, now=None):
 
 
 def evaluate(policy, config, row, now=None):
-    defaults = [r['id'] for r in policy['rules'] if r['id'] not in config.get('disabled_default_rules', []) and rule_matches(r, row, now)]
+    default_row = dict(row)
+    if config.get('mde_hash_signature_fallback', True) and row.get('signature_evidence_source') == 'tenant_sha1' and row.get('signature_valid') is None:
+        default_row['signer'] = row.get('exclusion_signer')
+        default_row['signature_valid'] = row.get('exclusion_signature_valid')
+    defaults = [r['id'] for r in policy['rules'] if r['id'] not in config.get('disabled_default_rules', []) and rule_matches(r, default_row, now)]
     retains = [r['id'] for r in config.get('retain_rules', []) if rule_matches(r, row, now)]
     activity = [r['id'] for r in config.get('whitelist', []) if r['target'] == 'activity' and rule_matches(r, row, now)]
     associations = [r['id'] for r in config.get('whitelist', []) if r['target'] == 'association' and rule_matches(r, row, now)]
@@ -247,6 +253,51 @@ def evaluate(policy, config, row, now=None):
     return {'excluded': bool(excluded), 'default_rules': defaults, 'retain_rules': retains,
             'customer_activity_rules': activity, 'customer_association_rules': associations,
             'excluded_by': excluded}
+
+
+def certificate_evidence(row, local=None, observations=(), allow_fallback=True):
+    """Resolve report identity evidence; never replace a local certificate record.
+
+    Observations must be tenant-local, within the query's certificate window.
+    Caller supplies the latest local record. All matching hash observations must
+    agree on a nonempty signer and be signed/trusted before a fallback is usable.
+    """
+    result = dict(row, signature_evidence_source='missing', exclusion_signer=None,
+                  exclusion_signature_valid=None, signature_evidence_device_id=None,
+                  signature_evidence_time=None)
+    if local is not None:
+        signed, trusted = local.get('IsSigned'), local.get('IsTrusted')
+        result.update(signer=local.get('Signer'),
+                      signature_valid=(signed and trusted) if type(signed) is bool and type(trusted) is bool else None,
+                      signature_evidence_source='device_sha1',
+                      signature_evidence_device_id=local.get('DeviceId'), signature_evidence_time=local.get('Timestamp'))
+        return result
+    sha1 = normalize('sha1', row.get('sha1'))
+    if not allow_fallback or not sha1 or not re.fullmatch('[a-f0-9]{40}', sha1):
+        return result
+    candidates = [o for o in observations if normalize('sha1', o.get('SHA1')) == sha1]
+    if not candidates or any(o.get('IsSigned') is not True or o.get('IsTrusted') is not True
+                             or not (o.get('Signer') or '').strip() for o in candidates):
+        return result
+    if len({normalize('signer', o['Signer']) for o in candidates}) != 1:
+        return result
+    latest = max(candidates, key=lambda o: o['Timestamp'])
+    result.update(signature_evidence_source='tenant_sha1', exclusion_signer=latest['Signer'],
+                  exclusion_signature_valid=True, signature_evidence_device_id=latest['DeviceId'],
+                  signature_evidence_time=latest['Timestamp'])
+    return result
+
+
+def review_category(row):
+    name = normalize('process_name', row.get('process_name')) or ''
+    path = normalize('process_path', row.get('process_path')) or ''
+    if not name:
+        return 'process_identity_missing'
+    if name == 'wwmpapp.exe' and re.search(r'^[a-z]:.*\\wemeet\\wwmpapp[.]exe$', path):
+        return 'meeting_component_candidate'
+    if normalize('remote_host', row.get('remote_host')) == 'oth.eve.mdt.qq.com':
+        return 'shared_domain_activity'
+    return 'rmm_domain_activity'
 
 
 def quote(value, platform='mde'):

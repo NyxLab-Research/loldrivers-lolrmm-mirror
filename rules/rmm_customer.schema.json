@@ -8,6 +8,11 @@
     "customer_id"
   ],
   "properties": {
+    "mde_hash_signature_fallback": {
+      "type": "boolean",
+      "default": true,
+      "description": "Use consistent tenant-local SHA1 certificate evidence only when the device has no certificate record; default report rules only."
+    },
     "schema_version": {
       "const": 1
     },
