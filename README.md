@@ -64,9 +64,12 @@ That fallback can cost more resources; use smaller windows if needed.
 Default report windows remain seven days. For **Cortex validation, start at one
 hour**, extend to one day only when needed, and check actual CU consumption.
 The query requires the existing `lolrmm_domains` lookup; no exclusion lookup is
-required. API validation should remove the generated `config timeframe` line
-and supply an explicit API timeframe. Poll/download an existing query ID rather
-than submit it again. Fetch a stream when results exceed 1,000 rows.
+required. Cortex settings share one first stage, for example
+`config case_sensitive = true timeframe = 7d`; do not split them into separate
+`config` stages. API validation should preserve the complete generated header
+and supply a matching explicit API timeframe of one hour. Poll/download an
+existing query ID rather than submit it again. Fetch a stream when results
+exceed 1,000 rows.
 
 ```console
 python scripts/build_rmm_queries.py --platform cortex --timeframe 1h --output-dir output/rmm/test
@@ -162,6 +165,8 @@ Query fields and expressions are based on the vendors' documentation:
 - [Cortex query execution](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Start-an-XQL-Query),
   [results](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Results)
   and [stream](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-Platform-APIs/Get-XQL-query-results-Stream).
+- [Cortex config stage](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/config)
+  and [combined configuration example](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Example-7-Host-users-to-groups-preset).
 - [Quick Assist](https://learn.microsoft.com/en-us/windows/client-management/client-tools/quick-assist),
   [ManageEngine communication](https://www.manageengine.com/uk/products/desktop-central/help/cloud/server/domains-required-for-agent-communication.html)
   and [agent directories](https://www.manageengine.com/products/desktop-central/logs-how-to.html).

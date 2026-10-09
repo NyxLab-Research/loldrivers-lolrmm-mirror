@@ -1,6 +1,5 @@
 {{HEADER}}
-config timeframe = {{TIMEFRAME}}
-| config case_sensitive = true
+config case_sensitive = true timeframe = {{TIMEFRAME}}
 | dataset = xdr_data
 | filter action_external_hostname != null
 | alter remote_host = lowercase(rtrim(action_external_hostname, ".")),

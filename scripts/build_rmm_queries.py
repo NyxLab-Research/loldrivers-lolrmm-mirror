@@ -83,6 +83,11 @@ def build(policy, config, platform, timeframe='7d', mode='report', source=None):
         template = template.replace('{{' + name + '}}', value)
     if '{{' in template:
         raise ValueError('Unresolved template token')
+    if platform == 'cortex':
+        executable = [line for line in template.splitlines() if line.strip() and not line.lstrip().startswith('//')]
+        config_stages = [line for line in executable if re.match(r'^\s*(?:\|\s*)?config\b', line)]
+        if len(config_stages) != 1 or not executable[0].startswith('config '):
+            raise ValueError('Cortex config settings must share a single first stage')
     return template.rstrip() + '\n'
 
 

@@ -2,8 +2,7 @@
 // Rule SHA256: de68af0ab2b5bad5e422c27820eacae27def422806717d12797f9c992f63910d; config SHA256: f75c4ff1f69b813a1e3170e2d0d903a16469c914750766db5e062f1ce5a26f2f.
 // Event counts precede IOC association; collection fields are independent sets.
 // Official references and usage: README.md. Validate Cortex with a 1h window.
-config timeframe = 7d
-| config case_sensitive = true
+config case_sensitive = true timeframe = 7d
 | dataset = xdr_data
 | filter action_external_hostname != null
 | alter remote_host = lowercase(rtrim(action_external_hostname, ".")),
