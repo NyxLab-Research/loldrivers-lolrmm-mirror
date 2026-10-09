@@ -12,9 +12,9 @@
       "expires_at": "2099-01-01T00:00:00Z",
       "conditions": [
         {
-          "field": "process_name",
+          "field": "tool_id",
           "operator": "equals",
-          "value": "example-support.exe"
+          "value": "teamviewer"
         },
         {
           "field": "remote_host",

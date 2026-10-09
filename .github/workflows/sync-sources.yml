@@ -22,6 +22,7 @@ jobs:
         run: python scripts/rmm_identity.py --check --refresh-proposals
       - name: Validate source and query contracts
         run: |
+          python scripts/rmm_reference_data.py --check
           python scripts/build_rmm_queries.py --check
           python -m unittest discover -s scripts/tests -v
       - name: Commit changes

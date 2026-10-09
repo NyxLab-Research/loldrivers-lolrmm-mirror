@@ -11,11 +11,11 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-FIELDS = {'device_id', 'device_name', 'process_name', 'process_path', 'sha1',
+FIELDS = {'device_id', 'device_name', 'process_name', 'process_path', 'tool_id', 'software_role', 'sha1',
           'sha256', 'signer', 'signature_valid', 'remote_host', 'matched_domain', 'rmm_tool'}
 ASSOCIATION_FIELDS = {'matched_domain', 'rmm_tool'}
 OPERATORS = {'equals', 'exact', 'in', 'domain_suffix', 'path_prefix', 'glob', 'regex'}
-CASE_INSENSITIVE = {'device_name', 'process_name', 'sha1', 'sha256', 'signer', 'remote_host', 'matched_domain'}
+CASE_INSENSITIVE = {'device_name', 'process_name', 'sha1', 'sha256', 'signer', 'remote_host', 'matched_domain', 'tool_id', 'software_role'}
 DOMAIN_RE = re.compile(r'^[a-z0-9_-]+(?:\.[a-z0-9_-]+)+$')
 
 
@@ -166,10 +166,12 @@ def load_policy(rules_path=None, customer_path=None):
     config = load_json(customer_path) if customer_path else {
         'schema_version': 1, 'customer_id': 'default', 'disabled_default_rules': [],
         'retain_rules': [], 'whitelist': []}
-    if set(config) - {'schema_version', 'customer_id', 'disabled_default_rules', 'retain_rules', 'whitelist', 'mde_hash_signature_fallback'} or type(config.get('schema_version')) is not int or config.get('schema_version') != 1:
+    if set(config) - {'schema_version', 'customer_id', 'disabled_default_rules', 'retain_rules', 'whitelist', 'mde_hash_signature_fallback', 'mde_file_profile_fallback'} or type(config.get('schema_version')) is not int or config.get('schema_version') != 1:
         raise ValueError('Unsupported customer schema or unknown keys')
     if type(config.get('mde_hash_signature_fallback', True)) is not bool:
         raise ValueError('mde_hash_signature_fallback must be boolean')
+    if type(config.get('mde_file_profile_fallback', True)) is not bool:
+        raise ValueError('mde_file_profile_fallback must be boolean')
     if not isinstance(config.get('customer_id'), str) or not config['customer_id'].strip():
         raise ValueError('customer_id required')
     ids = set()

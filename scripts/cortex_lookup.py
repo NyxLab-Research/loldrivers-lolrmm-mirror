@@ -7,7 +7,7 @@ import secrets
 import string
 import time
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Iterable
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
@@ -40,7 +40,7 @@ class Tenant:
     name: str
     api_fqdn: str
     api_key_id: str
-    api_key: str
+    api_key: str = field(repr=False)
     api_key_type: str
 
 @dataclass(frozen=True)
@@ -151,7 +151,12 @@ class CortexClient:
             with urlopen(request, timeout=self.timeout) as response:
                 body = read_limited(response)
         except HTTPError as exc:
-            detail = read_limited(exc).decode("utf-8", errors="replace")[:1000]
+            # Error bodies can reflect request headers. Never print an API secret.
+            detail = read_limited(exc).decode("utf-8", errors="replace")
+            for sensitive in (self.tenant.api_key, request.get_header('Authorization')):
+                if sensitive:
+                    detail = detail.replace(sensitive, '[REDACTED]')
+            detail = detail[:1000]
             raise SyncError(
                 f"tenant {self.tenant.name}: Cortex API {path} returned HTTP {exc.code}: {detail}"
             ) from exc

@@ -83,7 +83,9 @@
                     "signature_valid",
                     "remote_host",
                     "matched_domain",
-                    "rmm_tool"
+                    "rmm_tool",
+                    "tool_id",
+                    "software_role"
                   ]
                 },
                 "operator": {
@@ -175,7 +177,9 @@
                       "signature_valid",
                       "remote_host",
                       "matched_domain",
-                      "rmm_tool"
+                      "rmm_tool",
+                      "tool_id",
+                      "software_role"
                     ]
                   },
                   "operator": {
@@ -326,7 +330,9 @@
                     "signature_valid",
                     "remote_host",
                     "matched_domain",
-                    "rmm_tool"
+                    "rmm_tool",
+                    "tool_id",
+                    "software_role"
                   ]
                 },
                 "operator": {
@@ -418,7 +424,9 @@
                       "signature_valid",
                       "remote_host",
                       "matched_domain",
-                      "rmm_tool"
+                      "rmm_tool",
+                      "tool_id",
+                      "software_role"
                     ]
                   },
                   "operator": {
@@ -509,6 +517,11 @@
           }
         ]
       }
+    },
+    "mde_file_profile_fallback": {
+      "type": "boolean",
+      "default": true,
+      "description": "Native MDE: bounded FileProfile enrichment when no local certificate record exists"
     }
   }
 }

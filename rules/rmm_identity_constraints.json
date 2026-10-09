@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source": "https://lolrmm.io/api/rmm_tools.json",
+  "overrides": [
+    {
+      "process_name": "awesun.exe", "tool_id": "awesun", "tool_name": "AweSun",
+      "signers": ["上海贝锐信息科技股份有限公司", "Shanghai Best Oray Information Technology Co., Ltd.", "DUC FABULOUS CO.,LTD"]
+    },
+    {"process_name": "remoting_host.exe", "path_contains": "/google/chrome remote desktop/"},
+    {
+      "process_name": "remoting_me2me_host",
+      "signers": ["Developer ID Application: Google LLC (EQHXZ8M8AV)"],
+      "path_prefix": "/Library/PrivilegedHelperTools/ChromeRemoteDesktopHost.app/Contents/MacOS/"
+    },
+    {
+      "process_name": "remoting_me2me_host_service",
+      "signers": ["Developer ID Application: Google LLC (EQHXZ8M8AV)"],
+      "path_prefix": "/Library/PrivilegedHelperTools/ChromeRemoteDesktopHost.app/Contents/MacOS/"
+    }
+  ]
+}

@@ -117,7 +117,7 @@ def main():
     parser.add_argument('--platform', choices=['all', 'mde', 'cortex'], default='all')
     parser.add_argument('--timeframe', default='7d')
     parser.add_argument('--mode', choices=['report', 'audit', 'baseline'], default='report')
-    parser.add_argument('--view', choices=['all', 'main', 'review'], default='all',
+    parser.add_argument('--view', choices=['all', 'main', 'review', 'details', 'domain-review'], default='main',
                         help='Keep all activity, or split meeting/unknown-process rows into a review view')
     parser.add_argument('--output-dir', type=Path)
     parser.add_argument('--check', action='store_true', help='Check generated files without writing')
@@ -141,7 +141,7 @@ def main():
         dest.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
         print(json.dumps(result['summary']))
         return
-    private = (args.customer is not None or args.mode != 'report' or args.timeframe != '7d' or args.view != 'all'
+    private = (args.customer is not None or args.mode != 'report' or args.timeframe != '7d' or args.view != 'main'
                or args.entry != 'network' or args.identity_mode != 'external')
     output = args.output_dir or (rr.ROOT / 'output/rmm/generated' if private else rr.ROOT / 'queries')
     output = output.resolve()
@@ -149,9 +149,16 @@ def main():
         raise ValueError('Customer/audit/test queries must be generated in private output/ or tmp/')
     platforms = FIELDS if args.platform == 'all' else [args.platform]
     default_views = not private and args.output_dir is None
-    views = ('all', 'main', 'review') if default_views else (args.view,)
+    views = (args.view,)
     import build_rmm_identity_queries as iq
+    import rmm_native_queries as native
     def document(platform, view, identity_mode):
+        if view != 'domain-review' and args.mode == 'report' and args.entry == 'network' and identity_mode != 'legacy':
+            return (native.build_mde(policy,config,args.timeframe,view,inline=identity_mode == 'inline') if platform == 'mde'
+                    else native.build_cortex(policy,config,args.timeframe,view))
+        if view == 'domain-review':
+            if args.customer:raise ValueError('Domain audit is an internal source view; use native main/review for customer-policy decisions')
+            return iq.build(build(policy, config, platform, args.timeframe, 'audit'),platform,inline=True,view='all')
         if identity_mode == 'legacy':
             return build(policy, config, platform, args.timeframe, args.mode, view=view)
         if args.entry == 'process':
@@ -160,12 +167,9 @@ def main():
                         inline=identity_mode == 'inline', view=view)
     documents = [(platform, view, document(platform, view, args.identity_mode))
                  for platform in platforms for view in views]
-    if default_views and args.identity_mode == 'external':
-        documents.extend((platform, 'compat', document(platform, 'all', 'inline')) for platform in platforms)
-        documents.extend((platform, 'process', iq.process_query(build(policy, config, platform, args.timeframe, args.mode), platform)) for platform in platforms)
     generated = []
     for platform, view, text in documents:
-        suffix = '_' + view if default_views and view != 'all' else ''
+        suffix = ''
         path = output / platform / ('lolrmm' + suffix + ('.kql' if platform == 'mde' else '.xql'))
         if args.check:
             if not path.exists() or path.read_text(encoding='utf-8') != text:
