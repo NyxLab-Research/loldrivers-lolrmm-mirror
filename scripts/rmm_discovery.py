@@ -50,7 +50,7 @@ def records(source=None):
     for name,p in by_name.items():proposals[name]={(p['tool_id'],p['tool_name'],p['software_role'])}
     rows=[]
     for pattern,owners in sorted(proposals.items()):
-        if len(owners)!=1 or pattern in GENERIC or re.search(r'[?<>%{}\[\];]',pattern):continue
+        if pattern in GENERIC or re.search(r'[?<>%{}\[\];]',pattern):continue
         if '*' in pattern:
             # Only a literal family prefix ending at a delimiter, with one bounded wildcard.
             if pattern.count('*')!=1:continue
@@ -58,7 +58,10 @@ def records(source=None):
             if not re.fullmatch(r'[a-z][a-z0-9]{3,}[-_]',prefix) or suffix!='.exe':continue
             anchor='prefix:'+prefix[:-1]
         else:anchor='name:'+pattern
-        tid,name,role=next(iter(owners))
+        if len(owners)==1:tid,name,role=next(iter(owners))
+        else:
+            tid='ambiguous-'+hashlib.sha256(pattern.encode()).hexdigest()[:16]
+            name='Ambiguous: '+' / '.join(sorted({r[1] for r in owners}));role='ambiguous'
         rows.append(dict(record_type='process',tool_id=tid,tool_name=name,software_role=role,anchor_key=anchor,pattern=pattern,domain=''))
     with (ref.ROOT/'data/lolrmm_domains.csv').open(encoding='utf-8') as handle:domains=list(csv.DictReader(handle))
     for row in domains:
