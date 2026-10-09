@@ -232,20 +232,25 @@ def glob_regex(pattern: str) -> str:
 
 
 def domain_root(pattern: str) -> str:
-    """Return a suffix suitable for a conservative host-domain match.
+    """Return a literal candidate suffix; the query must still check pattern.
 
-    Leading `*.` patterns retain the full domain. Embedded globs/regexes are
-    reduced to their final two labels; the complete regex remains in `regex`.
+    Keep every complete label after the wildcard, including multi-label public
+    suffixes. Never turn a vendor-specific host into an entire public suffix.
     """
     host = strip_host(pattern)
     if not host:
         return ""
+    if host.count('*') > 1 or any(c in host for c in '[]{}?'):
+        raise ValueError(f'Unsupported domain pattern requires review: {pattern}')
     if host.startswith("*."):
         return host[2:]
     if "*" not in host and "[" not in host and "{" not in host:
         return host
-    labels = [part for part in re.split(r"\.", host) if part]
-    return ".".join(labels[-2:]) if len(labels) >= 2 else ""
+    tail = host.rsplit('*', 1)[-1]
+    suffix = tail[1:] if tail.startswith('.') else tail.partition('.')[2]
+    if not suffix or '.' not in suffix:
+        raise ValueError(f'Domain pattern has no usable literal suffix: {pattern}')
+    return suffix
 
 
 def rmm_rows(payload: bytes) -> list[dict[str, str]]:

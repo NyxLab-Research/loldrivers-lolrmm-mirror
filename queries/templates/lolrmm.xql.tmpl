@@ -1,8 +1,8 @@
 {{HEADER}}
 config case_sensitive = true timeframe = {{TIMEFRAME}}
 | dataset = xdr_data
-| filter action_external_hostname != null
-| alter remote_host = lowercase(rtrim(action_external_hostname, ".")),
+| filter action_external_hostname != null or action_remote_ip != null
+| alter remote_host = lowercase(rtrim(if(action_external_hostname != null and action_external_hostname != "", action_external_hostname, to_string(action_remote_ip)), ".")),
         _rule_name = lowercase(coalesce(actor_process_image_name, "")),
         _rule_path = if(actor_process_image_path ~= "^[A-Za-z]:", lowercase(replex(actor_process_image_path, "[\\\\]", "/")), coalesce(actor_process_image_path, "")),
         _rule_signer = lowercase(coalesce(actor_process_signature_vendor, "")),
@@ -39,6 +39,7 @@ config case_sensitive = true timeframe = {{TIMEFRAME}}
     | fields domain, rmm_tool, pattern
 ) as rmm
   remote_host = rmm.domain or wildcard_match(remote_host, concat("*.", rmm.domain))
+| filter wildcard_match(remote_host, pattern)
 {{ASSOCIATION_DECISIONS}}
 {{ASSOCIATION_FILTER}}
 | comp values(domain) as matched_domains, values(rmm_tool) as rmm_tools, values(pattern) as patterns,

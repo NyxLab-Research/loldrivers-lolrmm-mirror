@@ -15,14 +15,16 @@ let TargetPattern = toscalar(RMMRows | extend Escaped=replace_string(Domain, "."
 let Network = materialize(
     DeviceNetworkEvents
     | where Timestamp between (ReportStart .. ReportEnd)
-    | where ActionType == "ConnectionSuccess" and isnotempty(RemoteUrl)
+    | where ActionType == "ConnectionSuccess"
+    | extend _RemoteTarget=coalesce(RemoteUrl, RemoteIP)
+    | where isnotempty(_RemoteTarget)
     | where SourceUnsafe or MissingTerms or array_length(PrefilterTerms) > 480
-        or RemoteUrl has_any (array_slice(PrefilterTerms, 0, 119))
-        or RemoteUrl has_any (array_slice(PrefilterTerms, 120, 239))
-        or RemoteUrl has_any (array_slice(PrefilterTerms, 240, 359))
-        or RemoteUrl has_any (array_slice(PrefilterTerms, 360, 479))
-    | where SourceUnsafe or RemoteUrl matches regex TargetPattern
-    | extend RemoteHost=tolower(trim_end(@"[.]+", tostring(parse_url(iff(RemoteUrl startswith "//", strcat("https:", RemoteUrl), iff(RemoteUrl contains "://", RemoteUrl, strcat("https://", RemoteUrl)))).Host)))
+        or _RemoteTarget has_any (array_slice(PrefilterTerms, 0, 119))
+        or _RemoteTarget has_any (array_slice(PrefilterTerms, 120, 239))
+        or _RemoteTarget has_any (array_slice(PrefilterTerms, 240, 359))
+        or _RemoteTarget has_any (array_slice(PrefilterTerms, 360, 479))
+    | where SourceUnsafe or _RemoteTarget matches regex TargetPattern
+    | extend RemoteHost=tolower(trim_end(@"[.]+", tostring(parse_url(iff(_RemoteTarget startswith "//", strcat("https:", _RemoteTarget), iff(_RemoteTarget contains "://", _RemoteTarget, strcat("https://", _RemoteTarget)))).Host)))
     | where isnotempty(RemoteHost)
     | project Timestamp, DeviceId, DeviceName, RemoteUrl, RemoteHost, RemoteIP,
               RemotePort, LocalIP, InitiatingProcessFileName, InitiatingProcessFolderPath,
@@ -91,6 +93,12 @@ let Activities = Network
     | project-away Labels, LabelIndex;
 RMMRows
 | join kind=inner hint.strategy=broadcast Activities on Domain
+| extend _PatternParts=split(Pattern, "*")
+| where (array_length(_PatternParts) == 1 and RemoteHost == Pattern)
+     or (array_length(_PatternParts) == 2
+         and RemoteHost startswith_cs tostring(_PatternParts[0])
+         and RemoteHost endswith_cs tostring(_PatternParts[1])
+         and strlen(RemoteHost) >= strlen(tostring(_PatternParts[0])) + strlen(tostring(_PatternParts[1])))
 {{ASSOCIATION_DECISIONS}}
 {{ASSOCIATION_FILTER}}
 | summarize MatchedDomains=make_set(Domain), RMMTools=make_set(RMMTool), SourcePatterns=make_set(Pattern),

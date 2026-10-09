@@ -1,0 +1,4057 @@
+[
+  {
+    "tool": "247ithelp.com (ConnectWise)",
+    "process_name": "remote workforce client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Absolute (Computrace)",
+    "process_name": "ctes.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Absolute (Computrace)",
+    "process_name": "cteshostsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Absolute (Computrace)",
+    "process_name": "ctespersistence.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Absolute (Computrace)",
+    "process_name": "rpcld.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Absolute (Computrace)",
+    "process_name": "rpcnet.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Acronis Cyber Protect (Remotix)",
+    "process_name": "acroniscyberprotectconnectagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Action1",
+    "process_name": "action1_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Action1",
+    "process_name": "action1_connector.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Action1",
+    "process_name": "action1_remote.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Action1",
+    "process_name": "action1_update.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Adobe Connect",
+    "process_name": "connect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Adobe Connect",
+    "process_name": "connectappsetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Adobe Connect",
+    "process_name": "connectdetector.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AeroAdmin",
+    "process_name": "aeroadmin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AliWangWang-remote-control",
+    "process_name": "alitask.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Allocentra",
+    "process_name": "allocentra-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Alpemix",
+    "process_name": "alpemix.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Alpemix",
+    "process_name": "alpemixservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ammyy Admin",
+    "process_name": "aa_v3.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ammyy Admin",
+    "process_name": "ammyy_admin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Any Support",
+    "process_name": "manuallauncher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyDesk",
+    "process_name": "anydesk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyViewer",
+    "process_name": "anyviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyViewer",
+    "process_name": "avcore.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyViewer",
+    "process_name": "rcclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyViewer",
+    "process_name": "rcservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AnyViewer",
+    "process_name": "screancap.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Anyplace Control",
+    "process_name": "apc_host.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Aspia",
+    "process_name": "aspia_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Atera",
+    "process_name": "agentpackagenetworkdiscovery.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Atera",
+    "process_name": "agentpackagetaskscheduler.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Atera",
+    "process_name": "atera_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Atera",
+    "process_name": "ateraagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Atera",
+    "process_name": "syncrosetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Auvik",
+    "process_name": "auvik.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Auvik",
+    "process_name": "auvik.engine.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "AweRay",
+    "process_name": "awesun.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupapp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupappelev.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupappsrvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupsrvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupsrvcupdate.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basupsysinf.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "basuptshelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeAnyWhere",
+    "process_name": "takecontrol.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Beacon (Synertek)",
+    "process_name": "beacon-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeamYourScreen",
+    "process_name": "beamyourscreen-host.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeamYourScreen",
+    "process_name": "beamyourscreen.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeyondTrust (Bomgar)",
+    "process_name": "bomgar-pac.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeyondTrust (Bomgar)",
+    "process_name": "bomgar-rdp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BeyondTrust (Bomgar)",
+    "process_name": "bomgar-scc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Bitvise SSH Client",
+    "process_name": "bvsshclient-inst.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Bitvise SSH Server",
+    "process_name": "bvsshserver-inst.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Bluetrait",
+    "process_name": "bluetrait msp agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BreezeRMM",
+    "process_name": "breeze-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BreezeRMM",
+    "process_name": "breeze-backup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BreezeRMM",
+    "process_name": "breeze-user-helper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BreezeRMM",
+    "process_name": "breeze-watchdog.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "BreezeRMM",
+    "process_name": "pixoit-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CentraStage (Now Datto)",
+    "process_name": "aemagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CentraStage (Now Datto)",
+    "process_name": "cagservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Centurion",
+    "process_name": "ctiserv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Chrome Remote Desktop",
+    "process_name": "remoting_host.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CloudFlare Tunnel",
+    "process_name": "cloudflared.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Comodo RMM",
+    "process_name": "itsmagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Comodo RMM",
+    "process_name": "rviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ConnectWise Control",
+    "process_name": "connectwisechat-customer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ConnectWise Control",
+    "process_name": "connectwisecontrol.client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ConnectWise Control",
+    "process_name": "screenconnect.windowsclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Connectwise Automate (LabTech)",
+    "process_name": "ltsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Connectwise Automate (LabTech)",
+    "process_name": "ltsvcmon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Connectwise Automate (LabTech)",
+    "process_name": "lttray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ControlR",
+    "process_name": "controlr.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ControlR",
+    "process_name": "controlr.agent.installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ControlR",
+    "process_name": "controlr.desktopclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "bbl.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "wecliboardlistener.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "weinstsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "wemonc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "weprtct.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Controlio",
+    "process_name": "wesvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CrossLoop",
+    "process_name": "crossloopconnect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CrossLoop",
+    "process_name": "crossloopservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CrossLoop",
+    "process_name": "winvncstub.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CrossTec Remote Control",
+    "process_name": "pcivideo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "CrossTec Remote Control",
+    "process_name": "supporttool.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DW Service",
+    "process_name": "dwagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DW Service",
+    "process_name": "dwaglnc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DW Service",
+    "process_name": "dwagsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DameWare",
+    "process_name": "dameware remote support.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DameWare",
+    "process_name": "dwrcs.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DameWare",
+    "process_name": "dwrcst.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DeskShare",
+    "process_name": "dsguest.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DeskShare",
+    "process_name": "teamtaskmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DesktopNow",
+    "process_name": "desktopnow.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Devolutions Remote Desktop Manager",
+    "process_name": "remotedesktopmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Distant Desktop",
+    "process_name": "dd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Distant Desktop",
+    "process_name": "ddsystem.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Distant Desktop",
+    "process_name": "distant-desktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Domotz",
+    "process_name": "domotz pro desktop app.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Domotz",
+    "process_name": "domotz.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Domotz",
+    "process_name": "domotz_bash.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "DragonDisk",
+    "process_name": "dragondisk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Duet Display",
+    "process_name": "duet.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Duet Display",
+    "process_name": "duetdisp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Duet Display",
+    "process_name": "duetsetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Duplicati",
+    "process_name": "duplicati.server.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "EMCO Remote Console",
+    "process_name": "remoteconsole.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ESET Remote Administrator",
+    "process_name": "einstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ESET Remote Administrator",
+    "process_name": "era.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ESET Remote Administrator",
+    "process_name": "eraagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ESET Remote Administrator",
+    "process_name": "eratool.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Endar",
+    "process_name": "endar.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ericom AccessNow",
+    "process_name": "accessserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ericom Connect",
+    "process_name": "ericomconnectconfigurationtool.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ExtraPuTTY",
+    "process_name": "extraputty-0.30-2016-01-28-installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Core",
+    "process_name": "coreagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Core",
+    "process_name": "faronicscoreagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "cloudwksinstall.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfinst.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfserv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfservex.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfstd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfstdinstall.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deep Freeze",
+    "process_name": "dfwks.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "cloudwksinstall.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "faronicsdeployagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "faronicssa.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "frcserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "fssinstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "fwa_ui_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "fwaservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "migrationhelper_32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "migrationhelper_64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "modulesupgrademgr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "notificationhelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Deploy",
+    "process_name": "usernotificationhelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "fistudentagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "fistudentsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "fistudentui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "insightinstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "insightinstallerstudent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "insightinstallerteacher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "stahelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Faronics Insight",
+    "process_name": "studentsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FastViewer",
+    "process_name": "fastclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FastViewer",
+    "process_name": "fastmaster.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FastViewer",
+    "process_name": "fastviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "fixmeit client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "fixmeit expert setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "fixmeit unattended access setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "fixmeitclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "ticlientcore.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "tiexpertcore.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FixMe.it",
+    "process_name": "tiexpertstandalone.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck_agent_svc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck_commander_launcher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck_commander_svc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FleetDeck.io",
+    "process_name": "fleetdeck_installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "FreeNX",
+    "process_name": "nxplayer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "autoupdate.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "freshservice.discoveryprobe.autoflush.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "freshservice.discoveryprobe.oidlibrarypuller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "freshservice.discoveryprobe.progressbar.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "freshservice.discoveryprobe.scanservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "freshservice.discoveryprobe.window.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsagentautoupdate.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsagentcrashstatusupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsprobecrashstatusupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsprobereporter.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fsscheduler.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "fswmiscanner.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "iprangecalculator.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "plink.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Freshservice",
+    "process_name": "uninstallstatusupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GatherPlace-desktop sharing",
+    "process_name": "gp3.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GatherPlace-desktop sharing",
+    "process_name": "gp4.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GatherPlace-desktop sharing",
+    "process_name": "gp5.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GetScreen",
+    "process_name": "getscreen-x86.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GetScreen",
+    "process_name": "getscreen.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GetScreen",
+    "process_name": "getscreen.upd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist",
+    "process_name": "g2ax_comm_customer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist",
+    "process_name": "g2mcomm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist",
+    "process_name": "goto assist opener.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist",
+    "process_name": "goto opener.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist",
+    "process_name": "gotoassist.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveexternalmodulehandler.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolvefilemanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveloggerprocess.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolvenetworkchecker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveprocesschecker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolvequickview.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveregistryeditor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveremotecontrol.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveservicemanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveterminal.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolvetools32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolvetools64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveunattended.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveunattendedremover.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToAssist (GoTo Resolve)",
+    "process_name": "gotoresolveunattendedui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "appcore.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2comm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2fileh.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2host.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2m.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2m_download.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mainh.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mchat.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mcodecinstextractor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mcomm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mcoreinstextractor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mfeedback.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2minstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2minstallerextractor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2minsthigh.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mlauncher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mmatchmaking.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mmaterials.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mpolling.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mqanda.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mrecorder.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mscrutil64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2msessioncontrol.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mstart.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mtesting.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mtranscoder.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2muninstall.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mupload.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mvideoconference.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2mview.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2printh.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2quick.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2svc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "g2tray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "gopcsrv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "goto.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GoToMyPC",
+    "process_name": "gotoscrutils.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Gorelo RMM",
+    "process_name": "gorelo.rmm.setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GotoHTTP",
+    "process_name": "gotohttp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GotoHTTP",
+    "process_name": "gotohttp_x64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Goverlan",
+    "process_name": "govagentinstallhelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Goverlan",
+    "process_name": "govagentx64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Goverlan",
+    "process_name": "goverrmc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Goverlan",
+    "process_name": "govreachclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Goverlan",
+    "process_name": "govsrv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Guacamole",
+    "process_name": "guacd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "GxM RMM Agent",
+    "process_name": "gxm.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HeartbeatRM",
+    "process_name": "agent-installer-any.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HeartbeatRM",
+    "process_name": "hbrm-updater-x64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HeartbeatRM",
+    "process_name": "hbrm-x64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HelpU",
+    "process_name": "helpu_install.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HelpU",
+    "process_name": "helpumanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HelpU",
+    "process_name": "helpuupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HelpWire",
+    "process_name": "helpwire quick.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HelpWire",
+    "process_name": "helpwire.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HopToDesk",
+    "process_name": "hoptodesk-standalone.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "HopToDesk",
+    "process_name": "hoptodesk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "I'm InTouch",
+    "process_name": "i'm intouch go installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "I'm InTouch",
+    "process_name": "iit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "I'm InTouch",
+    "process_name": "intouch.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Light",
+    "process_name": "islalwaysonmonitor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Light",
+    "process_name": "isllight.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Light",
+    "process_name": "isllightservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Online",
+    "process_name": "islalwaysonmonitor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Online",
+    "process_name": "isllight.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Online",
+    "process_name": "isllightclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ISL Online",
+    "process_name": "isllightservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IT Agent",
+    "process_name": "itagentrmmsender.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IT Agent",
+    "process_name": "itagentrmmsendersl.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IT Agent",
+    "process_name": "itagentrmmsenderupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ITSupport247 (ConnectWise)",
+    "process_name": "saazapsc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ImmyBot",
+    "process_name": "immyagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ImmyBot",
+    "process_name": "immybot.agent.ephemeral.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ImmyBot",
+    "process_name": "immyupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Impero Connect",
+    "process_name": "imperoclientsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Instant Housecall",
+    "process_name": "hsloader.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Instant Housecall",
+    "process_name": "ihcserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Instant Housecall",
+    "process_name": "instanthousecall.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Insync",
+    "process_name": "insync.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IntelliAdmin Remote Control",
+    "process_name": "agent32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IntelliAdmin Remote Control",
+    "process_name": "agent64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IntelliAdmin Remote Control",
+    "process_name": "agent_setup_5.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IntelliAdmin Remote Control",
+    "process_name": "iadmin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "IntelliAdmin Remote Control",
+    "process_name": "intelliadmin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "InvGate",
+    "process_name": "dephlp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "InvGate",
+    "process_name": "invgate-ed.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "InvGate",
+    "process_name": "invgateassetsrd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "InvGate",
+    "process_name": "invgaterd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Iperius Remote",
+    "process_name": "iperius.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Iperius Remote",
+    "process_name": "iperiusremote.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "comodoremotecontrol.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "itarianremoteaccesssetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "itsmagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "itsmrsp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "itsmservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "raccess.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "rdesktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "rhost.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "rmmservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Itarian",
+    "process_name": "rviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ivanti Remote Control",
+    "process_name": "agentlessrc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ivanti Remote Control",
+    "process_name": "arcui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ivanti Remote Control",
+    "process_name": "ivantiremotecontrol.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Jump Desktop",
+    "process_name": "jumpclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Jump Desktop",
+    "process_name": "jumpconnect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Jump Desktop",
+    "process_name": "jumpdesktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Jump Desktop",
+    "process_name": "jumpservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Jump Desktop",
+    "process_name": "jumpupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "KHelpDesk",
+    "process_name": "khelpdesk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Kabuto",
+    "process_name": "kabuto.app.runner.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Kaseya (VSA)",
+    "process_name": "agentmon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Kaseya (VSA)",
+    "process_name": "kaupdhlp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Kaseya (VSA)",
+    "process_name": "kausrtsk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "KiTTY",
+    "process_name": "kitty.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Komari",
+    "process_name": "komari-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Komari",
+    "process_name": "komari.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "issuser.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "landeskagentbootstrap.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "landeskportalmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "ldinv32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "ldsensors.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "softmon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LANDesk",
+    "process_name": "tmcsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LS RMM",
+    "process_name": "ls rmm worker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LS RMM",
+    "process_name": "ls rmm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LabTeach (Connectwise Automate)",
+    "process_name": "ltsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LabTech RMM (Now ConnectWise Automate)",
+    "process_name": "ltsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LabTech RMM (Now ConnectWise Automate)",
+    "process_name": "ltsvcmon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LabTech RMM (Now ConnectWise Automate)",
+    "process_name": "lttray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Everywhere",
+    "process_name": "laplink.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Everywhere",
+    "process_name": "laplinkeverywhere.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Everywhere",
+    "process_name": "llrcservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Everywhere",
+    "process_name": "oosysagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Everywhere",
+    "process_name": "serverproxyservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Gold",
+    "process_name": "laplink.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Laplink Gold",
+    "process_name": "tsircusr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Lavawall",
+    "process_name": "lavawallwin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Level",
+    "process_name": "level.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Level.io",
+    "process_name": "level-remote-control-ffmpeg.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Level.io",
+    "process_name": "level-windows-amd64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Level.io",
+    "process_name": "level.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LightRmmAgent",
+    "process_name": "lightrmmagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Lite Manager",
+    "process_name": "lmnoipserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LiteManager",
+    "process_name": "lmnoipserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LiteManager",
+    "process_name": "romfusclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LiteManager",
+    "process_name": "romserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LiteManager",
+    "process_name": "romviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LocalXpose",
+    "process_name": "loclx.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn",
+    "process_name": "lmiguardiansvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn",
+    "process_name": "lmiignition.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn",
+    "process_name": "logmein.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn",
+    "process_name": "logmeinsystray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn rescue",
+    "process_name": "lmi_rescue.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn rescue",
+    "process_name": "lmi_rescue_srv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "LogMeIn rescue",
+    "process_name": "support-logmeinrescue.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Lunixar",
+    "process_name": "lunixar.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Lunixar",
+    "process_name": "lunixarremote.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Lunixar",
+    "process_name": "lunixarupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MEGAsync",
+    "process_name": "megasyncsetup64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MEGAsync",
+    "process_name": "megaupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cbb.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cbbackupplan.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloud.backup.rm.service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloud.backup.scheduler.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloudracmd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloudrasd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloudraservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "cloudrautilities.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "connect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "online backup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "remote desktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MSP360",
+    "process_name": "rmm.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Manage Engine (Desktop Central)",
+    "process_name": "dcagentregister.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Manage Engine (Desktop Central)",
+    "process_name": "dcagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ManageEngine",
+    "process_name": "dcagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ManageEngine",
+    "process_name": "installshield setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ManageEngine",
+    "process_name": "manageengine_remote_access_plus.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ManageEngine ServiceDesk Plus",
+    "process_name": "installshield setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ManageEngine ServiceDesk Plus",
+    "process_name": "manageengine_servicedesk_plus.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MeshCentral",
+    "process_name": "meshagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Microsoft Quick Assist",
+    "process_name": "quickassist.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mikogo",
+    "process_name": "mikogo-screen-service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mikogo",
+    "process_name": "mikogo-service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mikogo",
+    "process_name": "mikogo-starter.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mikogo",
+    "process_name": "mikogo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mikogo",
+    "process_name": "mikogolauncher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mini RMM Agent",
+    "process_name": "minirmmagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MioNet (Also known as WD Anywhere Access)",
+    "process_name": "mionet.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MioNet (Also known as WD Anywhere Access)",
+    "process_name": "mionetmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MioNet (WD Anywhere Access)",
+    "process_name": "mionet.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MioNet (WD Anywhere Access)",
+    "process_name": "mionetmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Monitic",
+    "process_name": "amon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Monitic",
+    "process_name": "moniticinstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mouse Without Borders",
+    "process_name": "mousewithoutborders.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Mremote",
+    "process_name": "mremote-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MyGreenPC",
+    "process_name": "mygreenpc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MyIVO",
+    "process_name": "myivomanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "MyIVO",
+    "process_name": "myivomgr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "baseclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "basupapp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "basupsrvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "basupsrvccnfg.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "basuptshelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-Able Advanced Monitoring Agent",
+    "process_name": "winagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-able N-central",
+    "process_name": "agentmaint.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-able N-central",
+    "process_name": "agentmonitor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-able N-central",
+    "process_name": "basuptshelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "N-able N-central",
+    "process_name": "msp-agent-core.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NTR Remote",
+    "process_name": "ntrsupportpro_en.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NVDA (Non-Visual Desktop Access)",
+    "process_name": "nvda.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NVDA (Non-Visual Desktop Access)",
+    "process_name": "nvda_service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Net Monitor for Employees",
+    "process_name": "nmep_agtconfig.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Net Monitor for Employees",
+    "process_name": "nmep_ctrlagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Net Monitor for Employees",
+    "process_name": "nmep_ctrlagentsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Net Monitor for Employees",
+    "process_name": "winpty-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Net Monitor for Employees",
+    "process_name": "winpty-agent64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetBird",
+    "process_name": "netbird-ui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetBird",
+    "process_name": "netbird.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetBird",
+    "process_name": "netbird_installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetLock RMM",
+    "process_name": "netlock_rmm_agent_installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetLock RMM",
+    "process_name": "netlock_rmm_user_process.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetLock RMM",
+    "process_name": "netlock_rmm_user_uac.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetMaster",
+    "process_name": "netmaster_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetSupport Manager",
+    "process_name": "client32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetSupport Manager",
+    "process_name": "pcicfgui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetSupport Manager",
+    "process_name": "pcictlui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetSupport Manager",
+    "process_name": "remcmdstub.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "imperoclientsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "imperoinit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "netop ondemand.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "ngstw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "nhostsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "nhstw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "nldrw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (Impero Connect)",
+    "process_name": "rmserverconsolemediator.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (aka Impero Connect)",
+    "process_name": "nhostsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (aka Impero Connect)",
+    "process_name": "nhstw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (aka Impero Connect)",
+    "process_name": "nldrw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netop Remote Control (aka Impero Connect)",
+    "process_name": "rmserverconsolemediator.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Neturo",
+    "process_name": "neturo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Neturo",
+    "process_name": "ntrntservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netviewer",
+    "process_name": "netviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netviewer (GoToMeet)",
+    "process_name": "netviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netviewer (GoToMeet)",
+    "process_name": "nvclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Netviewer (GoToMeet)",
+    "process_name": "nvconsole.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Nexus RMM (Scogo)",
+    "process_name": "nexusrmm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Nezha",
+    "process_name": "dashboard-windows-amd64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Nezha",
+    "process_name": "nezha-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ninite Pro (Ninite Agent)",
+    "process_name": "ninite.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ninite Pro (Ninite Agent)",
+    "process_name": "niniteagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ninite Pro (Ninite Agent)",
+    "process_name": "niniteone.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ninite Pro (Ninite Agent)",
+    "process_name": "ninitepro.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NinjaRMM",
+    "process_name": "ninjarmm-cli.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NinjaRMM",
+    "process_name": "ninjarmmagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NinjaRMM",
+    "process_name": "ninjarmmagentpatcher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NoMachine",
+    "process_name": "nxd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NoteOn-desktop sharing",
+    "process_name": "nateon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NoteOn-desktop sharing",
+    "process_name": "nateonmain.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OCS inventory",
+    "process_name": "ocsinventory.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OCS inventory",
+    "process_name": "ocsservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Obliance",
+    "process_name": "obliance-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Obliance",
+    "process_name": "obliance-tray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Obliance",
+    "process_name": "obliance-watchdog.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Opale",
+    "process_name": "opale-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OpenDesk RMM Agent",
+    "process_name": "opendesk-rmm-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OpenUEM",
+    "process_name": "openuem-agent-setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OpsBridge Agent",
+    "process_name": "opsbridgeagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OptiTune",
+    "process_name": "otpowershell.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "OptiTune",
+    "process_name": "otservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PChelpware",
+    "process_name": "pchelpware_viewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC",
+    "process_name": "psexec.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC",
+    "process_name": "psexec64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC",
+    "process_name": "psexecsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "csexec.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "paexec.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "remcom.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "remcomsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "xcmd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PSEXEC (Clone)",
+    "process_name": "xcmdsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pandora RC (eHorus)",
+    "process_name": "ehorus standalone.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pandora RC (eHorus)",
+    "process_name": "ehorus_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parallels Access",
+    "process_name": "prl_deskctl_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parallels Access",
+    "process_name": "prl_deskctl_wizard.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parallels Access",
+    "process_name": "prl_pm_service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parallels Access",
+    "process_name": "tsclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parsec",
+    "process_name": "parsecd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Parsec",
+    "process_name": "pservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcnow",
+    "process_name": "mwcliun.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcnow",
+    "process_name": "pcnmgr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcnow",
+    "process_name": "webexpcnow.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcvisit",
+    "process_name": "pcvisit-easysupport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcvisit",
+    "process_name": "pcvisit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcvisit",
+    "process_name": "pcvisit_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pcvisit",
+    "process_name": "pcvisit_service_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pilixo",
+    "process_name": "rdp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Cloud (Wyse)",
+    "process_name": "pocketcloudservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller",
+    "process_name": "pocketcloudservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller",
+    "process_name": "pocketcontroller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller",
+    "process_name": "wysebrowser.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller (Soti Xsight)",
+    "process_name": "pocketcontroller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller (Soti Xsight)",
+    "process_name": "wysebrowser.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pocket Controller (Soti Xsight)",
+    "process_name": "xsightservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ProxiPort",
+    "process_name": "proxiport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PuTTY",
+    "process_name": "putty.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "PuTTY Tray",
+    "process_name": "puttytray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pulseway",
+    "process_name": "pcmonitormanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Pulseway",
+    "process_name": "pcmonitorsrv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "QQ IM-remote assistance",
+    "process_name": "qq.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "QQ IM-remote assistance",
+    "process_name": "qqpcmgr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "QQ IM-remote assistance",
+    "process_name": "qqprotect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Quest KACE Agent (formerly Dell KACE)",
+    "process_name": "konea.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Quick Assist",
+    "process_name": "quickassist.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RAdmin",
+    "process_name": "radmin.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RAdmin",
+    "process_name": "rserver3.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RDCMan",
+    "process_name": "rdcman-x86.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RDCMan",
+    "process_name": "rdcman.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RDPView",
+    "process_name": "dwrcs.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RES Automation Manager",
+    "process_name": "wmc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RES Automation Manager",
+    "process_name": "wmc_deployer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RES Automation Manager",
+    "process_name": "wmcsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RG System (RG Supervision)",
+    "process_name": "rg_supervision.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RMMCRAT",
+    "process_name": "rmm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RMMmax",
+    "process_name": "rmmmaxagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RMMmax",
+    "process_name": "rmmmaxagentsetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RPort",
+    "process_name": "rport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rapid7",
+    "process_name": "ir_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rapid7",
+    "process_name": "rapid7_agent_core.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rapid7",
+    "process_name": "rapid7_endpoint_broker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RdClient",
+    "process_name": "rdclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RdClient",
+    "process_name": "rdclientinstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RdClient",
+    "process_name": "supporttool.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemSupp",
+    "process_name": "installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemSupp",
+    "process_name": "remsupp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemSupp",
+    "process_name": "remsupp_setup_x64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemSupp",
+    "process_name": "uninstall remsupp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remmon",
+    "process_name": "remmon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remobo",
+    "process_name": "remobo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remobo",
+    "process_name": "remobo_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remobo",
+    "process_name": "remobo_tracker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Desktop Plus",
+    "process_name": "rdp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Manipulator System",
+    "process_name": "rfusclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Manipulator System",
+    "process_name": "rutserv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Ripple",
+    "process_name": "remoteripple.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Utilities",
+    "process_name": "rutserv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote Utilities",
+    "process_name": "rutview.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote.it",
+    "process_name": "remote-it-installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote.it",
+    "process_name": "remote.it.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remote.it",
+    "process_name": "remoteit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteAgentAgent",
+    "process_name": "remoteagentagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "agentu.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "raautoup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "rcengmgru.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "rcmgrsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "rcstartsupport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "remotesupportplayeru.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteCall",
+    "process_name": "rxstartsupport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePC",
+    "process_name": "remotepc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePC",
+    "process_name": "remotepchost.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePC",
+    "process_name": "remotepcservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePC",
+    "process_name": "rpcsuite.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePass",
+    "process_name": "remotepass-access.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePass",
+    "process_name": "rpaccess.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePass",
+    "process_name": "rpwhostscr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemotePulse",
+    "process_name": "installcore.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteUtilities",
+    "process_name": "rutserv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteUtilities",
+    "process_name": "rutview.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteView",
+    "process_name": "remoteview.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteView",
+    "process_name": "rv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteView",
+    "process_name": "rvagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RemoteView",
+    "process_name": "rvagtray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remotely",
+    "process_name": "remotely_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Remotely",
+    "process_name": "remotely_desktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rocket Remote Desktop",
+    "process_name": "rdconsole.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rocket Remote Desktop",
+    "process_name": "rocketremotedesktop_setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Rodex RMM",
+    "process_name": "rodexagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Roster",
+    "process_name": "agent-windows-amd64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Royal Apps",
+    "process_name": "royalserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Royal Apps",
+    "process_name": "royalts.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Royal TS",
+    "process_name": "royalts.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RuDesktop",
+    "process_name": "rd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "RustDesk",
+    "process_name": "rustdesk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ScreenConnect",
+    "process_name": "remote workforce client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ScreenConnect",
+    "process_name": "screenconnect.clientservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ScreenConnect",
+    "process_name": "screenconnect.windowsclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ScreenMeet",
+    "process_name": "screenmeet.support.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ScreenMeet",
+    "process_name": "screenmeetsupport.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SecureCRT",
+    "process_name": "securecrt.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Seetrol",
+    "process_name": "seetrolcenter.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Seetrol",
+    "process_name": "seetrolclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Seetrol",
+    "process_name": "seetrolmyservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Seetrol",
+    "process_name": "seetrolremote.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Seetrol",
+    "process_name": "seetrolsetting.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Senso.cloud",
+    "process_name": "aadg.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Senso.cloud",
+    "process_name": "sensoclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Senso.cloud",
+    "process_name": "sensoservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Sentinel RMM",
+    "process_name": "sentinel-agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ServerEye",
+    "process_name": "serviceproxylocalsys.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SetMe PRO",
+    "process_name": "setme_client.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SetMe PRO",
+    "process_name": "tinunattendedmodule.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ShowMyPC",
+    "process_name": "showmypc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ShowMyPC",
+    "process_name": "smpcsetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "remote access.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "simplegatewayservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "simplehelpcustomer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "simpleservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "spsrv.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "vhost.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SimpleHelp",
+    "process_name": "windowslauncher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Site24x7",
+    "process_name": "meagenthelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Site24x7",
+    "process_name": "monitoringagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Site24x7",
+    "process_name": "site24x7pluginagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Site24x7",
+    "process_name": "site24x7windowsagenttrayicon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SkyFex",
+    "process_name": "deskroll.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SkyFex",
+    "process_name": "deskrollua.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SmarTTY",
+    "process_name": "smartty.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Solar-PuTTY",
+    "process_name": "solar-putty.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Sophos-Remote Management System",
+    "process_name": "clientmrinit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Sophos-Remote Management System",
+    "process_name": "mgntsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Sophos-Remote Management System",
+    "process_name": "routernt.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Sorillus",
+    "process_name": "sorillus launcher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop",
+    "process_name": "strwinclt.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop (Beta)",
+    "process_name": "splashtopsos.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop (Beta)",
+    "process_name": "srmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop (Beta)",
+    "process_name": "srserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "splashtopsos.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "sragent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "srmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "srserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "srservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Splashtop Remote",
+    "process_name": "strwinclt.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SpyAnywhere",
+    "process_name": "sysdiag.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SunLogin",
+    "process_name": "orayremoteservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SunLogin",
+    "process_name": "orayremoteshell.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SuperOps",
+    "process_name": "superops.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SuperOps",
+    "process_name": "superopsticket.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SuperPuTTY",
+    "process_name": "superputty.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Supremo",
+    "process_name": "supremo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Supremo",
+    "process_name": "supremohelper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Supremo",
+    "process_name": "supremoservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Supremo",
+    "process_name": "supremosystem.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "kabuto.app.runner.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "kabuto.installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "kabuto.service.runner.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "kabutosetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncro.app.runner.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncro.installer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncro.overmind.service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncro.service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncrolive.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncro",
+    "process_name": "syncrolive.service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syncthing",
+    "process_name": "syncthing.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "SysAid",
+    "process_name": "ilias.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syspectr",
+    "process_name": "oolocker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syspectr",
+    "process_name": "oosyspectr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Syspectr",
+    "process_name": "syspectr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tactical RMM",
+    "process_name": "tacticalrmm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tailscale",
+    "process_name": "tailscale-ipn.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tailscale",
+    "process_name": "tailscaled.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tanium",
+    "process_name": "taniumclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tanium",
+    "process_name": "taniumcx.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tanium",
+    "process_name": "taniumexecwrapper.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tanium",
+    "process_name": "taniumfileinfo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Tanium",
+    "process_name": "tpowershell.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeamViewer",
+    "process_name": "teamviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeamViewer",
+    "process_name": "teamviewer_desktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeamViewer",
+    "process_name": "teamviewer_service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeleDesktop",
+    "process_name": "pstlaunch.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeleDesktop",
+    "process_name": "ptdskclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TeleDesktop",
+    "process_name": "ptdskhost.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teleport Connect",
+    "process_name": "teleport connect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teleport Connect",
+    "process_name": "tsh.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "clm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "dwm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "teramind-remover.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "teramind.setup.remover.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "teramind.setup.ui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "teramind.setup.uiarm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "teramind.setup.updater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "tmagentsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Teramind",
+    "process_name": "update-shim.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TiFLUX",
+    "process_name": "si.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TiFLUX",
+    "process_name": "tiagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TiFLUX",
+    "process_name": "tiservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TiFLUX",
+    "process_name": "tiupdateservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TigerVNC",
+    "process_name": "tvnserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TigerVNC",
+    "process_name": "winvnc4.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TightVNC",
+    "process_name": "tvnserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TightVNC",
+    "process_name": "tvnviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ToDesk",
+    "process_name": "todesk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ToDesk",
+    "process_name": "todesk_service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ToDesk",
+    "process_name": "todesk_setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Total Software Deployment",
+    "process_name": "tniwinagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Total Software Deployment",
+    "process_name": "tsdservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TrustConnect",
+    "process_name": "docconnect.agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TrustConnect",
+    "process_name": "trustconnectagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TurboMeeting",
+    "process_name": "pcstarter.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TurboMeeting",
+    "process_name": "turbomeeting.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "TurboMeeting",
+    "process_name": "turbomeetingstarter.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ultra VNC",
+    "process_name": "uvnc_launch.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ultra VNC",
+    "process_name": "vncviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ultra VNC",
+    "process_name": "winvnc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "UltraViewer",
+    "process_name": "ultraviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "UltraViewer",
+    "process_name": "ultraviewer_desktop.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "UltraViewer",
+    "process_name": "ultraviewer_service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "UniSystem RMM",
+    "process_name": "unirmm.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "clboot32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "cldist32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "cldistsvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "clmeter32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "clmetersvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "closeapp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "cpuchk.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "httpget.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "httppush.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "luedit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "luguard.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "lulogon.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "lusmbios32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "lutinfow32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "mqmailintegration.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "nuke32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "pidupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "prep64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "recycler.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "regapps.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "selfupdater.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "upload.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "vecwait.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "vnconfigutils.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "vnldriverinstaller.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "vnlselfupdate.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VIZOR",
+    "process_name": "winchk32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "vncserver.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "vncserverui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "vncviewer.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "winvnc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "winvncsc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "VNC",
+    "process_name": "winwvc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Veyon",
+    "process_name": "veyon-master.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Veyon",
+    "process_name": "veyon-server.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Veyon",
+    "process_name": "veyon-service.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Veyon",
+    "process_name": "veyon-wcli.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Veyon",
+    "process_name": "veyon-worker.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Vicarius vRx",
+    "process_name": "topiad.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "WebRDP",
+    "process_name": "webrdp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Weezo",
+    "process_name": "weezo.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Weezo",
+    "process_name": "weezohttpd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "WinSCP",
+    "process_name": "winscp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xeox",
+    "process_name": "xeox-agent_x64.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xeox",
+    "process_name": "xeox-agent_x86.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xeox",
+    "process_name": "xeox_service_windows.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xpra",
+    "process_name": "xpra-launcher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xpra",
+    "process_name": "xpra-x86_64_setup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Xshell",
+    "process_name": "xshell.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Yandex.Disk",
+    "process_name": "yandexdisk2.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ZOC",
+    "process_name": "zoc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritagentassetmgr.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritagentregister.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritagentservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritagenttray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritagentupgrader.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritapplicationcontrolservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritcommandprocessor.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritlivenotifier.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritremotetools.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritscreenreaderapp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritscreenreaderappui.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zecurit",
+    "process_name": "zecuritscreenreaderservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ZeroTier",
+    "process_name": "zero-powershell.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "connect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "toolsiq.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "za_access.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "za_connect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zaservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zmagent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zohomeeting.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zohotray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zohours.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Zoho Assist",
+    "process_name": "zohoursservice.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "baramundi Management Suite",
+    "process_name": "bma.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "eHorus",
+    "process_name": "ehorus standalone.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "eHorus",
+    "process_name": "ehorus_agent.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "eHorus",
+    "process_name": "ehorus_cmd.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "eHorus",
+    "process_name": "ehorus_launcher.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "eHorus",
+    "process_name": "ehorus_uit.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ezHelp",
+    "process_name": "ezhelpclient.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ezHelp",
+    "process_name": "ezhelpclientmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ezHelp",
+    "process_name": "ezhelpmanager.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "iDrive",
+    "process_name": "id_tray.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "iDrive",
+    "process_name": "idriveeclassic.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "iDrive",
+    "process_name": "idrivewinsetup.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "mRemoteNG",
+    "process_name": "mremoteng.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "mstsc.exe (Microsoft Remote Desktop Connection)",
+    "process_name": "mstsc.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "ngrok",
+    "process_name": "ngrok.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "pcAnywhere",
+    "process_name": "awhost32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "pcAnywhere",
+    "process_name": "awrem32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "pcAnywhere",
+    "process_name": "pcaquickconnect.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "pcAnywhere",
+    "process_name": "winaw32.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "rdp2tcp",
+    "process_name": "rdp2tcp.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "rdpwrap",
+    "process_name": "rdpcheck.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "rdpwrap",
+    "process_name": "rdpconf.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "rdpwrap",
+    "process_name": "rdpwinst.exe",
+    "status": "needs_review"
+  }
+]

@@ -121,6 +121,8 @@ def main():
                         help='Keep all activity, or split meeting/unknown-process rows into a review view')
     parser.add_argument('--output-dir', type=Path)
     parser.add_argument('--check', action='store_true', help='Check generated files without writing')
+    parser.add_argument('--identity-mode', choices=['external','inline','legacy'], default='external')
+    parser.add_argument('--entry', choices=['network','process'], default='network')
     parser.add_argument('--preview', type=Path, help='Normalized JSON rows; no API call')
     parser.add_argument('--preview-output', type=Path)
     args = parser.parse_args()
@@ -130,7 +132,8 @@ def main():
         rows = rows.get('rows', rows.get('results')) if isinstance(rows, dict) else rows
         if not isinstance(rows, list) or any(not isinstance(r, dict) or 'device_id' not in r or 'remote_host' not in r for r in rows):
             raise ValueError('Preview expects normalized rows with device_id/remote_host; see README')
-        result = rr.review_rows(rows, policy, config)
+        import rmm_identity
+        result = rr.review_rows(rows, policy, config, evaluator=None if args.identity_mode == 'legacy' else rmm_identity.evaluate)
         dest = (args.preview_output or rr.ROOT / 'output/rmm/preview.json').resolve()
         if dest.is_relative_to(rr.ROOT / 'queries') or not any(dest.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
             raise ValueError('Private preview output must be in output/ or tmp/')
@@ -138,7 +141,8 @@ def main():
         dest.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
         print(json.dumps(result['summary']))
         return
-    private = args.customer is not None or args.mode != 'report' or args.timeframe != '7d' or args.view != 'all'
+    private = (args.customer is not None or args.mode != 'report' or args.timeframe != '7d' or args.view != 'all'
+               or args.entry != 'network' or args.identity_mode != 'external')
     output = args.output_dir or (rr.ROOT / 'output/rmm/generated' if private else rr.ROOT / 'queries')
     output = output.resolve()
     if private and not any(output.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
@@ -146,8 +150,19 @@ def main():
     platforms = FIELDS if args.platform == 'all' else [args.platform]
     default_views = not private and args.output_dir is None
     views = ('all', 'main', 'review') if default_views else (args.view,)
-    documents = [(platform, view, build(policy, config, platform, args.timeframe, args.mode, view=view))
+    import build_rmm_identity_queries as iq
+    def document(platform, view, identity_mode):
+        if identity_mode == 'legacy':
+            return build(policy, config, platform, args.timeframe, args.mode, view=view)
+        if args.entry == 'process':
+            return iq.process_query(build(policy, config, platform, args.timeframe, args.mode), platform, inline=identity_mode == 'inline', view=view)
+        return iq.build(build(policy, config, platform, args.timeframe, args.mode), platform,
+                        inline=identity_mode == 'inline', view=view)
+    documents = [(platform, view, document(platform, view, args.identity_mode))
                  for platform in platforms for view in views]
+    if default_views and args.identity_mode == 'external':
+        documents.extend((platform, 'compat', document(platform, 'all', 'inline')) for platform in platforms)
+        documents.extend((platform, 'process', iq.process_query(build(policy, config, platform, args.timeframe, args.mode), platform)) for platform in platforms)
     generated = []
     for platform, view, text in documents:
         suffix = '_' + view if default_views and view != 'all' else ''
@@ -163,7 +178,7 @@ def main():
         print(f'{"checked" if args.check else "generated"}: {path}')
     if not args.check and any(output.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
         manifest = {'schema_version': 1, 'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(),
-                    'mode': args.mode, 'view': args.view, 'timeframe': args.timeframe, 'queries': generated,
+                    'mode': args.mode, 'view': args.view, 'identity_mode':args.identity_mode, 'timeframe': args.timeframe, 'queries': generated,
                     'policy_sha256': rr.digest(policy), 'config_sha256': rr.digest(config),
                     'rules_snapshot': policy, 'customer_snapshot': config}
         (output / 'rmm_generation_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')

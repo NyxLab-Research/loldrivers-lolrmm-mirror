@@ -316,6 +316,7 @@ def compile_condition(c, platform, fields):
     expr = fields[field]
     vals = c['values'] if op == 'in' else [c['value']]
     predicates = []
+    literals = []
     for val in vals:
         val = normalize(field, val) if op != 'regex' else val
         windows_path = field == 'process_path' and (bool(re.match(r'^[a-zA-Z]:', str(val))) or
@@ -323,6 +324,7 @@ def compile_condition(c, platform, fields):
         if platform == 'cortex' and windows_path and op != 'regex':
             val = val.replace('\\', '/')
         literal = str(val).lower() if type(val) is bool else quote(val, platform)
+        literals.append(literal)
         eq = '==' if platform == 'mde' else '='
         if op in {'equals', 'exact', 'in'}:
             pred = f'{expr} {eq} {literal}'
@@ -339,6 +341,8 @@ def compile_condition(c, platform, fields):
         if platform == 'cortex' and field != 'signature_valid':
             guard += f' and {expr} != ""'
         predicates.append(f'({guard} and ({pred}))')
+    if op == 'in':
+        return f'({guard} and ({expr} in ({", ".join(literals)})))'
     return '(' + ' or '.join(predicates) + ')'
 
 
@@ -372,7 +376,7 @@ def identity(row):
                  ('device_id', 'remote_host', 'process_name', 'process_path', 'sha1', 'sha256'))
 
 
-def review_rows(rows, policy, config, now=None):
+def review_rows(rows, policy, config, now=None, evaluator=None):
     """Review existing exports without queries; merge domains without summing duplicate events."""
     reviewed, activities = [], {}
     for row in rows:
@@ -383,7 +387,7 @@ def review_rows(rows, policy, config, now=None):
         row['event_count'] = int(count)
         if isinstance(row.get('rmm_tool'), list) and any(c['field'] == 'rmm_tool' for r in config.get('whitelist', []) if r['target'] == 'association' for g in groups(r) for c in g):
             raise ValueError('Split tool labels into scalar associations before a tool-scoped whitelist preview')
-        decision = evaluate(policy, config, row, now)
+        decision = (evaluator or evaluate)(policy, config, row, now)
         reviewed.append({**row, **decision})
         key = identity(row)
         state = activities.setdefault(key, {'event_count': row.get('event_count', 0), 'rows': []})

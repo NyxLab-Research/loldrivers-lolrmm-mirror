@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "release": "000001",
+  "source": "https://lolrmm.io/api/rmm_tools.json",
+  "profiles": [
+    {"tool_id":"teamviewer","tool_name":"TeamViewer","role":"rmm","names":["teamviewer.exe","teamviewer_service.exe","teamviewer_desktop.exe","teamviewerhost"],"signers":["TeamViewer Germany GmbH","TeamViewer GmbH"],"ioc_names":["TeamViewer"]},
+    {"tool_id":"anydesk","tool_name":"AnyDesk","role":"rmm","names":["anydesk.exe","anydesk"],"signers":["AnyDesk Software GmbH","philandro Software GmbH"],"ioc_names":["AnyDesk"]},
+    {"tool_id":"todesk","tool_name":"ToDesk","role":"rmm","names":["todesk.exe","todesk_service.exe"],"signers":["Hainan YouQu Technology Co., Ltd"],"ioc_names":["ToDesk"]},
+    {"tool_id":"sunlogin","tool_name":"SunLogin","role":"rmm","names":["sunloginclient.exe","sunloginclient_desktop.exe","sunlogin_guard.exe","orayremoteshell.exe","orayremoteservice.exe"],"signers":["Shanghai Best Oray Information Technology Co., Ltd.","上海贝锐信息科技股份有限公司"],"ioc_names":["SunLogin"]},
+    {"tool_id":"aweray","tool_name":"AweRay / AweSun","role":"rmm","names":["awesun.exe"],"signers":[],"ioc_names":["AweRay"]},
+    {"tool_id":"screenconnect","tool_name":"ScreenConnect / ConnectWise Control","role":"rmm","names":["screenconnect.clientservice.exe","screenconnect.windowsclient.exe","screenconnect.windowsbackstagelauncher.exe"],"signers":["ConnectWise, LLC"],"ioc_names":["ScreenConnect","ConnectWise Control"]},
+    {"tool_id":"splashtop","tool_name":"Splashtop","role":"rmm","names":["strwinclt.exe","srservice.exe","srmanager.exe"],"signers":["Splashtop Inc."],"ioc_names":["Splashtop","Splashtop Remote"]},
+    {"tool_id":"rustdesk","tool_name":"RustDesk","role":"rmm","names":["rustdesk.exe","rustdesk"],"signers":[],"ioc_names":["RustDesk"]},
+    {"tool_id":"quickassist","tool_name":"Microsoft Quick Assist","role":"rmm","names":["quickassist.exe"],"signers":["Microsoft Corporation"],"ioc_names":["Quick Assist","Microsoft Quick Assist"]},
+    {"tool_id":"chrome-remote-desktop","tool_name":"Chrome Remote Desktop","role":"rmm","names":["remoting_host.exe","remoting_me2me_host","remoting_me2me_host_service","chrome-remote-desktop-host"],"signers":["Google LLC"],"ioc_names":["Chrome Remote Desktop"]},
+    {"tool_id":"zoho-assist","tool_name":"Zoho Assist","role":"rmm","names":["zaservice.exe","zohours.exe","zohoursservice.exe","za_access.exe","za_connect.exe"],"signers":["ZOHO Corporation Private Limited"],"ioc_names":["Zoho Assist"]},
+    {"tool_id":"endpoint-central","tool_name":"ManageEngine Endpoint Central","role":"management","names":["dcagentservice.exe","dcagentregister.exe","uems_agent.exe"],"signers":["ZOHO Corporation Private Limited"],"ioc_names":["Manage Engine (Desktop Central)","ManageEngine"]},
+    {"tool_id":"site24x7","tool_name":"Site24x7","role":"management","names":["meagenthelper.exe","monitoringagent.exe","site24x7windowsagenttrayicon.exe","site24x7pluginagent.exe"],"signers":["ZOHO Corporation Private Limited"],"ioc_names":["Site24x7"]},
+    {"tool_id":"qq","tool_name":"QQ / TIM (dual use)","role":"dual_use","names":["qq.exe","tim.exe"],"signers":["Tencent Technology (Shenzhen) Company Limited"],"ioc_names":["QQ IM-remote assistance"]}
+  ]
+}

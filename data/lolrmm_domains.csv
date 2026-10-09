@@ -39,7 +39,6 @@ alpemix.com,Alpemix,*.alpemix.com,^(?:.*\.alpemix\.com)$
 ammyy.com,Ammyy Admin,*.ammyy.com,^(?:.*\.ammyy\.com)$
 ammyy.com,Ammyy Admin,ammyy.com,^(?:ammyy\.com)$
 analytics.insight.rapid7.com,Rapid7,*.analytics.insight.rapid7.com,^(?:.*\.analytics\.insight\.rapid7\.com)$
-anydesk.com,AnyDesk,relay-*.net.anydesk.com,^(?:relay-.*\.net\.anydesk\.com)$
 anyplace-control.com,Anyplace Control,anyplace-control.com,^(?:anyplace-control\.com)$
 anysupport.net,Any Support,*.anysupport.net,^(?:.*\.anysupport\.net)$
 anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
@@ -138,7 +137,6 @@ cloud.tanium.com,Tanium,cloud.tanium.com,^(?:cloud\.tanium\.com)$
 cloudbackup.management,N-Able Advanced Monitoring Agent,*.cloudbackup.management,^(?:.*\.cloudbackup\.management)$
 cloudbackup.management,N-Able Advanced Monitoring Agent,cloudbackup.management,^(?:cloudbackup\.management)$
 cloudberrylab.com,MSP360,*.cloudberrylab.com,^(?:.*\.cloudberrylab\.com)$
-cloudflarestorage.com,PDQ Connect,pdqinstallers.*.r2.cloudflarestorage.com,^(?:pdqinstallers\..*\.r2\.cloudflarestorage\.com)$
 cmdm.comodo.com,Itarian,*.cmdm.comodo.com,^(?:.*\.cmdm\.comodo\.com)$
 comserver.eu1.mspa.n-able.com,N-able N-central,comserver.eu1.mspa.n-able.com,^(?:comserver\.eu1\.mspa\.n-able\.com)$
 comserver.global.mspa.n-able.com,N-able N-central,comserver.global.mspa.n-able.com,^(?:comserver\.global\.mspa\.n-able\.com)$
@@ -419,7 +417,7 @@ n-able.com,N-Able Advanced Monitoring Agent,n-able.com,^(?:n-able\.com)$
 naverisk.com,Naverisk,naverisk.com,^(?:naverisk\.com)$
 nchuser.com,DesktopNow,*.nchuser.com,^(?:.*\.nchuser\.com)$
 net.anydesk.com,AnyDesk,*.net.anydesk.com,^(?:.*\.net\.anydesk\.com)$
-net.au,Site24x7,plus*.site24x7.net.au,^(?:plus.*\.site24x7\.net\.au)$
+net.anydesk.com,AnyDesk,relay-*.net.anydesk.com,^(?:relay-.*\.net\.anydesk\.com)$
 netbird.io,NetBird,*.netbird.io,^(?:.*\.netbird\.io)$
 netbird.io,NetBird,netbird.io,^(?:netbird\.io)$
 netop.com,Netop Remote Control (Impero Connect),*.netop.com,^(?:.*\.netop\.com)$
@@ -488,6 +486,7 @@ pulseway.com,Pulseway,pulseway.com,^(?:pulseway\.com)$
 qq-messenger.en.softonic.com,QQ IM-remote assistance,qq-messenger.en.softonic.com,^(?:qq-messenger\.en\.softonic\.com)$
 quic.cftunnel.com,CloudFlare Tunnel,quic.cftunnel.com,^(?:quic\.cftunnel\.com)$
 r1.rmm.uw.gorelo.tech,Gorelo RMM,r1.rmm.uw.gorelo.tech,^(?:r1\.rmm\.uw\.gorelo\.tech)$
+r2.cloudflarestorage.com,PDQ Connect,pdqinstallers.*.r2.cloudflarestorage.com,^(?:pdqinstallers\..*\.r2\.cloudflarestorage\.com)$
 radmin.com,RAdmin,radmin.com,^(?:radmin\.com)$
 rdp.duetdisplay.com,Duet Display,rdp.duetdisplay.com,^(?:rdp\.duetdisplay\.com)$
 real-time-collaboration.com,Mikogo,*.real-time-collaboration.com,^(?:.*\.real-time-collaboration\.com)$
@@ -585,6 +584,7 @@ site24x7.cn,Site24x7,plus*.site24x7.cn,^(?:plus.*\.site24x7\.cn)$
 site24x7.com,Site24x7,plus*.site24x7.com,^(?:plus.*\.site24x7\.com)$
 site24x7.eu,Site24x7,plus*.site24x7.eu,^(?:plus.*\.site24x7\.eu)$
 site24x7.in,Site24x7,plus*.site24x7.in,^(?:plus.*\.site24x7\.in)$
+site24x7.net.au,Site24x7,plus*.site24x7.net.au,^(?:plus.*\.site24x7\.net\.au)$
 skyfex.com,SkyFex,skyfex.com,^(?:skyfex\.com)$
 socket.lunixar.com,Lunixar,socket.lunixar.com,^(?:socket\.lunixar\.com)$
 softbymade.top,RMMCRAT,softbymade.top,^(?:softbymade\.top)$
