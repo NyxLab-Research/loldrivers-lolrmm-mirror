@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "overrides": [
+    {
+      "catalog_name": "Freshservice",
+      "software_role": "management",
+      "reason": "Discovery Agent and Probe are inventory/discovery components; keep them in internal review rather than the remote-control main report.",
+      "reference": "https://support.freshservice.com/support/solutions/articles/50000009811-discovery-agent-architecture-and-working"
+    }
+  ]
+}

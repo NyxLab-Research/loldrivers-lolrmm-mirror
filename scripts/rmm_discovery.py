@@ -37,12 +37,16 @@ def records(source=None):
     profiles=[r for r in ref.profiles() if r['record_type']=='profile']
     by_name={r['process_name']:r for r in profiles}
     by_label={name.lower():p for p in approved for name in p['ioc_names']+[p['tool_name']]}
+    scope=rr.load_json(ref.ROOT/'rules/rmm_catalog_scope.json')
+    scope_overrides={r['catalog_name'].lower():r['software_role'] for r in scope['overrides']}
+    if scope.get('schema_version')!=1 or len(scope_overrides)!=len(scope['overrides']) or any(v not in ('management','dual_use') for v in scope_overrides.values()):
+        raise ValueError('Invalid reviewed catalog scope override')
     # The reviewed AweSun constraint is canonical; do not split it from its domain labels.
     for p in approved:
         if p['tool_id']=='aweray':p.update(tool_id='awesun',tool_name='AweSun')
     def identity(label):
         p=by_label.get(label.lower())
-        return (p['tool_id'],p['tool_name'],p['role']) if p else ('catalog-'+hashlib.sha256(label.encode()).hexdigest()[:16],label,'rmm')
+        return (p['tool_id'],p['tool_name'],p['role']) if p else ('catalog-'+hashlib.sha256(label.encode()).hexdigest()[:16],label,scope_overrides.get(label.lower(),'rmm'))
     proposals=collections.defaultdict(set)
     for tool in source['tools']:
         for pattern in tool['patterns']:

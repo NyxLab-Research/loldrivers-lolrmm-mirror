@@ -29,6 +29,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertNotIn('signers',d.FIELDS)
         self.assertEqual({r['tool_id'] for r in ref.profiles() if r['record_type']=='profile' and r['process_name']=='awesun.exe'},
                          {r['tool_id'] for r in self.process if r['pattern']=='awesun.exe'})
+    def test_inventory_components_stay_outside_remote_control_main(self):
+        self.assertEqual({r['software_role'] for r in self.rows if r['tool_name']=='Freshservice'},{'management'})
     def test_release_digest_rejects_indicator_tampering(self):
         rows=copy.deepcopy(self.rows);rows[0]['pattern']='*'
         with self.assertRaises(ValueError):ref.validate(rows,d.FIELDS)

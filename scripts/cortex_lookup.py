@@ -2,6 +2,9 @@
 from __future__ import annotations
 import hashlib
 import json
+import gzip
+import io
+from http.client import IncompleteRead
 import re
 import secrets
 import string
@@ -54,6 +57,10 @@ def read_limited(response: object, limit: int = MAX_RESPONSE_BYTES) -> bytes:
     body = response.read(limit + 1)  # type: ignore[attr-defined]
     if len(body) > limit:
         raise SyncError(f"response exceeded {limit} bytes")
+    headers=getattr(response,'headers',{})
+    if headers.get('Content-Encoding','').lower()=='gzip':
+        with gzip.GzipFile(fileobj=io.BytesIO(body)) as compressed:body=compressed.read(limit+1)
+        if len(body)>limit:raise SyncError(f"expanded response exceeded {limit} bytes")
     return body
 
 def validate_api_fqdn(value: str) -> str:
@@ -140,11 +147,23 @@ class CortexClient:
         return headers
 
     def post(self, path: str, request_data: dict[str, object]) -> object:
+        readonly=path in ('/public_api/v1/xql/get_datasets','/public_api/v1/xql/lookups/get_data','/public_api/v1/xql/get_query_results')
+        for attempt in range(3 if readonly else 1):
+            try:return self._post_once(path,request_data)
+            except (IncompleteRead,ConnectionError,TimeoutError):
+                if not readonly or attempt==2:raise
+            except SyncError as exc:
+                cause=exc.__cause__
+                transient=(isinstance(cause,HTTPError) and cause.code in (429,500,502,503,504)) or (not isinstance(cause,HTTPError) and isinstance(cause,(URLError,TimeoutError)))
+                if not readonly or not transient or attempt==2:raise
+            time.sleep(3*(attempt+1))
+
+    def _post_once(self, path: str, request_data: dict[str, object]) -> object:
         payload = json.dumps({"request_data": request_data}).encode("utf-8")
         request = Request(
             f"https://{self.tenant.api_fqdn}{path}",
             data=payload,
-            headers=self._headers(),
+              headers={**self._headers(),'Accept-Encoding':'gzip'},
             method="POST",
         )
         try:
