@@ -267,7 +267,9 @@ def compile_condition(c, platform, fields):
     predicates = []
     for val in vals:
         val = normalize(field, val) if op != 'regex' else val
-        if platform == 'cortex' and field == 'process_path' and op != 'regex':
+        windows_path = field == 'process_path' and (bool(re.match(r'^[a-zA-Z]:', str(val))) or
+                                                    (op == 'regex' and str(val).startswith('^[a-z]:')))
+        if platform == 'cortex' and windows_path and op != 'regex':
             val = val.replace('\\', '/')
         literal = str(val).lower() if type(val) is bool else quote(val, platform)
         eq = '==' if platform == 'mde' else '='
@@ -278,7 +280,7 @@ def compile_condition(c, platform, fields):
                     else f'({expr} = {literal} or wildcard_match({expr}, {quote("*." + val, platform)}))')
         else:
             pattern = ('^' + re.escape(val)) if op == 'path_prefix' else glob_regex(val) if op == 'glob' else val
-            if platform == 'cortex' and field == 'process_path':
+            if platform == 'cortex' and windows_path:
                 pattern = pattern.replace('\\\\', '/')
             pred = f'{expr} {"matches regex" if platform == "mde" else "~="} {quote_regex(pattern, platform)}'
         # Missing fields never satisfy a condition, including false signature checks.
