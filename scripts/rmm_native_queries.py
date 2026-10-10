@@ -13,6 +13,18 @@ def replace_stage(text,old,new):
     if text.count(old)!=1:raise ValueError('Native query stage is missing or duplicated')
     return text.replace(old,new,1)
 
+def cortex_suffix(value,suffix):
+    tail='concat(".",'+suffix+')'
+    return '('+value+' = '+suffix+' or ('+value+' contains '+tail+' and arrayindex(split('+value+','+tail+'),-1) = ""))'
+
+def cortex_glob(value,pattern='pattern'):
+    # Discovery permits exact literals or one '*'; avoid tenant-specific wildcard_match.
+    parts='split('+pattern+',"*")';prefix='arrayindex('+parts+',0)';suffix='arrayindex('+parts+',1)'
+    return '(array_length('+parts+') = 1 and '+value+' = '+pattern+') or (array_length('+parts+') = 2'+\
+        ' and len('+value+') >= add(len('+prefix+'),len('+suffix+'))'+\
+        ' and ('+prefix+' = "" or ('+value+' contains '+prefix+' and arrayindex(split('+value+','+prefix+'),0) = ""))'+\
+        ' and ('+suffix+' = "" or ('+value+' contains '+suffix+' and arrayindex(split('+value+','+suffix+'),-1) = "")))'
+
 def data_source(kind,config,inline=False):
     fields=ref.fields(kind)
     if kind=='customer' or inline:
@@ -61,6 +73,7 @@ let ProcessIndicators=materialize(Indicators | where record_type=="process");
 let DomainIndicators=materialize(Indicators | where record_type=="domain");
 let CandidateNames=toscalar(ProcessIndicators | where anchor_key startswith "name:" | summarize make_set(pattern));
 let CandidatePrefixes=toscalar(ProcessIndicators | where anchor_key startswith "prefix:" | summarize make_set(substring(anchor_key,7)));
+let MainNamesCovered=toscalar(Profiles | join kind=leftanti (ProcessIndicators | where anchor_key startswith "name:" | project process_name=pattern,tool_id) on process_name,tool_id | count)==0;
 let DomainTerms=toscalar(DomainIndicators | extend Term=extract(@"[a-z0-9]{3,}",0,domain) | summarize make_set(Term));
 let DomainScan=toscalar(DomainIndicators | where isempty(extract(@"[a-z0-9]{3,}",0,domain)) or not(domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
 let Terms0=array_slice(DomainTerms,0,119);
@@ -193,6 +206,9 @@ let Classified=Candidates | lookup kind=leftouter RuleMatches on CandidateId
  | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review");
 '''
     if view in ('main','details'):
+        # Unknown domain-only records cannot enter main. Fall back to full discovery if a profile alias is missing.
+        defs=replace_stage(defs,'| where Timestamp>=ReportStart and Timestamp<ReportEnd\n  | where ActionType=="ConnectionSuccess"',
+            '| where Timestamp>=ReportStart and Timestamp<ReportEnd\n  | where not(MainNamesCovered) or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))\n  | where ActionType=="ConnectionSuccess"')
         # Only records that cannot qualify are removed; domain/process discovery is unchanged.
         defs=replace_stage(defs,'NameConflict,User,RemoteHost,Activity,ActionType);',
             'NameConflict,User,RemoteHost,Activity,ActionType\n | where SoftwareRole=="rmm" and (ProfileTool==SoftwareId or (ProcessMatch==1 and DomainMatch==1)));')
@@ -230,13 +246,15 @@ def cortex_health(pool):
  | comp count() as {prefix}Rows, count_distinct(row_id) as {prefix}Keys,
    count_distinct(release_digest) as {prefix}Digests, sum(if(record_type = "manifest",1,0)) as {prefix}Markers,
    max(to_integer(expected_rows)) as {prefix}Expected
- | alter {prefix}OK = if({prefix}Rows = add({prefix}Expected,1) and {prefix}Keys = {prefix}Rows
-   and {prefix}Markers = 1 and {prefix}Digests = 1 and {prefix}Expected >= {minimum},true,false), _HealthKey = 1'''
-        result=part if not result else result+'\n | join type = inner ('+part+') as '+prefix+'Health _HealthKey = '+prefix+'Health._HealthKey'
+ | alter CheckOK = if({prefix}Rows = add({prefix}Expected,1) and {prefix}Keys = {prefix}Rows
+   and {prefix}Markers = 1 and {prefix}Digests = 1 and {prefix}Expected >= {minimum},true,false), CheckName = "{kind}"
+ | fields CheckName,CheckOK'''
+        result=part if not result else result+'\n | union ('+part+')'
     keys='('+','.join(rr.quote(k,'cortex') for k in pool)+')'
-    engine=cortex_rules()[1:-1]+f'\n | filter operator = "regex" and regex_key not in {keys}\n | comp count() as UnknownRegex\n | alter _HealthKey = 1'
-    result+='\n | join type = inner ('+engine+') as EHealth _HealthKey = EHealth._HealthKey'
-    result+='\n | alter ReferencesOK = if(POK = true and DOK = true and GOK = true and COK = true and UnknownRegex = 0,true,false)'
+    engine=cortex_rules()[1:-1]+f'\n | filter operator = "regex" and regex_key not in {keys}\n | comp count() as UnknownRegex\n | alter CheckName = "engine",CheckOK = if(UnknownRegex = 0,true,false)\n | fields CheckName,CheckOK'
+    result+='\n | union ('+engine+')'
+    result+='\n | comp count() as Checks,count_distinct(CheckName) as CheckNames,sum(if(CheckOK = true,1,0)) as Passed'
+    result+='\n | alter ReferencesOK = if(Checks = 5 and CheckNames = 5 and Passed = 5,true,false), _HealthKey = 1'
     result+='\n | alter ReportStatus = if(ReferencesOK = true,"ok","reference_or_policy_unavailable")\n | fields _HealthKey, ReferencesOK, ReportStatus'
     return result
 
@@ -287,14 +305,14 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     network_source=replace_stage(network_source,'Activity,SHA1,RuleName,RulePath\n','Activity,SHA1,RuleName,RulePath,_DomainKey\n')
     query='// Native RMM activity; source definitions and integration contract: README.md.\nconfig case_sensitive = true timeframe = '+timeframe+'\n| '+network_source
     query+='| join type = inner ('+domain_index+') as D _DomainKey = D._DomainKey\n'
-    query+='| filter (RemoteHost = domain or wildcard_match(RemoteHost,concat("*.",domain))) and wildcard_match(RemoteHost,pattern)\n| alter ProcessMatch = 0, DomainMatch = 1, MatchedDomain = domain\n'
+    query+='| filter '+cortex_suffix('RemoteHost','domain')+' and ('+cortex_glob('RemoteHost')+')\n| alter ProcessMatch = 0, DomainMatch = 1, MatchedDomain = domain\n'
     anchor_stage='''| alter _IndicatorAnchor = arraycreate(concat("name:",RuleName),concat("prefix:",arrayindex(split(RuleName,"-"),0)),concat("prefix:",arrayindex(split(RuleName,"_"),0)))
 | arrayexpand _IndicatorAnchor
 | filter _IndicatorAnchor in ('''+prefilter+''' | fields anchor_key)
 '''
     process_source=replace_stage(source(process_predicate),'| comp min(_time)',anchor_stage+'| comp min(_time)')
     process_source=replace_stage(process_source,'Activity,SHA1,RuleName,RulePath\n','Activity,SHA1,RuleName,RulePath,_IndicatorAnchor\n')
-    query+='| union ('+process_source+' | join type = inner ('+process+' | fields tool_id,tool_name,software_role,pattern,anchor_key) as I _IndicatorAnchor = I.anchor_key\n | filter wildcard_match(RuleName,pattern)\n | alter ProcessMatch = 1, DomainMatch = 0, MatchedDomain = "")\n'
+    query+='| union ('+process_source+' | join type = inner ('+process+' | fields tool_id,tool_name,software_role,pattern,anchor_key) as I _IndicatorAnchor = I.anchor_key\n | filter '+cortex_glob('RuleName')+'\n | alter ProcessMatch = 1, DomainMatch = 0, MatchedDomain = "")\n'
     query+='''| comp max(ProcessMatch) as ProcessMatch,max(DomainMatch) as DomainMatch,values(MatchedDomain) as MatchedDomains,max(EventCount) as EventCount
     by _time,FirstObserved,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,tool_id,tool_name,software_role
 | alter SoftwareId = tool_id, Software = tool_name, SoftwareRole = software_role
@@ -320,7 +338,7 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     query+='''| alter _Matches = if(_Actual != null and _Actual != "" and (
     ((operator = "equals" or operator = "exact") and _Actual = _Value)
     or (operator = "path_prefix" and arrayindex(split(_Actual,_Value),0) = "")
-    or (operator = "domain_suffix" and (_Actual = _Value or wildcard_match(_Actual,concat("*.",_Value))))
+    or (operator = "domain_suffix" and '''+cortex_suffix('_Actual','_Value')+''')
     or (operator = "regex" and ('''+regexp+'''))),true,false)
 | alter _Condition = if(_Matches = true,condition_id,null)
 | comp count_distinct(_Condition) as _Matched, max(to_integer(condition_count)) as _Required
@@ -336,11 +354,11 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     if view in ('main','details'):query+='| filter ReportSection = "main"\n'
     elif view=='review':query+='| filter ReportSection = "review" and WhitelistHit = 0\n'
     if view=='details':
-        query+='| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n'
+        query+='| alter MatchedDomains = json_extract_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n| alter MatchedDomains = json_extract_scalar(to_string(MatchedDomains),"$")\n'
         query+='| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(_Reason) as Reasons,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence by _Record,ReportSection\n'
     else:
         query+='| windowcomp first_value(_Record) by DeviceId,SoftwareId,ReportSection sort desc _time, asc _Record between null and null as _LatestRecord\n'
-        query+='| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n'
+        query+='| alter MatchedDomains = json_extract_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n| alter MatchedDomains = json_extract_scalar(to_string(MatchedDomains),"$")\n'
         query+='| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(_Reason) as Reasons,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence, first(_LatestRecord) as _Record by DeviceId,SoftwareId,ReportSection\n'
     names=['DeviceName','DeviceId','SoftwareId','Software','ProcessName','ProcessPath','Publisher','SHA256','User','RemoteHost','RemoteIP','SignatureStatus']
     query+='| alter '+',\n    '.join(n+' = json_extract_scalar(_Record,"$['+str(i)+']")' for i,n in enumerate(names))+'\n'

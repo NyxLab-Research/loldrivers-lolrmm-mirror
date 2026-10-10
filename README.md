@@ -144,6 +144,34 @@ MDE embeds customer rules in a generated private typed datatable. Cortex reads
 its private customer lookup; generate a customer query when its regex registry
 changes. Dev only sets the window, executes the native query and handles delivery.
 
+For MDE main/details, network names are filtered before URL parsing and domain
+expansion. Original filename aliases and bounded process prefixes remain eligible.
+If an active identity profile lacks a same-tool process indicator, the query falls
+back to broad discovery. Internal all/review retain independent domain discovery.
+Cortex exact/one-star matching uses split/arrayindex/len for tenant compatibility.
+Domain arrays use json_extract_array followed by scalar decoding; some tenants
+reject wildcard_match or json_extract_scalar_array even when other tenants accept
+the same query. Historical domains and coherent latest process fields are retained.
+
+Query output size and peak memory are not CPU/CU budgets. Before API execution,
+dev must check shared tenant usage, maintain a separate RMM cost ledger and reserve
+quota for other projects. The read-only helper is an estimate-based admission
+check; it does not execute queries or enforce a per-query server cost cap:
+
+```console
+python scripts/check_cortex_query_budget.py --tenant example --daily-limit 5 --reserve 4 --estimate 0.2 --rmm-daily-budget 1 --rmm-spent 0
+```
+
+Use the tenant's confirmed daily limit and a conservative historical cost estimate
+for the same query/window. license_quota/used_quota may be annual values;
+daily_used_quota is separate. Missing quota data, another active query or an
+insufficient budget defers execution; it must not produce an empty successful
+report. A local per-tenant lock prevents overlapping RMM admission checks but
+cannot reserve quota against unrelated applications. UI queries bypass this
+helper. Never infer a 7-day cost from a 1-hour test or treat time-slicing as a
+guaranteed CU reduction. The report executor must explicitly call the helper;
+the existing reference-sync schedule does not execute weekly reports.
+
 ## Cortex deployment and updates
 
 ```console
@@ -212,6 +240,8 @@ review/domain discovery to assess coverage.
 - [Cortex start](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Start-an-XQL-Query), [results](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Results) and [lookup writes](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Add-or-update-data-in-a-lookup-dataset).
 - [Cortex filter / IN](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/filter), [wildcard_match](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/wildcard_match), [JSON scalar arrays](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/json_extract_scalar_array) and [lookup reads](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-data-from-a-lookup-dataset).
 - [Defender performance](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-best-practices), [lookup](https://learn.microsoft.com/en-us/kusto/query/lookup-operator?view=microsoft-fabric), [broadcast join](https://learn.microsoft.com/en-us/kusto/query/broadcast-join?view=microsoft-fabric) and [materialize](https://learn.microsoft.com/en-us/kusto/query/materialize-function?view=microsoft-fabric).
+- [Defender CPU limits and errors](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-errors), [Cortex quota API](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Quota) and [Cortex daily CU limits](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-5.x-Documentation/Compute-units-usage).
+- [Cortex JSON extraction types](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Core-Concept-Why-XQL-has-four-JSON-extraction-functions).
 - [Palo Alto XQL performance](https://live.paloaltonetworks.com/t5/cortex-xdr-articles/xdr-best-practices-5-tips-for-better-xql-queries/tac-p/575262) and [XQL APIs / actual query costs](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Running-XQL-Query-APIs).
 - [Freshservice discovery scope](https://support.freshservice.com/support/solutions/articles/50000009811-discovery-agent-architecture-and-working).
 

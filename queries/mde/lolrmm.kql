@@ -43,6 +43,7 @@ let ProcessIndicators=materialize(Indicators | where record_type=="process");
 let DomainIndicators=materialize(Indicators | where record_type=="domain");
 let CandidateNames=toscalar(ProcessIndicators | where anchor_key startswith "name:" | summarize make_set(pattern));
 let CandidatePrefixes=toscalar(ProcessIndicators | where anchor_key startswith "prefix:" | summarize make_set(substring(anchor_key,7)));
+let MainNamesCovered=toscalar(Profiles | join kind=leftanti (ProcessIndicators | where anchor_key startswith "name:" | project process_name=pattern,tool_id) on process_name,tool_id | count)==0;
 let DomainTerms=toscalar(DomainIndicators | extend Term=extract(@"[a-z0-9]{3,}",0,domain) | summarize make_set(Term));
 let DomainScan=toscalar(DomainIndicators | where isempty(extract(@"[a-z0-9]{3,}",0,domain)) or not(domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
 let Terms0=array_slice(DomainTerms,0,119);
@@ -63,6 +64,7 @@ let NameCandidate=(name:string){name in (CandidateNames) or tostring(split(name,
 let Sources=(union
  (DeviceNetworkEvents
   | where Timestamp>=ReportStart and Timestamp<ReportEnd
+  | where not(MainNamesCovered) or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
   | where ActionType=="ConnectionSuccess" or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
   | where DomainScan or RemoteUrl has_any (Terms0) or RemoteUrl has_any (Terms1) or RemoteUrl has_any (Terms2) or RemoteUrl has_any (Terms3)
      or RemoteIP has_any (Terms0) or RemoteIP has_any (Terms1) or RemoteIP has_any (Terms2) or RemoteIP has_any (Terms3)

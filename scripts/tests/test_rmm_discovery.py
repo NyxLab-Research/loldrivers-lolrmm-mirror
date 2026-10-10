@@ -29,6 +29,15 @@ class DiscoveryTests(unittest.TestCase):
         self.assertNotIn('signers',d.FIELDS)
         self.assertEqual({r['tool_id'] for r in ref.profiles() if r['record_type']=='profile' and r['process_name']=='awesun.exe'},
                          {r['tool_id'] for r in self.process if r['pattern']=='awesun.exe'})
+    def test_main_identity_aliases_have_same_tool_process_evidence(self):
+        available={(r['pattern'],r['tool_id']) for r in self.process if r['anchor_key'].startswith('name:')}
+        required={(r['process_name'],r['tool_id']) for r in ref.profiles() if r['record_type']=='profile'}
+        self.assertTrue(required<=available,'Missing alias would require broad main discovery fallback')
+    def test_native_matcher_input_is_bounded_to_one_star(self):
+        for row in self.rows:
+            if row['record_type']=='manifest':continue
+            self.assertLessEqual(row['pattern'].count('*'),1)
+            self.assertFalse(any(c in row['pattern'] for c in '?[]{}'))
     def test_inventory_components_stay_outside_remote_control_main(self):
         self.assertEqual({r['software_role'] for r in self.rows if r['tool_name']=='Freshservice'},{'management'})
     def test_release_digest_rejects_indicator_tampering(self):

@@ -84,5 +84,13 @@ class NativeDataTests(unittest.TestCase):
         policy,config=rr.load_policy()
         config['whitelist']=[{'conditions':[{'field':'matched_domain'}]}]
         with self.assertRaises(ValueError):native.check_config(policy,config)
+    def test_cortex_views_avoid_functions_rejected_by_legacy_tenant(self):
+        import rmm_native_queries as native
+        policy,config=rr.load_policy()
+        for view in ('main','details','all','review'):
+            query=native.build_cortex(policy,config,'1h',view)
+            self.assertNotIn('wildcard_match(',query)
+            self.assertNotIn('json_extract_scalar_array(',query)
+            self.assertIn('json_extract_scalar(to_string(MatchedDomains),"$")',query)
 
 if __name__=='__main__':unittest.main()

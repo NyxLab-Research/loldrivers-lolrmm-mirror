@@ -147,7 +147,7 @@ class CortexClient:
         return headers
 
     def post(self, path: str, request_data: dict[str, object]) -> object:
-        readonly=path in ('/public_api/v1/xql/get_datasets','/public_api/v1/xql/lookups/get_data','/public_api/v1/xql/get_query_results')
+        readonly=path in ('/public_api/v1/xql/get_datasets','/public_api/v1/xql/lookups/get_data','/public_api/v1/xql/get_query_results','/public_api/v1/xql/get_quota')
         for attempt in range(3 if readonly else 1):
             try:return self._post_once(path,request_data)
             except (IncompleteRead,ConnectionError,TimeoutError):
@@ -205,6 +205,15 @@ class CortexClient:
             if name:
                 names.add(str(name).lower())
         return names
+
+    def get_query_quota(self) -> dict[str, object]:
+        response=unwrap_api_reply(self.post('/public_api/v1/xql/get_quota',{}))
+        if not isinstance(response,dict) or 'used_quota' not in response:
+            raise SyncError(f'tenant {self.tenant.name}: get_quota response is invalid')
+        # Do not forward currently running queries, which may belong to other projects.
+        fields=('license_quota','additional_purchased_quota','eval_quota','used_quota','daily_used_quota',
+                'current_concurrent_active_queries_count','total_daily_running_queries')
+        return {field:response[field] for field in fields if field in response}
 
     def add_dataset(self, spec: DatasetSpec) -> None:
         self.post(
