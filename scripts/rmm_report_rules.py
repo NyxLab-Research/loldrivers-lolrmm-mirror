@@ -14,8 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FIELDS = {'device_id', 'device_name', 'process_name', 'process_path', 'tool_id', 'software_role', 'sha1',
           'sha256', 'signer', 'signature_valid', 'remote_host', 'matched_domain', 'rmm_tool'}
 ASSOCIATION_FIELDS = {'matched_domain', 'rmm_tool'}
-OPERATORS = {'equals', 'exact', 'in', 'domain_suffix', 'path_prefix', 'glob', 'regex'}
-CASE_INSENSITIVE = {'device_name', 'process_name', 'sha1', 'sha256', 'signer', 'remote_host', 'matched_domain', 'tool_id', 'software_role'}
+OPERATORS = {'equals', 'exact', 'in', 'domain_suffix', 'path_prefix', 'contains', 'glob', 'regex'}
+CASE_INSENSITIVE = {'device_name', 'process_name', 'sha1', 'sha256', 'signer', 'remote_host', 'matched_domain', 'rmm_tool', 'tool_id', 'software_role'}
 DOMAIN_RE = re.compile(r'^[a-z0-9_-]+(?:\.[a-z0-9_-]+)+$')
 
 
@@ -123,6 +123,8 @@ def validate_condition(condition, target, *, trusted=False):
         raise ValueError('domain_suffix only supports domain fields')
     if op in {'path_prefix', 'glob'} and field != 'process_path':
         raise ValueError('path_prefix/glob only support process_path')
+    if op == 'contains' and field != 'process_path':
+        raise ValueError('contains only supports process_path; domains require exact or domain_suffix')
     if op == 'path_prefix' and any(not v.endswith(('\\', '/')) for v in vals):
         raise ValueError('path_prefix must end at a directory separator')
     if field in {'sha1', 'sha256', 'signature_valid'} and op not in {'equals', 'exact', 'in'}:
@@ -223,11 +225,15 @@ def condition_matches(c, row):
     values = c['values'] if op == 'in' else [c['value']]
     for value in values:
         value = normalize(field, value) if op != 'regex' else value
+        if field == 'process_path' and op != 'regex':
+            actual, value = actual.replace('\\', '/'), value.replace('\\', '/')
         if op in {'equals', 'exact', 'in'} and actual == value:
             return True
         if op == 'domain_suffix' and (actual == value or actual.endswith('.' + value)):
             return True
         if op == 'path_prefix' and actual.startswith(value):
+            return True
+        if op == 'contains' and value in actual:
             return True
         if op in {'regex', 'glob'} and re.search(glob_regex(value) if op == 'glob' else value, actual):
             return True

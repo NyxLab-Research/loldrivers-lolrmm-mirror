@@ -1,183 +1,69 @@
-// Native RMM activity; source definitions and integration contract: README.md.
+// RMM-related domain connections; general rules are external data. See README.md.
 let ReportStart=ago(7d);
 let ReportEnd=now();
-let ProfileRaw=materialize(externaldata(row_id:string,record_type:string,release:string,tool_id:string,tool_name:string,process_name:string,signers:string,software_role:string,path_prefix:string,path_contains:string,original_names:string,expected_rows:string,release_digest:string)[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/rmm_tool_profiles_v2.csv'] with(format='csv',ignoreFirstRecord=true));
-let ProfileMarker=materialize(ProfileRaw | where record_type=="manifest" | top 1 by release desc);
-let ProfileRelease=toscalar(ProfileMarker | project release);
-let ProfileActive=materialize(ProfileRaw | where release==ProfileRelease);
-let ProfileOK=toscalar(ProfileActive | count)==toscalar(ProfileMarker | project tolong(expected_rows))+1
- and toscalar(ProfileActive | summarize by row_id | count)==toscalar(ProfileActive | count)
- and toscalar(ProfileActive | summarize by release_digest | count)==1
- and toscalar(ProfileMarker | project tolong(expected_rows))>=1;
-let DiscoveryRaw=materialize(externaldata(row_id:string,record_type:string,release:string,tool_id:string,tool_name:string,software_role:string,anchor_key:string,pattern:string,domain:string,expected_rows:string,release_digest:string)[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/rmm_discovery_indicators.csv'] with(format='csv',ignoreFirstRecord=true));
-let DiscoveryMarker=materialize(DiscoveryRaw | where record_type=="manifest" | top 1 by release desc);
-let DiscoveryRelease=toscalar(DiscoveryMarker | project release);
-let DiscoveryActive=materialize(DiscoveryRaw | where release==DiscoveryRelease);
-let DiscoveryOK=toscalar(DiscoveryActive | count)==toscalar(DiscoveryMarker | project tolong(expected_rows))+1
- and toscalar(DiscoveryActive | summarize by row_id | count)==toscalar(DiscoveryActive | count)
- and toscalar(DiscoveryActive | summarize by release_digest | count)==1
- and toscalar(DiscoveryMarker | project tolong(expected_rows))>=1;
+let Domains=materialize(externaldata(Domain:string,Software:string,Pattern:string,Regex:string)
+ [h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/lolrmm_domains.csv'] with(format='csv',ignoreFirstRecord=true)
+ | extend Domain=tolower(Domain),Pattern=tolower(Pattern) | distinct Domain,Software,Pattern);
 let GeneralRaw=materialize(externaldata(row_id:string,record_type:string,release:string,rule_id:string,rule_kind:string,rule_target:string,group_id:string,condition_id:string,condition_count:string,anchor_key:string,field_name:string,operator:string,value:string,regex_key:string,expires_at:string,expected_rows:string,release_digest:string)[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/rmm_general_rules.csv'] with(format='csv',ignoreFirstRecord=true));
 let GeneralMarker=materialize(GeneralRaw | where record_type=="manifest" | top 1 by release desc);
 let GeneralRelease=toscalar(GeneralMarker | project release);
 let GeneralActive=materialize(GeneralRaw | where release==GeneralRelease);
-let GeneralOK=toscalar(GeneralActive | count)==toscalar(GeneralMarker | project tolong(expected_rows))+1
+let GeneralOK=toscalar(GeneralActive | where record_type=="manifest" | count)==1 and toscalar(GeneralActive | count)==toscalar(GeneralMarker | project tolong(expected_rows))+1
  and toscalar(GeneralActive | summarize by row_id | count)==toscalar(GeneralActive | count)
  and toscalar(GeneralActive | summarize by release_digest | count)==1
  and toscalar(GeneralMarker | project tolong(expected_rows))>=0;
-let CustomerRaw=materialize(datatable(row_id:string,record_type:string,release:string,rule_id:string,rule_kind:string,rule_target:string,group_id:string,condition_id:string,condition_count:string,anchor_key:string,field_name:string,operator:string,value:string,regex_key:string,expires_at:string,expected_rows:string,release_digest:string)[
-"000001:manifest","manifest","000001","","","","","","","","","","","","","0","4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
-]);
-let CustomerMarker=materialize(CustomerRaw | where record_type=="manifest" | top 1 by release desc);
-let CustomerRelease=toscalar(CustomerMarker | project release);
-let CustomerActive=materialize(CustomerRaw | where release==CustomerRelease);
-let CustomerOK=toscalar(CustomerActive | count)==toscalar(CustomerMarker | project tolong(expected_rows))+1
- and toscalar(CustomerActive | summarize by row_id | count)==toscalar(CustomerActive | count)
- and toscalar(CustomerActive | summarize by release_digest | count)==1
- and toscalar(CustomerMarker | project tolong(expected_rows))>=0;
-let ReferencesOK=ProfileOK and DiscoveryOK and GeneralOK and CustomerOK;
-let FileProfileEnabled=true;
-let Profiles=materialize(ProfileActive | where record_type=="profile");
-let Indicators=materialize(DiscoveryActive | where record_type in ("process","domain"));
-let ProcessIndicators=materialize(Indicators | where record_type=="process");
-let DomainIndicators=materialize(Indicators | where record_type=="domain");
-let CandidateNames=toscalar(ProcessIndicators | where anchor_key startswith "name:" | summarize make_set(pattern));
-let CandidatePrefixes=toscalar(ProcessIndicators | where anchor_key startswith "prefix:" | summarize make_set(substring(anchor_key,7)));
-let MainNamesCovered=toscalar(Profiles | join kind=leftanti (ProcessIndicators | where anchor_key startswith "name:" | project process_name=pattern,tool_id) on process_name,tool_id | count)==0;
-let DomainTerms=toscalar(DomainIndicators | extend Term=extract(@"[a-z0-9]{3,}",0,domain) | summarize make_set(Term));
-let DomainScan=toscalar(DomainIndicators | where isempty(extract(@"[a-z0-9]{3,}",0,domain)) or not(domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
+let Rules=materialize(GeneralActive | where record_type=="condition" | where isempty(expires_at) or now()<todatetime(expires_at));
+let ReferencesOK=GeneralOK and toscalar(Domains | count)>0 and toscalar(Rules | where field_name !in ("device_id","device_name","matched_domain","process_name","process_path","remote_host","rmm_tool","sha1","sha256") or operator !in ("contains","domain_suffix","equals","exact","glob","path_prefix") | count)==0;
+let DomainTerms=toscalar(Domains | extend Term=extract(@"[a-z0-9]{3,}",0,Domain) | summarize make_set(Term));
+let DomainScan=toscalar(Domains | where isempty(extract(@"[a-z0-9]{3,}",0,Domain)) or not(Domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
 let Terms0=array_slice(DomainTerms,0,119);
 let Terms1=array_slice(DomainTerms,120,239);
 let Terms2=array_slice(DomainTerms,240,359);
 let Terms3=array_slice(DomainTerms,360,479);
-let Rules=materialize(union GeneralActive,CustomerActive | where record_type=="condition"
- | where isempty(expires_at) or now()<todatetime(expires_at)
- | where rule_kind!="general" or rule_id !in (CustomerActive | where record_type=="disabled" | project rule_id));
-let RegexKeys=dynamic(["rx-00b1eea1ce5bf555", "rx-01093cb618136bf9", "rx-044c546878deec89", "rx-0b57247b2ac6a0f4", "rx-0be6a609a7bad84e", "rx-0e5ebe390a2f79e3", "rx-13c0afd36fd00475", "rx-24dab7ec5e8815fe", "rx-298ca303877cc97c", "rx-35ec10b0e532e49e", "rx-56adec474d120fa9", "rx-64882f7b5785813f", "rx-6867efd356038a2c", "rx-688de0b47c5f49f2", "rx-72eb8b19dba7c28e", "rx-787bfe07b04bdb03", "rx-853a065f67a9e16b", "rx-90da7e269b72988a", "rx-94a676e01738e3b0", "rx-97609b3bb0afac4e", "rx-9fc97d738a3f55eb", "rx-b4c6c7c66eb34521", "rx-b970c040c317fb0d", "rx-bed3ba443c7e66ad", "rx-ce4c9ba52e3a31fe", "rx-f43b260c65382b8b", "rx-fc65d1dc59f5b554"]);
-let EngineOK=toscalar(Rules | where operator=="regex" and regex_key !in (RegexKeys) | count)==0;
-let MatchRegex=(value:string,key:string){case(key=="rx-00b1eea1ce5bf555",value matches regex "^[a-z]:/(?:[^/]+/)*(?:sogouinput|sogouwbinput)/",key=="rx-01093cb618136bf9",value matches regex "google (?:llc|inc)",key=="rx-044c546878deec89",value matches regex "^[a-z]:/program files(?: \\(x86\\))?/microsoft office/(?:root/)?office[0-9]+/outlook[.]exe$",key=="rx-0b57247b2ac6a0f4",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?|users/[^/]+/appdata/(?:local|roaming))/(?:[^/]+/)*tencent/qqbrowser/(?:[^/]+/)*qqbrowser[.]exe$",key=="rx-0be6a609a7bad84e",value matches regex "^(?:beijing sogou technology development co[.]?,? ltd[.]?|tencent technology ?\\(shenzhen\\) company limited)$",key=="rx-0e5ebe390a2f79e3",value matches regex "tencent technology",key=="rx-13c0afd36fd00475",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?|users/[^/]+/appdata/(?:local|roaming))/(?:[^/]+/)*mozilla firefox/(?:[^/]+/)*firefox[.]exe$",key=="rx-24dab7ec5e8815fe",value matches regex "^[a-z]:/program files(?: \\(x86\\))?/sogou/sogouexplorer/(?:[^/]+/)*sogouexplorer[.]exe$",key=="rx-298ca303877cc97c",value matches regex "mozilla corporation",key=="rx-35ec10b0e532e49e",value matches regex "^/Library/(?:ManageEngine/UEMS_Agent|Desktopcentral_Agent)/",key=="rx-56adec474d120fa9",value matches regex "^microsoft corporation$",key=="rx-64882f7b5785813f",value matches regex "^[a-z]:/program files(?: \\(x86\\))?/(?:manageengine/uems_agent|desktopcentral_agent)/",key=="rx-6867efd356038a2c",value matches regex "^(?:developer id application: )?microsoft corporation(?: \\([a-z0-9]+\\))?$",key=="rx-688de0b47c5f49f2",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?|users/[^/]+/appdata/(?:local|roaming))/(?:[^/]+/)*microsoft/edge/(?:[^/]+/)*msedge[.]exe$",key=="rx-72eb8b19dba7c28e",value matches regex "(?:beijing sogou|tencent technology)",key=="rx-787bfe07b04bdb03",value matches regex "vivaldi technologies",key=="rx-853a065f67a9e16b",value matches regex "^(?:developer id application: )?google (?:llc|inc)(?: \\([a-z0-9]+\\))?$",key=="rx-90da7e269b72988a",value matches regex "(?i)^/(?:applications|users/[^/]+/applications)/google chrome[.]app/contents/(?:macos/google chrome|frameworks/google chrome framework[.]framework/versions/[^/]+/helpers/google chrome helper(?: \\((?:renderer|gpu|plugin)\\))?[.]app/contents/macos/google chrome helper(?: \\((?:renderer|gpu|plugin)\\))?)$",key=="rx-94a676e01738e3b0",value matches regex "developer id application: zoho corporation",key=="rx-97609b3bb0afac4e",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?/tencent/yuanbao|users/[^/]+/(?:appdata/(?:local|roaming)/(?:tencent/)?)?yuanbao)/yuanbao[.]exe$",key=="rx-9fc97d738a3f55eb",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?|users/[^/]+/appdata/(?:local|roaming))/(?:[^/]+/)*google/(?:[^/]+/)*chrome[.]exe$",key=="rx-b4c6c7c66eb34521",value matches regex "(?i)^/(?:applications|users/[^/]+/applications)/microsoft edge[.]app/contents/(?:macos/microsoft edge|frameworks/microsoft edge framework[.]framework/versions/[^/]+/helpers/microsoft edge helper(?: \\((?:renderer|gpu|plugin)\\))?[.]app/contents/macos/microsoft edge helper(?: \\((?:renderer|gpu|plugin)\\))?)$",key=="rx-b970c040c317fb0d",value matches regex "^tencent technology ?\\(shenzhen\\) company limited$",key=="rx-bed3ba443c7e66ad",value matches regex "zoho corporation",key=="rx-ce4c9ba52e3a31fe",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?/ima[.]copilot|ima[.]copilot|users/[^/]+/appdata/local/ima[.]copilot/application)/ima[.]copilot[.]exe$",key=="rx-f43b260c65382b8b",value matches regex "microsoft corporation",key=="rx-fc65d1dc59f5b554",value matches regex "^[a-z]:/(?:program files(?: \\(x86\\))?|users/[^/]+/appdata/(?:local|roaming))/(?:[^/]+/)*vivaldi/(?:[^/]+/)*vivaldi[.]exe$",false)};
-let NormalizePath=(value:string){iff(value matches regex @"^[A-Za-z]:",tolower(replace_string(value,"\\","/")),value)};
-let OriginalAlias=(value:string){let name=tolower(value);iff(name endswith ".exe" or name in (CandidateNames),name,strcat(name,".exe"))};
-let FullPath=(folder:string,name:string){iff(tolower(folder) endswith tolower(name),folder,strcat(trim_end(@"[\\/]+",folder),iff(folder contains "\\","\\","/"),name))};
-let Host=(value:string){tolower(trim_end(@"[.]+",tostring(parse_url(iff(value contains "://",value,strcat("https://",value))).Host)))};
-let NameCandidate=(name:string){name in (CandidateNames) or tostring(split(name,"-")[0]) in (CandidatePrefixes) or tostring(split(name,"_")[0]) in (CandidatePrefixes)};
-let Sources=(union
- (DeviceNetworkEvents
-  | where Timestamp>=ReportStart and Timestamp<ReportEnd
-  | where not(MainNamesCovered) or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
-  | where ActionType=="ConnectionSuccess" or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
-  | where DomainScan or RemoteUrl has_any (Terms0) or RemoteUrl has_any (Terms1) or RemoteUrl has_any (Terms2) or RemoteUrl has_any (Terms3)
-     or RemoteIP has_any (Terms0) or RemoteIP has_any (Terms1) or RemoteIP has_any (Terms2) or RemoteIP has_any (Terms3)
-     or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
-  | where isnotempty(RemoteUrl) or isnotempty(RemoteIP) or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
-  | project _time=Timestamp,DeviceName,DeviceId,ProcessName=InitiatingProcessFileName,
-    ProcessPath=InitiatingProcessFolderPath,SHA1=tolower(InitiatingProcessSHA1),SHA256=tolower(InitiatingProcessSHA256),
-    OriginalName=InitiatingProcessVersionInfoOriginalFileName,User=InitiatingProcessAccountName,
-    RemoteHost=iff(isnotempty(RemoteUrl),Host(RemoteUrl),RemoteIP),RemoteIP,Activity=iff(ActionType=="ConnectionSuccess","Network activity","Connection attempt"),ActionType),
- (DeviceProcessEvents
-  | where Timestamp>=ReportStart and Timestamp<ReportEnd and ActionType=="ProcessCreated"
-  | where NameCandidate(tolower(FileName)) or NameCandidate(OriginalAlias(ProcessVersionInfoOriginalFileName))
-  | project _time=Timestamp,DeviceName,DeviceId,ProcessName=FileName,ProcessPath=FullPath(FolderPath,FileName),
-    SHA1=tolower(SHA1),SHA256=tolower(SHA256),OriginalName=ProcessVersionInfoOriginalFileName,
-    User=AccountName,RemoteHost="",RemoteIP="",Activity="Process start",ActionType)
- | extend RuleName=tolower(ProcessName),RuleOriginal=tolower(OriginalName),OriginalKey=OriginalAlias(OriginalName),RulePath=NormalizePath(ProcessPath)
- | extend SourceId=tostring(pack_array(DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType)));
-let ProcessCandidates=Sources
- | extend MatchKeys=pack_array(strcat("name:",RuleName),strcat("name:",OriginalKey),strcat("prefix:",tostring(split(RuleName,"-")[0])),strcat("prefix:",tostring(split(RuleName,"_")[0])))
- | mv-expand MatchKey=MatchKeys to typeof(string)
- | lookup kind=inner ProcessIndicators on $left.MatchKey==$right.anchor_key
- | extend Parts=split(pattern,"*")
- | where (array_length(Parts)==1 and (RuleName==pattern or OriginalKey==pattern))
-    or (array_length(Parts)==2 and RuleName startswith_cs tostring(Parts[0]) and RuleName endswith_cs tostring(Parts[1]) and strlen(RuleName)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role
- | extend ProcessMatch=1,DomainMatch=0,MatchedDomain="";
-let DomainCandidates=Sources | where Activity=="Network activity" and isnotempty(RemoteHost)
+let DomainIndex=Domains | extend Labels=split(Domain,".") | extend DomainKey=iff(array_length(Labels)>1,strcat("suffix:",tostring(Labels[-2]),".",tostring(Labels[-1])),strcat("single:",Domain));
+let Raw=materialize(DeviceNetworkEvents
+ | where Timestamp>=ReportStart and Timestamp<ReportEnd and ActionType=="ConnectionSuccess"
+ | where DomainScan or RemoteUrl has_any(Terms0) or RemoteUrl has_any(Terms1) or RemoteUrl has_any(Terms2) or RemoteUrl has_any(Terms3)
+     or RemoteIP has_any(Terms0) or RemoteIP has_any(Terms1) or RemoteIP has_any(Terms2) or RemoteIP has_any(Terms3)
+ | project Timestamp,DeviceName,DeviceId,ProcessName=InitiatingProcessFileName,ProcessPath=InitiatingProcessFolderPath,
+     User=InitiatingProcessAccountName,SHA1=tolower(InitiatingProcessSHA1),SHA256=tolower(InitiatingProcessSHA256),RemoteUrl,RemoteIP
+ | extend RemoteHost=tolower(trim_end(@"[.]+",tostring(parse_url(case(isempty(RemoteUrl),strcat("https://",RemoteIP),RemoteUrl contains "://",RemoteUrl,strcat("https://",RemoteUrl))).Host)))
+ | where isnotempty(RemoteHost)
  | extend Labels=split(RemoteHost,".")
- | mv-expand LabelIndex=range(0,array_length(Labels)-1,1) to typeof(long)
- | extend DomainKey=strcat("host:",strcat_array(array_slice(Labels,LabelIndex,-1),"."))
- | lookup kind=inner DomainIndicators on $left.DomainKey==$right.anchor_key
- | extend Parts=split(pattern,"*")
- | where (array_length(Parts)==1 and RemoteHost==pattern)
-    or (array_length(Parts)==2 and RemoteHost startswith_cs tostring(Parts[0]) and RemoteHost endswith_cs tostring(Parts[1]) and strlen(RemoteHost)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role,domain
- | extend ProcessMatch=0,DomainMatch=1,MatchedDomain=domain;
-let Raw=materialize(union (ProcessCandidates),(DomainCandidates)
- | summarize ProcessMatch=max(ProcessMatch),DomainMatch=max(DomainMatch),MatchedDomains=make_set_if(MatchedDomain,isnotempty(MatchedDomain)),arg_max(_time,*) by SourceId,tool_id
- | project-away domain
- | extend SoftwareId=tool_id,Software=tool_name,SoftwareRole=software_role
- | project-away tool_id,tool_name,software_role
- | lookup kind=leftouter Profiles on $left.RuleName==$right.process_name
- | lookup kind=leftouter (Profiles | project OriginalAlias=process_name,OriginalTool=tool_id,
-     OriginalSoftware=tool_name,OriginalRole=software_role,OriginalSigners=signers,
-     OriginalPrefix=path_prefix,OriginalContains=path_contains,OriginalNames=original_names) on $left.OriginalKey==$right.OriginalAlias
- | extend ProfileTool=coalesce(tool_id,OriginalTool),ExpectedSigners=coalesce(signers,OriginalSigners),
-     RequiredPrefix=coalesce(path_prefix,OriginalPrefix),RequiredContains=coalesce(path_contains,OriginalContains),
-     AllowedOriginalNames=coalesce(original_names,OriginalNames),
-     NameConflict=isnotempty(tool_id) and isnotempty(OriginalTool) and tool_id!=OriginalTool
- | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProfileTool,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,
-     OriginalName,RuleName,RuleOriginal,RulePath,ExpectedSigners,RequiredPrefix,RequiredContains,AllowedOriginalNames,
-     NameConflict,User,RemoteHost,Activity,ActionType
- | where SoftwareRole=="rmm" and (ProfileTool==SoftwareId or (ProcessMatch==1 and DomainMatch==1)));
-let LocalCertificates=DeviceFileCertificateInfo
- | where Timestamp>=ReportStart and Timestamp<ReportEnd
- | extend SHA1=tolower(SHA1)
- | where SHA1 in (Raw | where isnotempty(SHA1) | distinct SHA1)
- | project Timestamp,DeviceId,SHA1,IsSigned,IsTrusted,Signer
- | summarize arg_max(Timestamp,*) by DeviceId,SHA1
- | project DeviceId,SHA1=tolower(SHA1),LocalSeen=true,LocalSigned=IsSigned,LocalTrusted=IsTrusted,LocalSigner=Signer;
-let WithLocal=materialize(Raw | lookup kind=leftouter LocalCertificates on DeviceId,SHA1);
-let MissingHashes=materialize(WithLocal
- | where FileProfileEnabled and coalesce(LocalSeen,false)==false and SHA1 matches regex @"^[a-f0-9]{40}$"
- | where ProfileTool==SoftwareId or RuleName in (Rules | where anchor_key startswith "name:" | project substring(anchor_key,5))
- | distinct SHA1);
-let CloudOverflow=toscalar(MissingHashes | count)>1000;
-let Cloud=materialize(MissingHashes | sort by SHA1 asc | take 1000 | invoke FileProfile("SHA1",1000)
- | project SHA1,CloudSHA256=tolower(SHA256),CloudSigner=Signer,
-   CloudValid=ProfileAvailability=="Available" and SignatureState=="SignedValid" and tostring(IsCertificateValid) in~ ("true","1"),
-   CloudError=ProfileAvailability=="Error");
-let CloudFailed=toscalar(Cloud | where CloudError | count)>0;
-let Candidates=materialize(WithLocal | lookup kind=leftouter Cloud on SHA1
- | extend Publisher=iff(LocalSeen==true,LocalSigner,CloudSigner),
-     SignatureValid=iff(coalesce(LocalSeen,false),coalesce(LocalSigned,false) and coalesce(LocalTrusted,false),coalesce(CloudValid,false)),
-     SignatureSource=iff(LocalSeen==true,"device_sha1",iff(isnotempty(CloudSigner),"file_profile","missing")),
-     HashConflict=isnotempty(SHA256) and isnotempty(CloudSHA256) and SHA256!=CloudSHA256
- | extend PathOK=(isempty(RequiredPrefix) or RulePath startswith_cs RequiredPrefix)
-     and (isempty(RequiredContains) or RulePath contains_cs RequiredContains),
-     OriginalConflict=isnotempty(RuleOriginal) and not(AllowedOriginalNames contains_cs strcat(";",RuleOriginal,";"))
- | extend IdentityValid=ProfileTool==SoftwareId and SignatureValid and isnotempty(Publisher) and ExpectedSigners contains_cs strcat(";",tolower(Publisher),";")
-     and PathOK and not(NameConflict or HashConflict or OriginalConflict),
-     CandidateId=tostring(pack_array(DeviceId,SoftwareId,ProcessName,ProcessPath,SHA1,SHA256,Publisher,User,RemoteHost,Activity,_time))
- | extend EvidenceConflict=coalesce(NameConflict,false) or coalesce(HashConflict,false) or (ProfileTool==SoftwareId and (coalesce(OriginalConflict,false) or not(coalesce(PathOK,true))))
- | extend Evidence=case(EvidenceConflict,"Conflicting file metadata",SoftwareRole=="ambiguous","Ambiguous process name",IdentityValid,"Verified process identity",ProcessMatch==1 and DomainMatch==1,"Process and domain match",DomainMatch==1,"Domain match only","Process match only"),
-     SignatureStatus=case(SignatureValid,"Valid",SignatureSource=="missing","Unavailable","Not valid or not trusted")
- | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,Evidence,SignatureStatus,EvidenceConflict,
-     RuleName,RulePath,User,RemoteHost,Activity,ActionType,Publisher,SignatureValid,SignatureSource,IdentityValid,CandidateId
- | where (IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and not(EvidenceConflict));
-let RuleMatches=Candidates
- | project CandidateId,DeviceId,DeviceName,RuleName,RulePath,SHA1,SHA256,Publisher,SignatureStatus,SignatureValid,RemoteHost,SoftwareId,SoftwareRole
- | extend PolicyKeys=pack_array(strcat("name:",RuleName),strcat("tool:",SoftwareId),"*")
- | mv-expand PolicyKey=PolicyKeys to typeof(string)
- | lookup kind=inner Rules on $left.PolicyKey==$right.anchor_key
- | extend Actual=case(field_name=="device_id",DeviceId,field_name=="device_name",tolower(DeviceName),field_name=="process_name",RuleName,field_name=="process_path",RulePath,field_name=="sha1",SHA1,field_name=="sha256",SHA256,field_name=="signer",tolower(Publisher),field_name=="signature_valid",iff(SignatureStatus=="Unavailable","",tolower(tostring(SignatureValid))),field_name=="remote_host",RemoteHost,field_name=="tool_id",SoftwareId,field_name=="software_role",SoftwareRole,""),RuleValue=value
- | where isnotempty(Actual)
- | where (operator in ("equals","exact") and Actual==RuleValue)
-   or (operator=="path_prefix" and Actual startswith_cs RuleValue)
-   or (operator=="domain_suffix" and (Actual==RuleValue or Actual endswith_cs strcat(".",RuleValue)))
-   or (operator=="regex" and MatchRegex(Actual,regex_key))
- | summarize MatchedConditions=dcount(condition_id),RequiredConditions=max(tolong(condition_count))
-   by CandidateId,rule_id,rule_kind,group_id
- | where MatchedConditions==RequiredConditions
- | summarize GeneralHits=make_set_if(rule_id,rule_kind=="general"),RetainHits=make_set_if(rule_id,rule_kind=="retain"),
-   WhitelistHits=make_set_if(rule_id,rule_kind in ("customer","general_whitelist")) by CandidateId;
-let Classified=Candidates | lookup kind=leftouter RuleMatches on CandidateId
- | extend GeneralHits=coalesce(GeneralHits,dynamic([])),RetainHits=coalesce(RetainHits,dynamic([])),WhitelistHits=coalesce(WhitelistHits,dynamic([]))
- | extend GeneralExcluded=array_length(GeneralHits)>0 and not(array_length(RetainHits)>0),
-     Whitelisted=array_length(WhitelistHits)>0
- | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review");
-Classified | where ReferencesOK and EngineOK and ReportSection=="main"
- | summarize FirstSeen=min(FirstObserved),LastSeen=max(_time),Activities=make_set(Activity),RemoteHosts=make_set_if(RemoteHost,isnotempty(RemoteHost)),RemoteIPs=make_set_if(RemoteIP,isnotempty(RemoteIP)),MatchedDomains=make_set(MatchedDomains),Evidence=make_set(Evidence),arg_max(_time,*) by DeviceId,SoftwareId,ReportSection
- | extend ReportStatus=iff(CloudOverflow or CloudFailed,"enrichment_incomplete","ok")
- | project DeviceName,Software,LastSeen,FirstSeen,RemoteHosts,RemoteIPs,MatchedDomains,Evidence,ProcessName,ProcessPath,User,Publisher,SignatureStatus,SHA256,Activities,ReportStatus
- | union (print ReportStatus=case(not(ReferencesOK),"reference_data_unavailable",not(EngineOK),"policy_engine_mismatch",CloudOverflow or CloudFailed,"enrichment_incomplete","ok") | where ReportStatus!="ok")
- | extend _Priority=iff(ReportStatus!="ok",-1,iff(column_ifexists("ReportSection","main")=="main",0,1))
- | order by _Priority asc,LastSeen desc | project-away _Priority
+ | extend DomainKey=pack_array(iff(array_length(Labels)>1,strcat("suffix:",tostring(Labels[-2]),".",tostring(Labels[-1])),strcat("unused:",RemoteHost)),strcat("single:",tostring(Labels[-1])))
+ | mv-expand DomainKey to typeof(string)
+ | where DomainKey in (DomainIndex | project DomainKey)
+ | lookup kind=inner DomainIndex on DomainKey
+ | extend Parts=split(Pattern,"*")
+ | where (array_length(Parts)==1 and RemoteHost==Pattern)
+     or (array_length(Parts)==2 and RemoteHost startswith_cs tostring(Parts[0]) and RemoteHost endswith_cs tostring(Parts[1]) and strlen(RemoteHost)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
+ | summarize FirstSeen=min(Timestamp),LastSeen=max(Timestamp),EventCount=count() by DeviceName,DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP,MatchedDomain=Domain,Pattern
+ | summarize FirstSeen=min(FirstSeen),LastSeen=max(LastSeen),EventCount=max(EventCount) by DeviceName,DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP,MatchedDomain
+ | extend RuleName=tolower(ProcessName),RulePath=iff(ProcessPath matches regex @"^[A-Za-z]:",tolower(replace_string(ProcessPath,"\\","/")),ProcessPath)
+ | extend ContextId=tostring(pack_array(DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP,MatchedDomain)));
+let Hits=Raw | extend RuleKeys=pack_array(strcat("name:",RuleName),strcat("tool:",tolower(Software)),"*")
+ | mv-expand RuleKey=RuleKeys to typeof(string)
+ | lookup kind=leftouter Rules on $left.RuleKey==$right.anchor_key
+ | extend Actual=case(field_name=="device_id",DeviceId,field_name=="device_name",tolower(DeviceName),field_name=="process_name",RuleName,field_name=="process_path",RulePath,field_name=="sha1",SHA1,field_name=="sha256",SHA256,field_name=="remote_host",RemoteHost,field_name=="matched_domain",MatchedDomain,field_name=="rmm_tool",tolower(Software),""),Parts=split(value,"*")
+ | extend Hit=isnotempty(Actual) and case(operator in ("equals","exact"),Actual==value,
+     operator=="contains",Actual contains_cs value,operator=="path_prefix",Actual startswith_cs value,
+     operator=="domain_suffix",Actual==value or Actual endswith_cs strcat(".",value),
+     operator=="glob",(array_length(Parts)==1 and Actual==value) or (array_length(Parts)==2 and Actual startswith_cs tostring(Parts[0]) and Actual endswith_cs tostring(Parts[1]) and strlen(Actual)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1]))),false)
+ | summarize Conditions=make_set_if(condition_id,Hit),Required=max(toint(condition_count)) by ContextId,rule_id,rule_kind,group_id
+ | where Required>0 and array_length(Conditions)==Required
+ | summarize GeneralRuleIds=make_set_if(rule_id,rule_kind=="general"),GeneralWhitelistIds=make_set_if(rule_id,rule_kind=="general_whitelist") by ContextId;
+let Contexts=Raw | lookup kind=leftouter Hits on ContextId
+ | extend GeneralRuleIds=coalesce(GeneralRuleIds,dynamic([])),GeneralWhitelistIds=coalesce(GeneralWhitelistIds,dynamic([]));
+// OUTPUT: replaced by the private MDE customer adapter before aggregation.
+Contexts | where ReferencesOK and array_length(GeneralRuleIds)==0 and array_length(GeneralWhitelistIds)==0
+ | summarize FirstSeen=min(FirstSeen),LastSeen=max(LastSeen),EventCount=max(EventCount),Domains=make_set(MatchedDomain) by DeviceName,DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP
+ | mv-expand MatchedDomain=Domains to typeof(string)
+ | summarize FirstSeen=min(FirstSeen),EventCount=max(EventCount),MatchedDomains=make_set(MatchedDomain),arg_max(LastSeen,*) by DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP
+ | summarize FirstSeen=min(FirstSeen),RemoteHosts=make_set(RemoteHost),RemoteIPs=make_set_if(RemoteIP,isnotempty(RemoteIP)),MatchedDomains=make_set(MatchedDomains),EventCount=sum(EventCount),arg_max(LastSeen,*) by DeviceId,Software
+ | mv-expand MatchedDomains
+ | mv-expand MatchedDomains to typeof(string)
+ | summarize MatchedDomains=make_set(MatchedDomains),arg_max(LastSeen,*) by DeviceId,Software
+ | extend ReportStatus="ok"
+ | project DeviceName,Software,LastSeen,FirstSeen,RemoteHosts,RemoteIPs,MatchedDomains,ProcessName,ProcessPath,User,SHA256,EventCount,ReportStatus
+ | union (print ReportStatus=iff(ReferencesOK,"ok","reference_or_policy_unavailable") | where ReportStatus!="ok")
+ | order by LastSeen desc

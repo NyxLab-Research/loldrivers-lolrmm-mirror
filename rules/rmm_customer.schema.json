@@ -79,13 +79,9 @@
                     "process_path",
                     "sha1",
                     "sha256",
-                    "signer",
-                    "signature_valid",
                     "remote_host",
                     "matched_domain",
-                    "rmm_tool",
-                    "tool_id",
-                    "software_role"
+                    "rmm_tool"
                   ]
                 },
                 "operator": {
@@ -95,7 +91,8 @@
                     "in",
                     "domain_suffix",
                     "path_prefix",
-                    "glob"
+                    "glob",
+                    "contains"
                   ]
                 },
                 "value": {
@@ -173,13 +170,9 @@
                       "process_path",
                       "sha1",
                       "sha256",
-                      "signer",
-                      "signature_valid",
                       "remote_host",
                       "matched_domain",
-                      "rmm_tool",
-                      "tool_id",
-                      "software_role"
+                      "rmm_tool"
                     ]
                   },
                   "operator": {
@@ -189,7 +182,8 @@
                       "in",
                       "domain_suffix",
                       "path_prefix",
-                      "glob"
+                      "glob",
+                      "contains"
                     ]
                   },
                   "value": {
@@ -326,13 +320,9 @@
                     "process_path",
                     "sha1",
                     "sha256",
-                    "signer",
-                    "signature_valid",
                     "remote_host",
                     "matched_domain",
-                    "rmm_tool",
-                    "tool_id",
-                    "software_role"
+                    "rmm_tool"
                   ]
                 },
                 "operator": {
@@ -342,7 +332,8 @@
                     "in",
                     "domain_suffix",
                     "path_prefix",
-                    "glob"
+                    "glob",
+                    "contains"
                   ]
                 },
                 "value": {
@@ -420,13 +411,9 @@
                       "process_path",
                       "sha1",
                       "sha256",
-                      "signer",
-                      "signature_valid",
                       "remote_host",
                       "matched_domain",
-                      "rmm_tool",
-                      "tool_id",
-                      "software_role"
+                      "rmm_tool"
                     ]
                   },
                   "operator": {
@@ -436,7 +423,8 @@
                       "in",
                       "domain_suffix",
                       "path_prefix",
-                      "glob"
+                      "glob",
+                      "contains"
                     ]
                   },
                   "value": {

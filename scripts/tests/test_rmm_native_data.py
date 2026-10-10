@@ -52,7 +52,7 @@ class NativeDataTests(unittest.TestCase):
         self.assertEqual(len(rows),1);self.assertEqual(ref.validate(rows,ref.POLICY_FIELDS)['expected_rows'],'0')
     def test_compiled_general_rules_preserve_noise_boundaries(self):
         from test_rmm_scope import cases
-        policy,config=rr.load_policy();data=ref.policy_rows();pool=ref.regex_pool(policy,config)
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json");data=ref.policy_rows();pool=ref.regex_pool(policy,config)
         for fixture in cases():
             matches={};required={}
             keys={'*','name:'+fixture['process_name'].lower()}
@@ -81,12 +81,12 @@ class NativeDataTests(unittest.TestCase):
         self.assertNotIn('sensitive-fixture',repr(t));self.assertNotIn('sensitive',repr(m))
     def test_unsupported_association_is_rejected_not_ignored(self):
         import rmm_native_queries as native
-        policy,config=rr.load_policy()
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
         config['whitelist']=[{'conditions':[{'field':'matched_domain'}]}]
         with self.assertRaises(ValueError):native.check_config(policy,config)
     def test_cortex_views_avoid_functions_rejected_by_legacy_tenant(self):
         import rmm_native_queries as native
-        policy,config=rr.load_policy()
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
         for view in ('main','details','all','review'):
             query=native.build_cortex(policy,config,'1h',view)
             self.assertNotIn('wildcard_match(',query)

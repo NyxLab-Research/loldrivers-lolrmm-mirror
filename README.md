@@ -1,178 +1,121 @@
 # LOLDrivers + LOLRMM queries
 
-Public reference data and native MDE/Cortex queries. Credentials, customer rules,
+Public reference data and MDE/Cortex queries. Credentials, customer approvals,
 private queries and validation results stay in ignored config/, output/ and tmp/.
+LOLDrivers hash queries are independent and unchanged.
 
-## Customer RMM query
+## Current domain report
 
-Use **queries/mde/lolrmm.kql** or **queries/cortex/lolrmm.xql**. Each platform has
-one public RMM entry point. Defaults are seven days and **main only**. Validate
-with **one hour** and a matching explicit API timeframe. Dev executes the native
-query and uses its existing report/export system; this repository does not send
-reports or require dev to reimplement identity/whitelist matching.
+Use queries/mde/lolrmm.kql or queries/cortex/lolrmm.xql. One public RMM query per
+platform, default seven days. Validate with **one hour** and the same explicit
+API timeframe. Dev owns the existing Excel/email/report executor; this repository
+supplies queries, reference maintenance and a private MDE customer-filter adapter.
 
-Discovery uses **domain OR process**. Successful MDE connections retain the
-domain entry independently of executable/signature coverage; process discovery
-also covers IP/self-hosted infrastructure. Main requires either a reviewed,
-validly signed process identity, or a specific catalog process and domain
-matching **the same tool and source context**. Missing/invalid signatures do not
-automatically discard corroborated RMM; SignatureStatus shows their evidence.
-MDE rejects contradictory file metadata, and both platforms enforce reviewed
-path constraints. Cortex NETWORK records and child process starts are
-separate activity types; STORY records are not counted as network activity.
-Cortex leaves process-start User empty when only initiating-user evidence exists.
+Domain match -> general noise exclusions -> customer whitelist -> aggregation.
+There is no process identity requirement, process-start scan, certificate join,
+FileProfile or main/review split. Missing catalog file metadata does not prevent
+a domain match. Process fields are supporting endpoint telemetry.
 
-Reviewed signer profiles cover 14 families and 41 aliases. Candidate discovery
-additionally consumes the broader catalog, including bounded AnyDesk custom-name
-patterns. Generic executable names cannot establish process evidence; colliding
-catalog names stay in review. Domain-only and uncorroborated process candidates,
-QQ/TIM and management agents stay in review. Freshservice discovery components
-are explicitly management scope. Main remains an evidence-based subset, not a
-complete inventory or proof of a remote session, malicious activity or approval.
+Original exact/one-star patterns remain intact. Suffix buckets narrow candidates;
+only the full pattern establishes a match. This is more specific than widening
+every literal indicator to all subdomains. Shared GitHub hosting exclusions remain
+in .github/lolrmm_domain_exclusions.csv. Websites are not network indicators.
 
-The 16 customer columns, in order, are DeviceName, Software, LastSeen, FirstSeen,
-RemoteHosts, RemoteIPs, MatchedDomains, Evidence, ProcessName, ProcessPath, User,
-Publisher, SignatureStatus, SHA256, Activities, ReportStatus. Each main row
-summarizes one device/software pair. Process, hash, publisher, user and signature
-come from **one coherent latest source record**. Destinations, matched domains
-and evidence are independent sets across retained contexts; a later process
-start cannot erase an earlier destination. Empty sets mean no observed value.
-FirstSeen/LastSeen cover retained events. Activities separates network activity,
-process starts and recognized-process connection attempts; attempts alone do
-not satisfy domain corroboration.
-Use the private details view for distinct file/context records and forensic SHA1.
+Software is the feed's **associated tool**, not confirmed installation, remote
+control, malicious activity or authorization. Shared domains can still produce
+false positives; unknown/self-hosted infrastructure and absent network telemetry
+remain outside this report. Browser activity is deliberately outside report scope.
+ManageEngine exclusions do not deny that product's remote capability.
 
-MDE uses the latest certificate observation for the same device/SHA1 **inside
-the report window**. When no local record exists, bounded FileProfile(SHA1,1000)
-enrichment requires Available, SignedValid, a valid certificate and the expected
-signer. A local negative/incomplete record always takes precedence. File evidence
-does not prove the current endpoint's trust state. Missing evidence stays in
-review unless process/domain corroboration independently qualifies; overflow or
-service errors emit an incomplete status. FileProfile is limited to aliases
-needing reviewed identity or narrow noise checks. A private customer
-can set mde_file_profile_fallback to false. The older mde_hash_signature_fallback
-option belongs to the legacy domain audit.
+The 13 columns, in order: DeviceName, Software, LastSeen, FirstSeen, RemoteHosts,
+RemoteIPs, MatchedDomains, ProcessName, ProcessPath, User, SHA256, EventCount,
+ReportStatus. Each row is one device/tool pair. Path/user/hash belong to **one
+latest retained context**. Destinations/domains are independent historical sets.
+EventCount counts source network records, deduplicated across indicators for the
+same context/tool; it is not a session count. MDE uses ConnectionSuccess; Cortex
+uses NETWORK telemetry without asserting all records are successful connections.
 
-**Require ReportStatus=ok before customer delivery.** Error rows are control
-records, not devices. Missing Cortex datasets cause explicit query errors;
-partial references or unknown regex keys cause health rows. API failures,
-truncation and enrichment failures must not become empty successful reports.
-Fetch Cortex result streams when necessary and verify returned versus total rows.
-Export by schema; Graph OData type annotations are metadata, not report columns.
+Require ReportStatus=ok and complete API results before delivery. Health/control
+rows are not devices or empty successful reports. Missing lookups cause API errors;
+partial rule releases/unsupported operators emit a health row. Fetch Cortex result
+streams and verify totals. Export by schema; Graph OData annotations are metadata.
 
-Performance changes preserve these discovery and evidence standards. MDE matches
-indicators before aggregating source events, avoids a broad source cache, and
-uses lookup for the small right-hand policy table. Cortex selects raw fields
-early and uses domain suffix buckets for equality joins, followed by the full
-original domain-boundary and pattern checks. A bucket never establishes a match.
-Main prunes contexts only once they cannot qualify; all/review retain independent
-domain candidates. FileProfile remains bounded to evidence needed by that view.
-Lookup schemas/releases and the 16-column export contract do not change.
-Benchmark with a fixed one-hour window, complete results and the same reference
-versions. Record actual Cortex query_cost_charged separately from API/poll latency;
-one-hour success does not establish weekly memory capacity or weekly CU usage.
+## General and customer maintenance
 
-## Rules and whitelist maintenance
+| Source | Consumption |
+|---|---|
+| rules/rmm_report_exclusions.json | Current noise rules -> public data/rmm_general_rules.csv |
+| rules/rmm_general_whitelist.json | Explicit general approvals -> the same table; initially empty |
+| config/rmm_customers/customer.json | Private customer whitelist, expiry, retain/disable overrides |
+| data/lolrmm_domains.csv | LOLRMM network patterns -> MDE externaldata / Cortex lookup |
 
-| Input | Purpose | Native consumption |
-|---|---|---|
-| rules/rmm_identity_profiles.json | Reviewed aliases, signers and roles | Identity CSV / lookup |
-| rules/rmm_identity_constraints.json | Per-alias signer/path/display constraints | Same identity table |
-| data/rmm_discovery_source.json | Snapshot of catalog process artifacts; no signer trust | Discovery CSV / lookup |
-| rules/rmm_catalog_scope.json | Reviewed software scope exceptions, such as inventory agents | Same discovery table |
-| rules/rmm_report_exclusions.json | Existing narrow noise exclusions | General condition CSV / lookup |
-| rules/rmm_general_whitelist.json | Explicit general report whitelist, initially empty | Same general table |
-| config/rmm_customers/customer.json | Private customer approvals, expiry, retain/disable overrides | MDE datatable / tenant-private Cortex lookup |
+Default rules use browser names plus browser paths, Sogou input component paths
+plus its specific shared telemetry host, ManageEngine component paths and the
+previously reviewed Outlook/Yuanbao/ima shared-host noise. Freshservice inventory
+components use specific Discovery Agent paths or Probe names plus its tool label;
+the vendor's domains remain eligible for other processes. They do not scan
+certificates. Missing fields do not satisfy exclusions or approvals.
 
-Ordinary rules use a fixed native evaluator for equality/in, directory prefix
-and host suffix. Conditions are ANDed; alternatives, in values and separate rules
-are ORed. Simple rules/values are data, without per-rule query branches.
-KQL requires constant regex patterns: regex/glob rules use a small compiled
-registry. **A new regex pattern requires query regeneration**; ordinary value
-changes do not. Unknown keys fail visibly.
+Rule values/IDs stay **outside query text**. The fixed evaluator supports
+equals/exact/in, path_prefix, path contains, domain_suffix and path glob with at
+most one star. Conditions AND; alternatives/rules OR. Windows paths are case
+insensitive, Unix paths retain case. Domains require exact/boundary-aware suffix,
+not substring approvals. Raw regex/complex glob is rejected: MDE requires regex
+constants, which would otherwise put rule branches back into queries.
 
-Existing general rules retain path, signer and host constraints for browsers,
-Sogou input, Outlook/Yuanbao/ima and Endpoint Central. Endpoint Central is a report
-scope exclusion, not a claim that it lacks remote-control capability. Shared
-vendors/domains are never globally declared safe. Positive identity screening
-keeps domain-only browser/Sogou noise out of main; explicit rules remain active
-on individual source contexts before aggregation.
+Supported context fields: device_id, device_name, process_name, process_path,
+sha256, remote_host, matched_domain, rmm_tool, and MDE-only sha1. rmm_tool uses
+the feed label, case insensitive. matched_domain/rmm_tool require association
+target. Prefer tool/host plus device/path/hash scope. Current reports reject
+signature and old identity tool_id/software_role conditions, not ignore them.
+UTC expiry is evaluated at execution. Explicit whitelists win; retain_rules
+only override general noise. disabled_default_rules disables chosen noise IDs.
+These rules affect report visibility, not EDR enforcement or alerting.
 
-For new customer rules prefer canonical **tool_id + device/path/hash scope**,
-with target=activity. Native main/review rejects legacy IOC-label rmm_tool or
-matched_domain approvals with a migration error; use remote_host for actual-host
-restrictions. SHA1 conditions require MDE-only generation; Cortex uses SHA256.
-Missing fields never satisfy an approval. Expiry is evaluated at execution in UTC.
-The private customer_id must match its Cortex tenant alias before deployment.
-retain_rules overrides a common exclusion but cannot create corroboration or
-promote management/dual-use software into main. Explicit whitelist rules take
-precedence. disabled_default_rules disables selected general noise rules.
-All of these affect **report visibility**, not EDR policies or alerts.
+Cortex applies both tables natively. The public MDE query directly shows the
+general-filtered report. Customer handling uses the adapter below, retaining
+general-excluded contexts until private retain/disable/whitelist evaluation.
+Private customer rules never enter public feeds or generated query branches.
 
-## Generate queries
+```python
+from pathlib import Path
+from rmm_domain_report import prepare_mde_query, finalize_mde_report
 
-Python 3.10+; query generation itself needs no third-party packages.
+query = prepare_mde_query(Path('queries/mde/lolrmm.kql').read_text())
+# Existing executor sets the window and retrieves complete API results.
+response = existing_hunting_executor(query)
+report = finalize_mde_report(response, Path('config/rmm_customers/example.json'), 'example')
+existing_excel_export(report['rows'])
+```
+
+The adapter accepts Graph results/schema or Defender Results/Schema, checks
+customer_id, rejects health errors/missing schema/apparent truncation and filters
+**before aggregation**. Independent path/hash/domain arrays cannot form approvals.
+Dev must connect these two functions in its existing executor; that source is not
+here. Until then, copying the public MDE query applies general rules only.
+
+## Generation and tests
+
+Python 3.10+; generation/customer filtering use the standard library.
 
 ```console
 python scripts/rmm_reference_data.py
-python scripts/rmm_discovery.py
 python scripts/build_rmm_queries.py
 python scripts/rmm_reference_data.py --check
-python scripts/rmm_discovery.py --check
 python scripts/build_rmm_queries.py --check
 python -m unittest discover -s scripts/tests -v
+python scripts/build_rmm_queries.py --timeframe 1h --output-dir output/rmm/test
+python scripts/build_rmm_queries.py --platform mde --contexts --timeframe 1h --output-dir output/rmm/dev
 ```
 
-Default generation writes only two public main queries. Customer/internal queries
-must stay private; copy rules/rmm_customer.example.json before adding approvals.
+Default writes only two public query files. --customer validates private rules;
+MDE emits contexts and Cortex reads its private lookup. Customer/context/test
+outputs remain under output/ or tmp/. Start from rules/rmm_customer.example.json;
+rules/rmm_customer.whitelist.example.json demonstrates a fictional scoped approval.
+Historical identity code/data and rules/legacy remain for regression/rollback,
+and are not used by the current default query or Cortex updater.
 
-```console
-python scripts/build_rmm_queries.py --customer config/rmm_customers/example.json --output-dir output/rmm/example
-python scripts/build_rmm_queries.py --view all --timeframe 1h --output-dir output/rmm/internal
-python scripts/build_rmm_queries.py --view review --timeframe 1h --output-dir output/rmm/review
-python scripts/build_rmm_queries.py --view details --timeframe 1h --output-dir output/rmm/details
-python scripts/build_rmm_queries.py --view domain-review --timeframe 1h --output-dir output/rmm/domain-audit
-```
-
-all includes profile candidates/whitelists, with main before review. review omits
-explicit whitelists. details is main file evidence. domain-review preserves the
-older broad IOC discovery as an **internal audit source** with general noise
-decisions; it is not a native customer-policy view and rejects customer configs.
-It preserves exact/wildcard pattern boundaries and unknown-software leads.
-
-MDE embeds customer rules in a generated private typed datatable. Cortex reads
-its private customer lookup; generate a customer query when its regex registry
-changes. Dev only sets the window, executes the native query and handles delivery.
-
-For MDE main/details, network names are filtered before URL parsing and domain
-expansion. Original filename aliases and bounded process prefixes remain eligible.
-If an active identity profile lacks a same-tool process indicator, the query falls
-back to broad discovery. Internal all/review retain independent domain discovery.
-Cortex exact/one-star matching uses split/arrayindex/len for tenant compatibility.
-Domain arrays use json_extract_array followed by scalar decoding; some tenants
-reject wildcard_match or json_extract_scalar_array even when other tenants accept
-the same query. Historical domains and coherent latest process fields are retained.
-
-Query output size and peak memory are not CPU/CU budgets. Before API execution,
-dev must check shared tenant usage, maintain a separate RMM cost ledger and reserve
-quota for other projects. The read-only helper is an estimate-based admission
-check; it does not execute queries or enforce a per-query server cost cap:
-
-```console
-python scripts/check_cortex_query_budget.py --tenant example --daily-limit 5 --reserve 4 --estimate 0.2 --rmm-daily-budget 1 --rmm-spent 0
-```
-
-Use the tenant's confirmed daily limit and a conservative historical cost estimate
-for the same query/window. license_quota/used_quota may be annual values;
-daily_used_quota is separate. Missing quota data, another active query or an
-insufficient budget defers execution; it must not produce an empty successful
-report. A local per-tenant lock prevents overlapping RMM admission checks but
-cannot reserve quota against unrelated applications. UI queries bypass this
-helper. Never infer a 7-day cost from a 1-hour test or treat time-slicing as a
-guaranteed CU reduction. The report executor must explicitly call the helper;
-the existing reference-sync schedule does not execute weekly reports.
-
-## Cortex deployment and updates
+## Cortex deployment
 
 ```console
 python -m pip install -r requirements-rmm.txt
@@ -180,70 +123,57 @@ python scripts/sync_rmm_references.py --published
 python scripts/sync_rmm_references.py --published --apply
 ```
 
-Private config/cortex_credentials.yml maps aliases to api_url, api_key_id,
-api_key and optional auth_method (advanced or standard). enabled=false disables
-an entry. config/mde_credentials.yml remains private; Cortex synchronization
-never requires MDE keys. Use --tenant for a subset and --customer-dir for a
-private rule directory. Never commit credentials or customer-generated queries.
+Private centralized config/cortex_credentials.yml drives synchronization. MDE
+keys are never needed on that server. --tenant selects aliases, --customer-dir
+selects private policies, --state-dir stores inventories/backups/receipts.
+New aliases are inventoried on subsequent runs. customer_id must match the alias.
 
-The synchronizer inventories datasets, rejects non-lookup collisions, backs up
-relevant rows privately and provisions rmm_tool_profiles_v2,
-rmm_discovery_indicators, rmm_general_rules,
-rmm_customer_rules and lolrmm_domains. No customer approvals means an empty,
-complete customer release. Legacy identity/unrelated lookups remain intact.
-Rows are staged, read back with a recomputed content digest and activated by
-appending the manifest **last**. Re-runs verify rather than append. Three complete
-releases remain for rollback. Domain deletions over 25% are blocked.
+The updater inventories and backs up before mutation. It maintains only
+lolrmm_domains, rmm_general_rules and rmm_customer_rules. Historical identity and
+unrelated lookups remain intact. --published pins one GitHub commit and verifies
+domain hash/count/pattern grammar, rule schema and recomputed digest. Rule rows
+are staged/read back, and the manifest is written **last**. Re-runs verify;
+three complete releases remain for rollback. Domain deletions over 25% are blocked.
 
-General/profile releases are immutable: increment RELEASE in
-scripts/rmm_reference_data.py, regenerate and publish reference CSVs for changes.
-Customer revisions advance automatically from the remote active release.
-Discovery revisions advance automatically when normalized catalog/domain/scope
-content changes. Daily refresh grants no new signer trust. Lookup reads accept
-bounded gzip responses and retry transient read failures; mutations are not
-blindly retried after an unknown outcome.
---published pins downloads to one GitHub commit and verifies schemas, reference
-digests, domain hash and counts before writing. An existing server job can run
-this daily without manual CSV imports. New YAML entries are inventoried and
-provisioned on the next successful run. Tenant failures return a nonzero status.
+General releases are immutable: increment RELEASE in scripts/rmm_domain_policy.py,
+regenerate and publish the CSV for general changes. No query branches or manual
+per-tenant imports are needed. Customer revisions advance from remote state.
+Shared API hosts sync once; different customer approvals remain blocked until
+customer/device isolation is known. Empty shared policies are allowed.
 
-Repeated API hosts are synchronized once. **Independent customer approvals are
-blocked for such aliases until customer/device scope is resolved**. Shared
-empty/default policies do not authorize guessed customer exclusions.
-For rollback, stop the updater and remove only the newest release's manifest by
-row_id, leaving its prior complete release. Revert logic/schema together when
-necessary; do not delete an entire lookup to roll back.
+The existing daily server job updates references, not weekly reports. For rule
+rollback stop the updater and remove only the newest manifest by row_id; align
+query/data grammar. Do not delete entire lookups. Domain writes have private
+backups/readback, but are not atomic; avoid concurrent reports during maintenance.
 
-## LOLRMM feeds and limits
+## Performance and quota
 
-rmm_tools.json supplies candidate process artifacts plus separate reviewed
-executable/publisher proposals. Daily
-upstream refresh never automatically approves signers or whitelists.
-rmm_domains.csv is an independent discovery entry in the native query. The tools CSV is a tabular
-export of the catalog, not independent corroboration. Sigma process/DNS feeds
-cross-check aliases/patterns. The count feed checks freshness/coverage.
+MDE scans successful network connections only. A token prefilter comes from the
+complete feed, with broad fallback when safe coverage is unavailable; there is
+no process-name prefilter. Small-table bucket lookup and full pattern checks
+precede wide aggregation. Cortex selects fields early, filters buckets, aggregates
+contexts and checks full patterns after equality joins. Rule anchors avoid an
+event/all-rule cross product; duplicate indicators do not inflate counts.
 
-rmm_certificates.json supports application-control research. Source-file hashes,
-certificate thumbprints, Authenticode hashes and page hashes are **not**
-interchangeable endpoint SHA256/SignerHash values; this feed is not a direct
-identity gate. Unlisted tools, renamed Cortex executables, missing telemetry
-and unobserved long-running services can remain outside main. Preserve internal
-review/domain discovery to assess coverage.
+Measure CPU, memory and actual query_cost_charged with a fixed one-hour window
+and complete results. Short tests do not certify weekly memory capacity or CU;
+time slicing does not guarantee lower CU.
+
+```console
+python scripts/check_cortex_query_budget.py --tenant example --daily-limit 5 --reserve 4 --estimate 0.2 --rmm-daily-budget 1 --rmm-spent 0
+```
+
+Use confirmed tenant daily limits and conservative measured estimates. Annual
+license_quota/used_quota are not daily remaining quota. The read-only admission
+helper defers on missing data, active queries or insufficient reserve. It does
+not provide a server cost cap or reserve against other projects. Dev must call
+it before submission and record actual RMM CU; portal queries bypass this check.
 
 ## Official references
 
-- [LOLRMM feeds](https://lolrmm.io/api/) and [detections](https://lolrmm.io/detections/).
-- [MDE network](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table), [process](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table), [certificates](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefilecertificateinfo-table) and [FileProfile](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-fileprofile-function).
-- [Graph hunting](https://learn.microsoft.com/en-us/graph/api/security-security-runhuntingquery?view=graph-rest-1.0) and [API migration](https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview?view=graph-rest-1.0). Graph needs ThreatHunting.Read.All; legacy-only apps must migrate before their APIs stop returning data on February 1, 2027.
-- [KQL externaldata](https://learn.microsoft.com/en-us/kusto/query/externaldata-operator), [lookup](https://learn.microsoft.com/en-us/kusto/query/lookup-operator), [has_any](https://learn.microsoft.com/en-us/kusto/query/has-any-operator), [arg_max](https://learn.microsoft.com/en-us/kusto/query/arg-max-aggregation-function) and [regex](https://learn.microsoft.com/en-us/kusto/query/regex).
-- [Cortex Actor](https://docs-cortex.paloaltonetworks.com/r/Cortex-XQL-Schema-Reference-Guide/Actor-Actor), [XQL reference](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Cortex-XQL-Command-Reference) and [first_value](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/first_value).
-- [Cortex start](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Start-an-XQL-Query), [results](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Results) and [lookup writes](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Add-or-update-data-in-a-lookup-dataset).
-- [Cortex filter / IN](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/filter), [wildcard_match](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/wildcard_match), [JSON scalar arrays](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/json_extract_scalar_array) and [lookup reads](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-data-from-a-lookup-dataset).
-- [Defender performance](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-best-practices), [lookup](https://learn.microsoft.com/en-us/kusto/query/lookup-operator?view=microsoft-fabric), [broadcast join](https://learn.microsoft.com/en-us/kusto/query/broadcast-join?view=microsoft-fabric) and [materialize](https://learn.microsoft.com/en-us/kusto/query/materialize-function?view=microsoft-fabric).
-- [Defender CPU limits and errors](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-errors), [Cortex quota API](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Quota) and [Cortex daily CU limits](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-5.x-Documentation/Compute-units-usage).
-- [Cortex JSON extraction types](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Core-Concept-Why-XQL-has-four-JSON-extraction-functions).
-- [Palo Alto XQL performance](https://live.paloaltonetworks.com/t5/cortex-xdr-articles/xdr-best-practices-5-tips-for-better-xql-queries/tac-p/575262) and [XQL APIs / actual query costs](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Running-XQL-Query-APIs).
-- [Freshservice discovery scope](https://support.freshservice.com/support/solutions/articles/50000009811-discovery-agent-architecture-and-working).
-
-LOLDrivers CSVs and their independent hash queries remain under data/ and
-queries/platform/loldrivers.*.
+- [LOLRMM detections](https://lolrmm.io/detections/) and [feeds](https://lolrmm.io/api/).
+- [MDE network schema](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table), [performance](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-best-practices) and [limits](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-errors).
+- [Kusto lookup](https://learn.microsoft.com/en-us/kusto/query/lookup-operator?view=microsoft-fabric) and [regex](https://learn.microsoft.com/en-us/kusto/query/matches-regex-operator?view=microsoft-fabric).
+- [Cortex Start XQL](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Start-an-XQL-Query), [Get results](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Results) and [lookup writes](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Add-or-update-data-in-a-lookup-dataset).
+- [Cortex quota](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Quota), [daily CU](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-5.x-Documentation/Compute-units-usage) and [JSON types](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Core-Concept-Why-XQL-has-four-JSON-extraction-functions).
+- [Freshservice Discovery Agent architecture and installation paths](https://support.freshservice.com/support/solutions/articles/50000009811-discovery-agent-architecture-and-working).

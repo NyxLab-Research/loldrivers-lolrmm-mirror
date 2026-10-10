@@ -111,86 +111,42 @@ def build(policy, config, platform, timeframe='7d', mode='report', source=None, 
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--rules', type=Path)
-    parser.add_argument('--customer', type=Path)
-    parser.add_argument('--platform', choices=['all', 'mde', 'cortex'], default='all')
-    parser.add_argument('--timeframe', default='7d')
-    parser.add_argument('--mode', choices=['report', 'audit', 'baseline'], default='report')
-    parser.add_argument('--view', choices=['all', 'main', 'review', 'details', 'domain-review'], default='main',
-                        help='Keep all activity, or split meeting/unknown-process rows into a review view')
-    parser.add_argument('--output-dir', type=Path)
-    parser.add_argument('--check', action='store_true', help='Check generated files without writing')
-    parser.add_argument('--identity-mode', choices=['external','inline','legacy'], default='external')
-    parser.add_argument('--entry', choices=['network','process'], default='network')
-    parser.add_argument('--preview', type=Path, help='Normalized JSON rows; no API call')
-    parser.add_argument('--preview-output', type=Path)
-    args = parser.parse_args()
-    policy, config = rr.load_policy(args.rules, args.customer)
-    if args.preview:
-        rows = rr.load_json(args.preview)
-        rows = rows.get('rows', rows.get('results')) if isinstance(rows, dict) else rows
-        if not isinstance(rows, list) or any(not isinstance(r, dict) or 'device_id' not in r or 'remote_host' not in r for r in rows):
-            raise ValueError('Preview expects normalized rows with device_id/remote_host; see README')
-        import rmm_identity
-        result = rr.review_rows(rows, policy, config, evaluator=None if args.identity_mode == 'legacy' else rmm_identity.evaluate)
-        dest = (args.preview_output or rr.ROOT / 'output/rmm/preview.json').resolve()
-        if dest.is_relative_to(rr.ROOT / 'queries') or not any(dest.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
-            raise ValueError('Private preview output must be in output/ or tmp/')
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
-        print(json.dumps(result['summary']))
-        return
-    private = (args.customer is not None or args.mode != 'report' or args.timeframe != '7d' or args.view != 'main'
-               or args.entry != 'network' or args.identity_mode != 'external')
-    output = args.output_dir or (rr.ROOT / 'output/rmm/generated' if private else rr.ROOT / 'queries')
-    output = output.resolve()
-    if private and not any(output.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
-        raise ValueError('Customer/audit/test queries must be generated in private output/ or tmp/')
-    platforms = FIELDS if args.platform == 'all' else [args.platform]
-    default_views = not private and args.output_dir is None
-    views = (args.view,)
-    import build_rmm_identity_queries as iq
-    import rmm_native_queries as native
-    def document(platform, view, identity_mode):
-        if view != 'domain-review' and args.mode == 'report' and args.entry == 'network' and identity_mode != 'legacy':
-            return (native.build_mde(policy,config,args.timeframe,view,inline=identity_mode == 'inline') if platform == 'mde'
-                    else native.build_cortex(policy,config,args.timeframe,view))
-        if view == 'domain-review':
-            if args.customer:raise ValueError('Domain audit is an internal source view; use native main/review for customer-policy decisions')
-            return iq.build(build(policy, config, platform, args.timeframe, 'audit'),platform,inline=True,view='all')
-        if identity_mode == 'legacy':
-            return build(policy, config, platform, args.timeframe, args.mode, view=view)
-        if args.entry == 'process':
-            return iq.process_query(build(policy, config, platform, args.timeframe, args.mode), platform, inline=identity_mode == 'inline', view=view)
-        return iq.build(build(policy, config, platform, args.timeframe, args.mode), platform,
-                        inline=identity_mode == 'inline', view=view)
-    documents = [(platform, view, document(platform, view, args.identity_mode))
-                 for platform in platforms for view in views]
-    generated = []
-    for platform, view, text in documents:
-        suffix = ''
-        path = output / platform / ('lolrmm' + suffix + ('.kql' if platform == 'mde' else '.xql'))
+    import rmm_domain_policy as domain
+    import rmm_domain_queries as queries
+    parser=argparse.ArgumentParser(description='Generate the two current domain-only report queries')
+    parser.add_argument('--customer',type=Path,help='Validate private rules; MDE emits customer-filter contexts')
+    parser.add_argument('--platform',choices=['all','mde','cortex'],default='all')
+    parser.add_argument('--timeframe',default='7d')
+    parser.add_argument('--contexts',action='store_true',help='MDE contexts for the private customer adapter')
+    parser.add_argument('--output-dir',type=Path)
+    parser.add_argument('--check',action='store_true')
+    args=parser.parse_args()
+    policy,config=domain.load_policy(args.customer)
+    private=args.customer is not None or args.contexts or args.timeframe!='7d'
+    output=(args.output_dir or rr.ROOT/('output/rmm/generated' if private else 'queries')).resolve()
+    if private and not any(output.is_relative_to(rr.ROOT/d) for d in ('output','tmp')):
+        raise ValueError('Customer/context/test queries must stay in private output/ or tmp/')
+    platforms=['mde','cortex'] if args.platform=='all' else [args.platform]
+    generated=[]
+    for platform in platforms:
+        domain.validate_config(policy,config,platform)
+        text=queries.build_mde(args.timeframe,contexts=args.contexts or args.customer is not None) if platform=='mde' else queries.build_cortex(args.timeframe)
+        path=output/platform/('lolrmm.kql' if platform=='mde' else 'lolrmm.xql')
         if args.check:
-            if not path.exists() or path.read_text(encoding='utf-8') != text:
-                raise ValueError(f'Generated query is stale: {path}')
+            if not path.exists() or path.read_text(encoding='utf-8')!=text:
+                raise ValueError('Generated domain query is stale: '+str(path))
         else:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(text, encoding='utf-8', newline='\n')
-        generated.append({'platform': platform, 'view': view, 'path': str(path.relative_to(output)),
-                          'sha256': hashlib.sha256(text.encode('utf-8')).hexdigest()})
-        print(f'{"checked" if args.check else "generated"}: {path}')
-    if not args.check and any(output.is_relative_to(rr.ROOT / d) for d in ('output', 'tmp')):
-        manifest = {'schema_version': 1, 'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(),
-                    'mode': args.mode, 'view': args.view, 'identity_mode':args.identity_mode, 'timeframe': args.timeframe, 'queries': generated,
-                    'policy_sha256': rr.digest(policy), 'config_sha256': rr.digest(config),
-                    'rules_snapshot': policy, 'customer_snapshot': config}
-        (output / 'rmm_generation_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+            path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_text(text,encoding='utf-8',newline='\n')
+        print(('checked: ' if args.check else 'generated: ')+str(path))
+        generated.append({'platform':platform,'sha256':hashlib.sha256(text.encode()).hexdigest()})
+    if private and not args.check:
+        (output/'rmm_generation_manifest.json').write_text(json.dumps({'schema_version':2,'logic':'domain_match',
+            'timeframe':args.timeframe,'customer_id':config['customer_id'],'queries':generated},indent=2),encoding='utf-8')
 
 
-if __name__ == '__main__':
-    try:
-        main()
-    except (ValueError, OSError) as exc:
-        print(f'RMM query generation failed: {exc}', file=sys.stderr)
+if __name__=='__main__':
+    try:main()
+    except (ValueError,OSError) as exc:
+        print('RMM query generation failed: '+str(exc),file=sys.stderr)
         raise SystemExit(1)

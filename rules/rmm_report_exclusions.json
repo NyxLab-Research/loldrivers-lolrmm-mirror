@@ -1,122 +1,82 @@
 {
   "schema_version": 1,
-  "rule_version": "1.1.0",
+  "rule_version": "2.0.0",
   "rules": [
     {
       "id": "rpt-browser-standard",
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Standard browser process: outside the RMM report scope",
+      "reason": "Known browser process and browser installation path: outside domain-report scope; no file-trust assertion",
       "alternatives": [
         [
           {
             "field": "process_name",
-            "operator": "equals",
-            "value": "chrome.exe"
+            "operator": "in",
+            "values": [
+              "chrome.exe"
+            ]
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*google\\\\(?:[^\\\\]+\\\\)*chrome[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "google (?:llc|inc)"
+            "operator": "contains",
+            "value": "/google/chrome/"
           }
         ],
         [
           {
             "field": "process_name",
-            "operator": "equals",
-            "value": "msedge.exe"
+            "operator": "in",
+            "values": [
+              "msedge.exe"
+            ]
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*microsoft\\\\edge\\\\(?:[^\\\\]+\\\\)*msedge[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "microsoft corporation"
+            "operator": "contains",
+            "value": "/microsoft/edge/"
           }
         ],
         [
           {
             "field": "process_name",
-            "operator": "equals",
-            "value": "firefox.exe"
+            "operator": "in",
+            "values": [
+              "firefox.exe"
+            ]
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*mozilla firefox\\\\(?:[^\\\\]+\\\\)*firefox[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "mozilla corporation"
+            "operator": "contains",
+            "value": "/mozilla firefox/"
           }
         ],
         [
           {
             "field": "process_name",
-            "operator": "equals",
-            "value": "vivaldi.exe"
+            "operator": "in",
+            "values": [
+              "vivaldi.exe"
+            ]
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*vivaldi\\\\(?:[^\\\\]+\\\\)*vivaldi[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "vivaldi technologies"
+            "operator": "contains",
+            "value": "/vivaldi/"
           }
         ],
         [
           {
             "field": "process_name",
-            "operator": "equals",
-            "value": "qqbrowser.exe"
+            "operator": "in",
+            "values": [
+              "qqbrowser.exe"
+            ]
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?|users\\\\[^\\\\]+\\\\appdata\\\\(?:local|roaming))\\\\(?:[^\\\\]+\\\\)*tencent\\\\qqbrowser\\\\(?:[^\\\\]+\\\\)*qqbrowser[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "tencent technology"
+            "operator": "contains",
+            "value": "/tencent/qqbrowser/"
           }
         ],
         [
@@ -129,18 +89,8 @@
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\program files(?: \\(x86\\))?\\\\sogou\\\\sogouexplorer\\\\(?:[^\\\\]+\\\\)*sogouexplorer[.]exe$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "^(?:beijing sogou technology development co[.]?,? ltd[.]?|tencent technology ?\\(shenzhen\\) company limited)$"
+            "operator": "contains",
+            "value": "/sogou/sogouexplorer/"
           }
         ],
         [
@@ -157,18 +107,8 @@
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "(?i)^/(?:applications|users/[^/]+/applications)/google chrome[.]app/contents/(?:macos/google chrome|frameworks/google chrome framework[.]framework/versions/[^/]+/helpers/google chrome helper(?: \\((?:renderer|gpu|plugin)\\))?[.]app/contents/macos/google chrome helper(?: \\((?:renderer|gpu|plugin)\\))?)$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "^(?:developer id application: )?google (?:llc|inc)(?: \\([a-z0-9]+\\))?$"
+            "operator": "contains",
+            "value": "/Google Chrome.app/Contents/"
           }
         ],
         [
@@ -185,18 +125,8 @@
           },
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "(?i)^/(?:applications|users/[^/]+/applications)/microsoft edge[.]app/contents/(?:macos/microsoft edge|frameworks/microsoft edge framework[.]framework/versions/[^/]+/helpers/microsoft edge helper(?: \\((?:renderer|gpu|plugin)\\))?[.]app/contents/macos/microsoft edge helper(?: \\((?:renderer|gpu|plugin)\\))?)$"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "^(?:developer id application: )?microsoft corporation(?: \\([a-z0-9]+\\))?$"
+            "operator": "contains",
+            "value": "/Microsoft Edge.app/Contents/"
           }
         ]
       ]
@@ -206,59 +136,94 @@
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Identified Sogou input component connecting to a shared domain: outside report scope",
-      "conditions": [
-        {
-          "field": "process_name",
-          "operator": "in",
-          "values": [
-            "biz_helper.exe",
-            "sgbizlauncher.exe",
-            "pinyinup.exe",
-            "sgtool.exe",
-            "sgsmartassistant.exe",
-            "sogouexe.exe",
-            "sogoucloud.exe",
-            "sogousmartassistant.exe",
-            "biz_aurfx.exe",
-            "sgmyinput.exe",
-            "sgwangzai.exe",
-            "usernetschedule.exe",
-            "crashrpt.exe",
-            "biz_tool.exe",
-            "sgpicfacetool.exe",
-            "wubiup.exe",
-            "imeutil.exe",
-            "wbcrashrpt.exe",
-            "isgpet.exe",
-            "sgiguidehelper.exe",
-            "wbusernetschedule.exe",
-            "write_spirit.exe",
-            "sgwizard.exe",
-            "sogou_voice_assistant.exe",
-            "sgfeedbackhelper.exe"
-          ]
-        },
-        {
-          "field": "process_path",
-          "operator": "regex",
-          "value": "^[a-z]:\\\\(?:[^\\\\]+\\\\)*(?:sogouinput|sogouwbinput)\\\\"
-        },
-        {
-          "field": "signature_valid",
-          "operator": "equals",
-          "value": true
-        },
-        {
-          "field": "signer",
-          "operator": "regex",
-          "value": "(?:beijing sogou|tencent technology)"
-        },
-        {
-          "field": "remote_host",
-          "operator": "exact",
-          "value": "oth.eve.mdt.qq.com"
-        }
+      "reason": "Sogou input component in its input directory accessing the shared telemetry host",
+      "alternatives": [
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "biz_helper.exe",
+              "sgbizlauncher.exe",
+              "pinyinup.exe",
+              "sgtool.exe",
+              "sgsmartassistant.exe",
+              "sogouexe.exe",
+              "sogoucloud.exe",
+              "sogousmartassistant.exe",
+              "biz_aurfx.exe",
+              "sgmyinput.exe",
+              "sgwangzai.exe",
+              "usernetschedule.exe",
+              "crashrpt.exe",
+              "biz_tool.exe",
+              "sgpicfacetool.exe",
+              "wubiup.exe",
+              "imeutil.exe",
+              "wbcrashrpt.exe",
+              "isgpet.exe",
+              "sgiguidehelper.exe",
+              "wbusernetschedule.exe",
+              "write_spirit.exe",
+              "sgwizard.exe",
+              "sogou_voice_assistant.exe",
+              "sgfeedbackhelper.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/sogouinput/"
+          },
+          {
+            "field": "remote_host",
+            "operator": "exact",
+            "value": "oth.eve.mdt.qq.com"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "biz_helper.exe",
+              "sgbizlauncher.exe",
+              "pinyinup.exe",
+              "sgtool.exe",
+              "sgsmartassistant.exe",
+              "sogouexe.exe",
+              "sogoucloud.exe",
+              "sogousmartassistant.exe",
+              "biz_aurfx.exe",
+              "sgmyinput.exe",
+              "sgwangzai.exe",
+              "usernetschedule.exe",
+              "crashrpt.exe",
+              "biz_tool.exe",
+              "sgpicfacetool.exe",
+              "wubiup.exe",
+              "imeutil.exe",
+              "wbcrashrpt.exe",
+              "isgpet.exe",
+              "sgiguidehelper.exe",
+              "wbusernetschedule.exe",
+              "write_spirit.exe",
+              "sgwizard.exe",
+              "sogou_voice_assistant.exe",
+              "sgfeedbackhelper.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/sogouwbinput/"
+          },
+          {
+            "field": "remote_host",
+            "operator": "exact",
+            "value": "oth.eve.mdt.qq.com"
+          }
+        ]
       ]
     },
     {
@@ -266,40 +231,48 @@
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Endpoint Central / Desktop Central excluded by report scope; remote capability is not disproven",
+      "reason": "Endpoint Central / Desktop Central excluded by report scope, not a denial of its remote capability",
       "alternatives": [
         [
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^[a-z]:\\\\program files(?: \\(x86\\))?\\\\(?:manageengine\\\\uems_agent|desktopcentral_agent)\\\\"
-          },
-          {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
-          {
-            "field": "signer",
-            "operator": "regex",
-            "value": "zoho corporation"
+            "operator": "contains",
+            "value": "/program files/manageengine/uems_agent/"
           }
         ],
         [
           {
             "field": "process_path",
-            "operator": "regex",
-            "value": "^/Library/(?:ManageEngine/UEMS_Agent|Desktopcentral_Agent)/"
-          },
+            "operator": "contains",
+            "value": "/program files (x86)/manageengine/uems_agent/"
+          }
+        ],
+        [
           {
-            "field": "signature_valid",
-            "operator": "equals",
-            "value": true
-          },
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files/desktopcentral_agent/"
+          }
+        ],
+        [
           {
-            "field": "signer",
-            "operator": "regex",
-            "value": "developer id application: zoho corporation"
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files (x86)/desktopcentral_agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Library/ManageEngine/UEMS_Agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Library/Desktopcentral_Agent/"
           }
         ]
       ]
@@ -309,7 +282,7 @@
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Identified office/AI application connecting to a shared domain: outside RMM report scope",
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
       "conditions": [
         {
           "field": "process_name",
@@ -320,18 +293,8 @@
         },
         {
           "field": "process_path",
-          "operator": "regex",
-          "value": "^[a-z]:\\\\program files(?: \\(x86\\))?\\\\microsoft office\\\\(?:root\\\\)?office[0-9]+\\\\outlook[.]exe$"
-        },
-        {
-          "field": "signature_valid",
-          "operator": "equals",
-          "value": true
-        },
-        {
-          "field": "signer",
-          "operator": "regex",
-          "value": "^microsoft corporation$"
+          "operator": "contains",
+          "value": "/microsoft office/"
         },
         {
           "field": "remote_host",
@@ -345,7 +308,7 @@
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Identified office/AI application connecting to a shared domain: outside RMM report scope",
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
       "conditions": [
         {
           "field": "process_name",
@@ -356,18 +319,8 @@
         },
         {
           "field": "process_path",
-          "operator": "regex",
-          "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?\\\\tencent\\\\yuanbao|users\\\\[^\\\\]+\\\\(?:appdata\\\\(?:local|roaming)\\\\(?:tencent\\\\)?)?yuanbao)\\\\yuanbao[.]exe$"
-        },
-        {
-          "field": "signature_valid",
-          "operator": "equals",
-          "value": true
-        },
-        {
-          "field": "signer",
-          "operator": "regex",
-          "value": "^tencent technology ?\\(shenzhen\\) company limited$"
+          "operator": "contains",
+          "value": "/yuanbao/"
         },
         {
           "field": "remote_host",
@@ -381,7 +334,7 @@
       "enabled": true,
       "target": "activity",
       "expires_at": null,
-      "reason": "Identified office/AI application connecting to a shared domain: outside RMM report scope",
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
       "conditions": [
         {
           "field": "process_name",
@@ -392,24 +345,78 @@
         },
         {
           "field": "process_path",
-          "operator": "regex",
-          "value": "^[a-z]:\\\\(?:program files(?: \\(x86\\))?\\\\ima[.]copilot|ima[.]copilot|users\\\\[^\\\\]+\\\\appdata\\\\local\\\\ima[.]copilot\\\\application)\\\\ima[.]copilot[.]exe$"
-        },
-        {
-          "field": "signature_valid",
-          "operator": "equals",
-          "value": true
-        },
-        {
-          "field": "signer",
-          "operator": "regex",
-          "value": "^tencent technology ?\\(shenzhen\\) company limited$"
+          "operator": "contains",
+          "value": "/ima.copilot/"
         },
         {
           "field": "remote_host",
           "operator": "exact",
           "value": "oth.eve.mdt.qq.com"
         }
+      ]
+    },
+    {
+      "id": "rpt-freshservice-inventory",
+      "enabled": true,
+      "target": "association",
+      "expires_at": null,
+      "reason": "Freshservice Discovery Agent/Probe inventory components are outside report scope; vendor domains are not globally approved",
+      "alternatives": [
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files (x86)/freshworks/freshservice discovery agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "path_prefix",
+            "value": "/Library/Freshservice-Agent/Freshservice-Discovery-Agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "path_prefix",
+            "value": "/usr/local/sbin/Freshservice/Discovery-Agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "freshservice.discoveryprobe.scanservice.exe",
+              "freshservice.discoveryprobe.window.exe",
+              "freshservice.discoveryprobe.autoflush.exe",
+              "freshservice.discoveryprobe.oidlibrarypuller.exe",
+              "fsprobereporter.exe",
+              "fswmiscanner.exe"
+            ]
+          }
+        ]
       ]
     }
   ]

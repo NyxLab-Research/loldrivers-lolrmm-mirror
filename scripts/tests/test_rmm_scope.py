@@ -55,7 +55,7 @@ def cases():
 
 class CoverageTest(unittest.TestCase):
     def setUp(self):
-        self.policy, self.config = rr.load_policy()
+        self.policy, self.config = rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
 
     def test_scope_boundaries(self):
         for row in cases():

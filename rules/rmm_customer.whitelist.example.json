@@ -8,13 +8,13 @@
       "id": "approved-support-connection",
       "enabled": true,
       "reason": "Customer-approved connection on the specified device",
-      "target": "activity",
+      "target": "association",
       "expires_at": "2099-01-01T00:00:00Z",
       "conditions": [
         {
-          "field": "tool_id",
+          "field": "rmm_tool",
           "operator": "equals",
-          "value": "teamviewer"
+          "value": "TeamViewer"
         },
         {
           "field": "remote_host",

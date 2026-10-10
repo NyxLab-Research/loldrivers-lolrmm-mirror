@@ -43,7 +43,7 @@ class IdentityTests(unittest.TestCase):
             with self.assertRaises(ValueError): sources.domain_root(bad)
 
     def test_sources_and_aggregation_contract(self):
-        policy,config=rr.load_policy()
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
         for platform in ('mde','cortex'):
             text=iq.build(bq.build(policy,config,platform),platform)
             self.assertLess(text.index('IdentityBasis='),text.index('ActivityDecision='))
@@ -57,7 +57,7 @@ class IdentityTests(unittest.TestCase):
                 self.assertIn('wildcard_match(remote_host, pattern)',text)
 
     def test_noise_conflict_and_customer_priority(self):
-        policy,config=rr.load_policy()
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
         row=dict(process_name='msedge.exe',original_file_name='AnyDesk.exe',
                  process_path=r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
                  signer='Microsoft Corporation',signature_valid=True)
@@ -73,7 +73,7 @@ class IdentityTests(unittest.TestCase):
         self.assertFalse(identity.evaluate(policy,config,row)['excluded'])
 
     def test_process_inventory_uses_child_identity(self):
-        policy,config=rr.load_policy()
+        policy,config=rr.load_policy(rr.ROOT / "rules/legacy/rmm_report_exclusions_v1.json")
         mde=iq.process_query(bq.build(policy,config,'mde'), 'mde')
         self.assertIn('InitiatingProcessSHA1=SHA1',mde)
         self.assertIn('InitiatingProcessVersionInfoOriginalFileName=ProcessVersionInfoOriginalFileName',mde)

@@ -12,6 +12,7 @@ import cortex_lookup as api
 import rmm_reference_data as ref
 import rmm_report_rules as rr
 import tenant_credentials as creds
+import rmm_domain_policy as domain
 
 SPECS={key:api.DatasetSpec(name,name+'.csv',ref.fields(key),('row_id',),'','')
        for key,name in ref.REFERENCE_NAMES.items()}
@@ -31,18 +32,17 @@ def published_references():
     if not re.fullmatch(r'[a-f0-9]{40}',commit):raise ValueError('Invalid published source revision')
     base='https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/'+commit+'/data/'
     result={'commit':commit}
-    for kind in ('profiles','discovery','general'):
+    for kind in ('general',):
         spec=SPECS[kind];reader=csv.DictReader(io.StringIO(get(base+spec.filename).decode('utf-8-sig')))
         if tuple(reader.fieldnames or ())!=spec.fields:raise ValueError('Published reference schema mismatch')
         rows=list(reader);ref.validate(rows,spec.fields);result[kind]=rows
-    known=set(ref.regex_pool(*rr.load_policy()))
-    if any(r['operator']=='regex' and r['regex_key'] not in known for r in result['general']):
-        raise ValueError('New regex patterns require a matching query engine deployment before lookup activation')
+    domain.validate_rows(result['general'])
     manifest=json.loads(get(base+'manifest.json'));payload=get(base+'lolrmm_domains.csv')
     if hashlib.sha256(payload).hexdigest()!=manifest['lolrmm_csv_sha256']:raise ValueError('Published domain content hash mismatch')
     reader=csv.DictReader(io.StringIO(payload.decode('utf-8-sig')))
     if tuple(reader.fieldnames or ())!=DOMAIN_SPEC.fields:raise ValueError('Published domain schema mismatch')
     result['domains']=list(reader)
+    domain.validate_domains(result['domains'])
     if len(result['domains'])!=manifest['rmm_effective_rows']:raise ValueError('Published domain row count mismatch')
     return result
 
@@ -115,7 +115,7 @@ def sync_release(client,spec,desired,*,apply=False,limiter=None):
 def customer_config(name,directory):
     path=Path(directory)/(name+'.json')
     if path.exists():
-        config=rr.load_policy(customer_path=path)[1]
+        config=domain.load_policy(path)[1]
         if config['customer_id']!=name:raise ValueError('Customer policy ID does not match the tenant alias')
         return config
     return {'schema_version':1,'customer_id':name,'disabled_default_rules':[],'retain_rules':[],'whitelist':[]}
@@ -129,14 +129,10 @@ def inventory(client):
 def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=None):
     client=api.CortexClient(tenant,90);existing=inventory(client)
     result={'tenant':tenant.name,'existing_lookups':sorted(n for n,k in existing.items() if k=='lookup'),'references':{}}
-    import rmm_discovery
-    desired={k:published[k] if published else rows for k,rows in [('profiles',ref.profiles()),('discovery',rmm_discovery.rows()),('general',ref.policy_rows())]}
+    desired={'general':published['general'] if published else domain.policy_rows()}
     if published:result['source_commit']=published['commit']
     config=customer_config(tenant.name,customer_dir or ref.ROOT/'config/rmm_customers')
-    import rmm_native_queries as native
-    native.check_config(rr.load_policy()[0],config)
-    if any(not rr.supports(r,'cortex') for r in config.get('whitelist',[])+config.get('retain_rules',[])):
-        raise ValueError('Cortex approvals require SHA256; SHA1 is MDE-only')
+    domain.validate_config(domain.load_policy()[0],config,'cortex')
     # Determine the next revision from the tenant, so a lost local cache cannot overwrite a policy.
     release='000001'
     if SPECS['customer'].name in existing:
@@ -145,20 +141,21 @@ def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=
         active=[r for r in current if r['release']==release]
         if any(r['record_type']=='manifest' for r in active):
             ref.validate(active,ref.POLICY_FIELDS)
-            candidate=ref.policy_rows(config=config,customer=True,release=release)
+            candidate=domain.policy_rows(config=config,customer=True,release=release)
             if sorted(active,key=lambda r:r['row_id'])!=sorted(candidate,key=lambda r:r['row_id']):release=f'{int(release)+1:06d}'
-    desired['customer']=ref.policy_rows(config=config,customer=True,release=release)
+    desired['customer']=domain.policy_rows(config=config,customer=True,release=release)
     if output_dir:
         target=Path(output_dir)/tenant.name;target.mkdir(parents=True,exist_ok=True)
         (target/'inventory_before.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
-        for key,spec in SPECS.items():
+        for key in desired:
+            spec=SPECS[key]
             if spec.name in existing:
                 if existing[spec.name]!='lookup':raise api.SyncError('Refusing to modify a non-lookup dataset')
                 rows=client.get_rows(spec.name)
                 (target/(spec.name+'_before.json')).write_text(json.dumps(rows,ensure_ascii=False,indent=2),encoding='utf-8')
     limiter=api.MutationLimiter(11)
-    for key,spec in SPECS.items():
-        result['references'][key]=sync_release(client,spec,desired[key],apply=apply,limiter=limiter)
+    for key,rows in desired.items():
+        result['references'][key]=sync_release(client,SPECS[key],rows,apply=apply,limiter=limiter)
     # Provision/update only the project's domain lookup; unrelated lookups are untouched.
     spec=DOMAIN_SPEC
     if spec.name in existing and existing[spec.name]!='lookup':raise api.SyncError('Domain dataset has unexpected type')

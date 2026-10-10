@@ -96,7 +96,8 @@ def regex_for(condition):
     return key,pattern
 
 def policy_rows(policy=None, config=None, *, customer=False, release=RELEASE):
-    defaults=rr.load_policy()
+    # Historical compiler; the current report uses rmm_domain_policy.policy_rows.
+    defaults=rr.load_policy(ROOT/'rules/legacy/rmm_report_exclusions_v1.json')
     if policy is None: policy=defaults[0]
     if config is None: config=defaults[1]
     if customer:
@@ -139,8 +140,9 @@ def regex_pool(policy,config):
     return dict(sorted({regex_for(c) for r in rules for g in rr.groups(r) for c in g if c['operator'] in ('glob','regex')}))
 
 def write(check=False):
+    import rmm_domain_policy as domain
     entries=[('rmm_tool_profiles_v2.csv',profiles(),PROFILE_FIELDS),
-             ('rmm_general_rules.csv',policy_rows(),POLICY_FIELDS)]
+             ('rmm_general_rules.csv',domain.policy_rows(),POLICY_FIELDS)]
     for filename,records,fields in entries:
         validate(records,fields);target=ROOT/'data'/filename;payload=csv_bytes(records,fields)
         if check:
