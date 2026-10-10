@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from urllib.request import Request,urlopen
 from urllib.error import URLError,HTTPError
+from http.client import RemoteDisconnected,IncompleteRead
 import time
 import cortex_lookup as api
 import rmm_reference_data as ref
@@ -23,7 +24,7 @@ def published_references():
         for attempt in range(3):
             try:
                 with urlopen(Request(url,headers={'User-Agent':'nyx-rmm-reference-sync'}),timeout=30) as response:return api.read_limited(response)
-            except (URLError,TimeoutError) as exc:
+            except (URLError,TimeoutError,RemoteDisconnected,IncompleteRead) as exc:
                 if isinstance(exc,HTTPError) and exc.code not in (429,500,502,503,504):raise
                 if attempt==2:raise
                 time.sleep(3*(attempt+1))
