@@ -2,6 +2,9 @@
 config case_sensitive = true timeframe = 7d
 | dataset = xdr_data
  | filter event_type = ENUM.NETWORK and ((action_external_hostname != null and action_external_hostname != "") or action_remote_ip != null)
+| fields _time,event_type,agent_hostname,agent_id,actor_process_image_name,actor_process_image_path,actor_process_image_sha256,
+    actor_process_signature_vendor,actor_process_signature_status,actor_primary_username,action_external_hostname,action_remote_ip,
+    action_process_image_name,action_process_image_path,action_process_image_sha256,action_process_signature_vendor,action_process_signature_status
 | alter DeviceName = agent_hostname, DeviceId = agent_id,
     ProcessName = if(event_type = ENUM.PROCESS,action_process_image_name,actor_process_image_name),
     ProcessPath = if(event_type = ENUM.PROCESS,action_process_image_path,actor_process_image_path),
@@ -14,15 +17,26 @@ config case_sensitive = true timeframe = 7d
     RemoteIP = if(event_type = ENUM.PROCESS,"",coalesce(to_string(action_remote_ip),"")),
     Activity = if(event_type = ENUM.PROCESS,"Process start","Network activity"), SHA1 = ""
 | alter RuleName = lowercase(ProcessName), RulePath = if(ProcessPath ~= "^[A-Za-z]:",lowercase(replex(ProcessPath,"[\\\\]","/")),ProcessPath)
-| alter _SourceRecord = to_json_string(arraycreate(DeviceName,DeviceId,ProcessName,ProcessPath,Publisher,SHA256,User,RemoteHost,RemoteIP,Activity,SignatureStatus))
-| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by _SourceRecord,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath
+| alter _DomainKey = arraycreate(if(array_length(split(RemoteHost,".")) > 1,concat("suffix:",arrayindex(split(RemoteHost,"."),-2),".",arrayindex(split(RemoteHost,"."),-1)),concat("single:",RemoteHost)),concat("single:",arrayindex(split(RemoteHost,"."),-1)))
+| arrayexpand _DomainKey
+| filter _DomainKey in (dataset = rmm_discovery_indicators
+ | filter release in (dataset = rmm_discovery_indicators | filter record_type = "manifest" | sort desc release | limit 1 | fields release)
+ | filter record_type = "domain"
+ | alter _DomainKey = if(array_length(split(domain,".")) > 1,concat("suffix:",arrayindex(split(domain,"."),-2),".",arrayindex(split(domain,"."),-1)),concat("single:",domain))
+ | fields tool_id,tool_name,software_role,domain,pattern,_DomainKey | fields _DomainKey)
+| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,_DomainKey
 | join type = inner (dataset = rmm_discovery_indicators
  | filter release in (dataset = rmm_discovery_indicators | filter record_type = "manifest" | sort desc release | limit 1 | fields release)
- | filter record_type = "domain" | fields tool_id,tool_name,software_role,domain,pattern) as D RemoteHost = D.domain or wildcard_match(RemoteHost,concat("*.",D.domain))
-| filter wildcard_match(RemoteHost,pattern)
+ | filter record_type = "domain"
+ | alter _DomainKey = if(array_length(split(domain,".")) > 1,concat("suffix:",arrayindex(split(domain,"."),-2),".",arrayindex(split(domain,"."),-1)),concat("single:",domain))
+ | fields tool_id,tool_name,software_role,domain,pattern,_DomainKey) as D _DomainKey = D._DomainKey
+| filter (RemoteHost = domain or wildcard_match(RemoteHost,concat("*.",domain))) and wildcard_match(RemoteHost,pattern)
 | alter ProcessMatch = 0, DomainMatch = 1, MatchedDomain = domain
 | union (dataset = xdr_data
  | filter event_type = ENUM.NETWORK or (event_type = ENUM.PROCESS and event_sub_type = ENUM.PROCESS_START)
+| fields _time,event_type,agent_hostname,agent_id,actor_process_image_name,actor_process_image_path,actor_process_image_sha256,
+    actor_process_signature_vendor,actor_process_signature_status,actor_primary_username,action_external_hostname,action_remote_ip,
+    action_process_image_name,action_process_image_path,action_process_image_sha256,action_process_signature_vendor,action_process_signature_status
 | alter DeviceName = agent_hostname, DeviceId = agent_id,
     ProcessName = if(event_type = ENUM.PROCESS,action_process_image_name,actor_process_image_name),
     ProcessPath = if(event_type = ENUM.PROCESS,action_process_image_path,actor_process_image_path),
@@ -38,15 +52,14 @@ config case_sensitive = true timeframe = 7d
 | alter _IndicatorAnchor = arraycreate(concat("name:",RuleName),concat("prefix:",arrayindex(split(RuleName,"-"),0)),concat("prefix:",arrayindex(split(RuleName,"_"),0)))
 | arrayexpand _IndicatorAnchor
 | filter _IndicatorAnchor in (dataset = rmm_discovery_indicators | filter record_type = "process" | fields anchor_key)
-| alter _SourceRecord = to_json_string(arraycreate(DeviceName,DeviceId,ProcessName,ProcessPath,Publisher,SHA256,User,RemoteHost,RemoteIP,Activity,SignatureStatus))
-| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by _SourceRecord,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,_IndicatorAnchor
+| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,_IndicatorAnchor
  | join type = inner (dataset = rmm_discovery_indicators
  | filter release in (dataset = rmm_discovery_indicators | filter record_type = "manifest" | sort desc release | limit 1 | fields release)
  | filter record_type = "process" | fields tool_id,tool_name,software_role,pattern,anchor_key) as I _IndicatorAnchor = I.anchor_key
  | filter wildcard_match(RuleName,pattern)
  | alter ProcessMatch = 1, DomainMatch = 0, MatchedDomain = "")
 | comp max(ProcessMatch) as ProcessMatch,max(DomainMatch) as DomainMatch,values(MatchedDomain) as MatchedDomains,max(EventCount) as EventCount
-    by _SourceRecord,_time,FirstObserved,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,tool_id,tool_name,software_role
+    by _time,FirstObserved,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,tool_id,tool_name,software_role
 | alter SoftwareId = tool_id, Software = tool_name, SoftwareRole = software_role
 | fields _time,FirstObserved,EventCount,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,SoftwareId,Software,SoftwareRole,ProcessMatch,DomainMatch,MatchedDomains
 | join type = left (dataset = rmm_tool_profiles_v2
@@ -56,6 +69,7 @@ config case_sensitive = true timeframe = 7d
     and (path_prefix = "" or RulePath contains path_prefix and arrayindex(split(RulePath,path_prefix),0) = "")
     and (path_contains = "" or RulePath contains path_contains),true,false),
     EvidenceConflict = if(tool_id = SoftwareId and ((path_prefix != "" and not(RulePath contains path_prefix and arrayindex(split(RulePath,path_prefix),0) = "")) or (path_contains != "" and not(RulePath contains path_contains))),true,false)
+| filter SoftwareRole = "rmm" and EvidenceConflict = false and (IdentityValid = true or ProcessMatch = 1 and DomainMatch = 1)
 | alter Evidence = if(EvidenceConflict = true,"Conflicting file metadata",SoftwareRole = "ambiguous","Ambiguous process name",IdentityValid = true,"Verified process identity",ProcessMatch = 1 and DomainMatch = 1,"Process and domain match",DomainMatch = 1,"Domain match only","Process match only"),
     _MatchedDomainsJSON = to_json_string(MatchedDomains),
     _Record = to_json_string(arraycreate(DeviceName,DeviceId,SoftwareId,Software,ProcessName,ProcessPath,Publisher,SHA256,User,RemoteHost,RemoteIP,SignatureStatus)),
@@ -84,12 +98,11 @@ config case_sensitive = true timeframe = 7d
     max(if(rule_kind = "customer" or rule_kind = "general_whitelist",_GroupHit,0)) as WhitelistHit
     by _time, FirstObserved, _Record, DeviceId, SoftwareId, SoftwareRole, IdentityValid, EvidenceConflict, ProcessMatch, DomainMatch, Evidence, RemoteHost, RemoteIP, _MatchedDomainsJSON, Activity
 | alter ReportSection = if((IdentityValid = true or ProcessMatch = 1 and DomainMatch = 1) and EvidenceConflict = false and SoftwareRole = "rmm" and (GeneralHit = 0 or RetainHit = 1) and WhitelistHit = 0,"main","review")
-| alter _Reason = if(IdentityValid != true and not(ProcessMatch = 1 and DomainMatch = 1),"Additional evidence required",SoftwareRole != "rmm","Outside RMM report scope",WhitelistHit = 1,"Whitelisted",GeneralHit = 1 and RetainHit = 0,"General exclusion","Corroborated RMM activity")
-| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")
-| arrayexpand MatchedDomains
 | filter ReportSection = "main"
 | windowcomp first_value(_Record) by DeviceId,SoftwareId,ReportSection sort desc _time, asc _Record between null and null as _LatestRecord
-| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(_Reason) as Reasons,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence, first(_LatestRecord) as _Record by DeviceId,SoftwareId,ReportSection
+| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")
+| arrayexpand MatchedDomains
+| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence, first(_LatestRecord) as _Record by DeviceId,SoftwareId,ReportSection
 | alter DeviceName = json_extract_scalar(_Record,"$[0]"),
     DeviceId = json_extract_scalar(_Record,"$[1]"),
     SoftwareId = json_extract_scalar(_Record,"$[2]"),

@@ -9,6 +9,10 @@ FIELD_EXPRESSIONS={'device_id':'DeviceId','device_name':'tolower(DeviceName)','p
     'process_path':'RulePath','sha1':'SHA1','sha256':'SHA256','signer':'tolower(Publisher)',
     'signature_valid':'iff(SignatureStatus=="Unavailable","",tolower(tostring(SignatureValid)))','remote_host':'RemoteHost','tool_id':'SoftwareId','software_role':'SoftwareRole'}
 
+def replace_stage(text,old,new):
+    if text.count(old)!=1:raise ValueError('Native query stage is missing or duplicated')
+    return text.replace(old,new,1)
+
 def data_source(kind,config,inline=False):
     fields=ref.fields(kind)
     if kind=='customer' or inline:
@@ -75,7 +79,7 @@ let OriginalAlias=(value:string){let name=tolower(value);iff(name endswith ".exe
 let FullPath=(folder:string,name:string){iff(tolower(folder) endswith tolower(name),folder,strcat(trim_end(@"[\\\\/]+",folder),iff(folder contains "\\\\","\\\\","/"),name))};
 let Host=(value:string){tolower(trim_end(@"[.]+",tostring(parse_url(iff(value contains "://",value,strcat("https://",value))).Host)))};
 let NameCandidate=(name:string){name in (CandidateNames) or tostring(split(name,"-")[0]) in (CandidatePrefixes) or tostring(split(name,"_")[0]) in (CandidatePrefixes)};
-let Sources=materialize(union
+let Sources=(union
  (DeviceNetworkEvents
   | where Timestamp>=ReportStart and Timestamp<ReportEnd
   | where ActionType=="ConnectionSuccess" or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
@@ -94,17 +98,17 @@ let Sources=materialize(union
     SHA1=tolower(SHA1),SHA256=tolower(SHA256),OriginalName=ProcessVersionInfoOriginalFileName,
     User=AccountName,RemoteHost="",RemoteIP="",Activity="Process start",ActionType)
  | extend RuleName=tolower(ProcessName),RuleOriginal=tolower(OriginalName),OriginalKey=OriginalAlias(OriginalName),RulePath=NormalizePath(ProcessPath)
- | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath
  | extend SourceId=tostring(pack_array(DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType)));
-let ProcessCandidates=materialize(Sources
+let ProcessCandidates=Sources
  | extend MatchKeys=pack_array(strcat("name:",RuleName),strcat("name:",OriginalKey),strcat("prefix:",tostring(split(RuleName,"-")[0])),strcat("prefix:",tostring(split(RuleName,"_")[0])))
  | mv-expand MatchKey=MatchKeys to typeof(string)
  | lookup kind=inner ProcessIndicators on $left.MatchKey==$right.anchor_key
  | extend Parts=split(pattern,"*")
  | where (array_length(Parts)==1 and (RuleName==pattern or OriginalKey==pattern))
     or (array_length(Parts)==2 and RuleName startswith_cs tostring(Parts[0]) and RuleName endswith_cs tostring(Parts[1]) and strlen(RuleName)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | extend ProcessMatch=1,DomainMatch=0,MatchedDomain="");
-let DomainCandidates=materialize(Sources | where Activity=="Network activity" and isnotempty(RemoteHost)
+ | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role
+ | extend ProcessMatch=1,DomainMatch=0,MatchedDomain="";
+let DomainCandidates=Sources | where Activity=="Network activity" and isnotempty(RemoteHost)
  | extend Labels=split(RemoteHost,".")
  | mv-expand LabelIndex=range(0,array_length(Labels)-1,1) to typeof(long)
  | extend DomainKey=strcat("host:",strcat_array(array_slice(Labels,LabelIndex,-1),"."))
@@ -112,10 +116,11 @@ let DomainCandidates=materialize(Sources | where Activity=="Network activity" an
  | extend Parts=split(pattern,"*")
  | where (array_length(Parts)==1 and RemoteHost==pattern)
     or (array_length(Parts)==2 and RemoteHost startswith_cs tostring(Parts[0]) and RemoteHost endswith_cs tostring(Parts[1]) and strlen(RemoteHost)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | extend ProcessMatch=0,DomainMatch=1,MatchedDomain=domain);
-let Raw=materialize(union ProcessCandidates,DomainCandidates
+ | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role,domain
+ | extend ProcessMatch=0,DomainMatch=1,MatchedDomain=domain;
+let Raw=materialize(union (ProcessCandidates),(DomainCandidates)
  | summarize ProcessMatch=max(ProcessMatch),DomainMatch=max(DomainMatch),MatchedDomains=make_set_if(MatchedDomain,isnotempty(MatchedDomain)),arg_max(_time,*) by SourceId,tool_id
- | project-away pattern,domain,row_id,record_type,release,expected_rows,release_digest
+ | project-away domain
  | extend SoftwareId=tool_id,Software=tool_name,SoftwareRole=software_role
  | project-away tool_id,tool_name,software_role
  | lookup kind=leftouter Profiles on $left.RuleName==$right.process_name
@@ -129,12 +134,13 @@ let Raw=materialize(union ProcessCandidates,DomainCandidates
  | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProfileTool,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,
      OriginalName,RuleName,RuleOriginal,RulePath,ExpectedSigners,RequiredPrefix,RequiredContains,AllowedOriginalNames,
      NameConflict,User,RemoteHost,Activity,ActionType);
-let LocalCertificates=materialize(DeviceFileCertificateInfo
+let LocalCertificates=DeviceFileCertificateInfo
  | where Timestamp>=ReportStart and Timestamp<ReportEnd
  | extend SHA1=tolower(SHA1)
  | where SHA1 in (Raw | where isnotempty(SHA1) | distinct SHA1)
+ | project Timestamp,DeviceId,SHA1,IsSigned,IsTrusted,Signer
  | summarize arg_max(Timestamp,*) by DeviceId,SHA1
- | project DeviceId,SHA1=tolower(SHA1),LocalSeen=true,LocalSigned=IsSigned,LocalTrusted=IsTrusted,LocalSigner=Signer);
+ | project DeviceId,SHA1=tolower(SHA1),LocalSeen=true,LocalSigned=IsSigned,LocalTrusted=IsTrusted,LocalSigner=Signer;
 let WithLocal=materialize(Raw | lookup kind=leftouter LocalCertificates on DeviceId,SHA1);
 let MissingHashes=materialize(WithLocal
  | where FileProfileEnabled and coalesce(LocalSeen,false)==false and SHA1 matches regex @"^[a-f0-9]{40}$"
@@ -162,10 +168,11 @@ let Candidates=materialize(WithLocal | lookup kind=leftouter Cloud on SHA1
      SignatureStatus=case(SignatureValid,"Valid",SignatureSource=="missing","Unavailable","Not valid or not trusted")
  | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,Evidence,SignatureStatus,EvidenceConflict,
      RuleName,RulePath,User,RemoteHost,Activity,ActionType,Publisher,SignatureValid,SignatureSource,IdentityValid,CandidateId);
-let RuleMatches=materialize(Candidates
+let RuleMatches=Candidates
+ | project CandidateId,DeviceId,DeviceName,RuleName,RulePath,SHA1,SHA256,Publisher,SignatureStatus,SignatureValid,RemoteHost,SoftwareId,SoftwareRole
  | extend PolicyKeys=pack_array(strcat("name:",RuleName),strcat("tool:",SoftwareId),"*")
  | mv-expand PolicyKey=PolicyKeys to typeof(string)
- | join kind=inner hint.strategy=broadcast Rules on $left.PolicyKey==$right.anchor_key
+ | lookup kind=inner Rules on $left.PolicyKey==$right.anchor_key
 '''
     fieldcase=','.join('field_name=='+rr.quote(k)+','+v for k,v in FIELD_EXPRESSIONS.items())
     defs+=' | extend Actual=case('+fieldcase+',""),RuleValue=value\n'
@@ -178,13 +185,19 @@ let RuleMatches=materialize(Candidates
    by CandidateId,rule_id,rule_kind,group_id
  | where MatchedConditions==RequiredConditions
  | summarize GeneralHits=make_set_if(rule_id,rule_kind=="general"),RetainHits=make_set_if(rule_id,rule_kind=="retain"),
-   WhitelistHits=make_set_if(rule_id,rule_kind in ("customer","general_whitelist")) by CandidateId);
-let Classified=materialize(Candidates | lookup kind=leftouter RuleMatches on CandidateId
+   WhitelistHits=make_set_if(rule_id,rule_kind in ("customer","general_whitelist")) by CandidateId;
+let Classified=Candidates | lookup kind=leftouter RuleMatches on CandidateId
  | extend GeneralHits=coalesce(GeneralHits,dynamic([])),RetainHits=coalesce(RetainHits,dynamic([])),WhitelistHits=coalesce(WhitelistHits,dynamic([]))
  | extend GeneralExcluded=array_length(GeneralHits)>0 and not(array_length(RetainHits)>0),
      Whitelisted=array_length(WhitelistHits)>0
- | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review"));
+ | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review");
 '''
+    if view in ('main','details'):
+        # Only records that cannot qualify are removed; domain/process discovery is unchanged.
+        defs=replace_stage(defs,'NameConflict,User,RemoteHost,Activity,ActionType);',
+            'NameConflict,User,RemoteHost,Activity,ActionType\n | where SoftwareRole=="rmm" and (ProfileTool==SoftwareId or (ProcessMatch==1 and DomainMatch==1)));')
+        defs=replace_stage(defs,'SignatureValid,SignatureSource,IdentityValid,CandidateId);',
+            'SignatureValid,SignatureSource,IdentityValid,CandidateId\n | where (IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and not(EvidenceConflict));')
     selection='ReportSection=="main"' if view in ('main','details') else 'ReportSection=="review" and not(Whitelisted)' if view=='review' else 'true'
     defs+='Classified | where ReferencesOK and EngineOK and '+selection+'\n'
     if view=='details':
@@ -240,8 +253,20 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     domains=discovery+'\n | filter record_type = "domain"'
     # A broad prefilter may include retained old aliases; the subsequent join validates the active release.
     prefilter='dataset = '+ref.REFERENCE_NAMES['discovery']+' | filter record_type = "process"'
+    def domain_key(host):
+        # A bucket, not an identity: full domain boundaries and patterns are checked after joining.
+        labels='split('+host+',".")'
+        return 'if(array_length('+labels+') > 1,concat("suffix:",arrayindex('+labels+',-2),".",arrayindex('+labels+',-1)),concat("single:",'+host+'))'
+    domain_index=domains+'\n | alter _DomainKey = '+domain_key('domain')+'\n | fields tool_id,tool_name,software_role,domain,pattern,_DomainKey'
+    domain_anchor='''| alter _DomainKey = arraycreate('''+domain_key('RemoteHost')+''',concat("single:",arrayindex(split(RemoteHost,"."),-1)))
+| arrayexpand _DomainKey
+| filter _DomainKey in ('''+domain_index+''' | fields _DomainKey)
+'''
     def source(predicate):
         return 'dataset = xdr_data\n | filter '+predicate+r'''
+| fields _time,event_type,agent_hostname,agent_id,actor_process_image_name,actor_process_image_path,actor_process_image_sha256,
+    actor_process_signature_vendor,actor_process_signature_status,actor_primary_username,action_external_hostname,action_remote_ip,
+    action_process_image_name,action_process_image_path,action_process_image_sha256,action_process_signature_vendor,action_process_signature_status
 | alter DeviceName = agent_hostname, DeviceId = agent_id,
     ProcessName = if(event_type = ENUM.PROCESS,action_process_image_name,actor_process_image_name),
     ProcessPath = if(event_type = ENUM.PROCESS,action_process_image_path,actor_process_image_path),
@@ -254,23 +279,24 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     RemoteIP = if(event_type = ENUM.PROCESS,"",coalesce(to_string(action_remote_ip),"")),
     Activity = if(event_type = ENUM.PROCESS,"Process start","Network activity"), SHA1 = ""
 | alter RuleName = lowercase(ProcessName), RulePath = if(ProcessPath ~= "^[A-Za-z]:",lowercase(replex(ProcessPath,"[\\\\]","/")),ProcessPath)
-| alter _SourceRecord = to_json_string(arraycreate(DeviceName,DeviceId,ProcessName,ProcessPath,Publisher,SHA256,User,RemoteHost,RemoteIP,Activity,SignatureStatus))
-| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by _SourceRecord,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath
+| comp min(_time) as FirstObserved,max(_time) as _time,count() as EventCount by DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath
 '''
     network='event_type = ENUM.NETWORK and ((action_external_hostname != null and action_external_hostname != "") or action_remote_ip != null)'
     process_predicate='event_type = ENUM.NETWORK or (event_type = ENUM.PROCESS and event_sub_type = ENUM.PROCESS_START)'
-    query='// Native RMM activity; source definitions and integration contract: README.md.\nconfig case_sensitive = true timeframe = '+timeframe+'\n| '+source(network)
-    query+='| join type = inner ('+domains+' | fields tool_id,tool_name,software_role,domain,pattern) as D RemoteHost = D.domain or wildcard_match(RemoteHost,concat("*.",D.domain))\n'
-    query+='| filter wildcard_match(RemoteHost,pattern)\n| alter ProcessMatch = 0, DomainMatch = 1, MatchedDomain = domain\n'
+    network_source=replace_stage(source(network),'| comp min(_time)',domain_anchor+'| comp min(_time)')
+    network_source=replace_stage(network_source,'Activity,SHA1,RuleName,RulePath\n','Activity,SHA1,RuleName,RulePath,_DomainKey\n')
+    query='// Native RMM activity; source definitions and integration contract: README.md.\nconfig case_sensitive = true timeframe = '+timeframe+'\n| '+network_source
+    query+='| join type = inner ('+domain_index+') as D _DomainKey = D._DomainKey\n'
+    query+='| filter (RemoteHost = domain or wildcard_match(RemoteHost,concat("*.",domain))) and wildcard_match(RemoteHost,pattern)\n| alter ProcessMatch = 0, DomainMatch = 1, MatchedDomain = domain\n'
     anchor_stage='''| alter _IndicatorAnchor = arraycreate(concat("name:",RuleName),concat("prefix:",arrayindex(split(RuleName,"-"),0)),concat("prefix:",arrayindex(split(RuleName,"_"),0)))
 | arrayexpand _IndicatorAnchor
 | filter _IndicatorAnchor in ('''+prefilter+''' | fields anchor_key)
 '''
-    process_source=source(process_predicate).replace('| alter _SourceRecord',anchor_stage+'| alter _SourceRecord',1)
-    process_source=process_source.replace('Activity,SHA1,RuleName,RulePath\n','Activity,SHA1,RuleName,RulePath,_IndicatorAnchor\n')
+    process_source=replace_stage(source(process_predicate),'| comp min(_time)',anchor_stage+'| comp min(_time)')
+    process_source=replace_stage(process_source,'Activity,SHA1,RuleName,RulePath\n','Activity,SHA1,RuleName,RulePath,_IndicatorAnchor\n')
     query+='| union ('+process_source+' | join type = inner ('+process+' | fields tool_id,tool_name,software_role,pattern,anchor_key) as I _IndicatorAnchor = I.anchor_key\n | filter wildcard_match(RuleName,pattern)\n | alter ProcessMatch = 1, DomainMatch = 0, MatchedDomain = "")\n'
     query+='''| comp max(ProcessMatch) as ProcessMatch,max(DomainMatch) as DomainMatch,values(MatchedDomain) as MatchedDomains,max(EventCount) as EventCount
-    by _SourceRecord,_time,FirstObserved,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,tool_id,tool_name,software_role
+    by _time,FirstObserved,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,tool_id,tool_name,software_role
 | alter SoftwareId = tool_id, Software = tool_name, SoftwareRole = software_role
 | fields _time,FirstObserved,EventCount,DeviceName,DeviceId,ProcessName,ProcessPath,SHA256,Publisher,SignatureValid,SignatureStatus,User,RemoteHost,RemoteIP,Activity,SHA1,RuleName,RulePath,SoftwareId,Software,SoftwareRole,ProcessMatch,DomainMatch,MatchedDomains
 | join type = left ('''+profiles+''' | fields process_name,tool_id,signers,path_prefix,path_contains) as P RuleName = P.process_name
@@ -306,15 +332,15 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     by _time, FirstObserved, _Record, DeviceId, SoftwareId, SoftwareRole, IdentityValid, EvidenceConflict, ProcessMatch, DomainMatch, Evidence, RemoteHost, RemoteIP, _MatchedDomainsJSON, Activity
 | alter ReportSection = if((IdentityValid = true or ProcessMatch = 1 and DomainMatch = 1) and EvidenceConflict = false and SoftwareRole = "rmm" and (GeneralHit = 0 or RetainHit = 1) and WhitelistHit = 0,"main","review")
 | alter _Reason = if(IdentityValid != true and not(ProcessMatch = 1 and DomainMatch = 1),"Additional evidence required",SoftwareRole != "rmm","Outside RMM report scope",WhitelistHit = 1,"Whitelisted",GeneralHit = 1 and RetainHit = 0,"General exclusion","Corroborated RMM activity")
-| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")
-| arrayexpand MatchedDomains
 '''
     if view in ('main','details'):query+='| filter ReportSection = "main"\n'
     elif view=='review':query+='| filter ReportSection = "review" and WhitelistHit = 0\n'
     if view=='details':
+        query+='| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n'
         query+='| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(_Reason) as Reasons,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence by _Record,ReportSection\n'
     else:
         query+='| windowcomp first_value(_Record) by DeviceId,SoftwareId,ReportSection sort desc _time, asc _Record between null and null as _LatestRecord\n'
+        query+='| alter MatchedDomains = json_extract_scalar_array(_MatchedDomainsJSON,"$")\n| arrayexpand MatchedDomains\n'
         query+='| comp min(FirstObserved) as FirstSeen, max(_time) as LastSeen, values(Activity) as Activities,values(_Reason) as Reasons,values(if(RemoteHost = "",null,RemoteHost)) as RemoteHosts,values(if(RemoteIP = "",null,RemoteIP)) as RemoteIPs,values(if(MatchedDomains = "",null,MatchedDomains)) as MatchedDomains,values(Evidence) as Evidence, first(_LatestRecord) as _Record by DeviceId,SoftwareId,ReportSection\n'
     names=['DeviceName','DeviceId','SoftwareId','Software','ProcessName','ProcessPath','Publisher','SHA256','User','RemoteHost','RemoteIP','SignatureStatus']
     query+='| alter '+',\n    '.join(n+' = json_extract_scalar(_Record,"$['+str(i)+']")' for i,n in enumerate(names))+'\n'
@@ -323,4 +349,10 @@ def build_cortex(policy,config,timeframe='7d',view='main'):
     if view not in ('main','details'):fields+=',ReportSection,Reasons'
     query+='| fields '+fields+(',ReportSection' if view in ('main','details') else '')+'\n | union ('+health+'\n | filter ReportStatus != "ok" | fields ReportStatus)\n'
     query+='| alter _Priority = if(ReportStatus != "ok",-1,if(coalesce(ReportSection,"main") = "main",0,1))\n | sort asc _Priority, desc LastSeen\n | fields '+fields+'\n'
+    if view in ('main','details'):
+        # Evidence is known before policy expansion; retain/whitelist cannot promote it.
+        query=replace_stage(query,'| alter Evidence =',
+            '| filter SoftwareRole = "rmm" and EvidenceConflict = false and (IdentityValid = true or ProcessMatch = 1 and DomainMatch = 1)\n| alter Evidence =')
+        query=re.sub(r'\| alter _Reason = [^\n]+\n','',query)
+        query=query.replace('values(_Reason) as Reasons,','')
     return query

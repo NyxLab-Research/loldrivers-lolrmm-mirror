@@ -60,6 +60,18 @@ truncation and enrichment failures must not become empty successful reports.
 Fetch Cortex result streams when necessary and verify returned versus total rows.
 Export by schema; Graph OData type annotations are metadata, not report columns.
 
+Performance changes preserve these discovery and evidence standards. MDE matches
+indicators before aggregating source events, avoids a broad source cache, and
+uses lookup for the small right-hand policy table. Cortex selects raw fields
+early and uses domain suffix buckets for equality joins, followed by the full
+original domain-boundary and pattern checks. A bucket never establishes a match.
+Main prunes contexts only once they cannot qualify; all/review retain independent
+domain candidates. FileProfile remains bounded to evidence needed by that view.
+Lookup schemas/releases and the 16-column export contract do not change.
+Benchmark with a fixed one-hour window, complete results and the same reference
+versions. Record actual Cortex query_cost_charged separately from API/poll latency;
+one-hour success does not establish weekly memory capacity or weekly CU usage.
+
 ## Rules and whitelist maintenance
 
 | Input | Purpose | Native consumption |
@@ -199,6 +211,8 @@ review/domain discovery to assess coverage.
 - [Cortex Actor](https://docs-cortex.paloaltonetworks.com/r/Cortex-XQL-Schema-Reference-Guide/Actor-Actor), [XQL reference](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/Cortex-XQL-Command-Reference) and [first_value](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-3.x-Documentation/first_value).
 - [Cortex start](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Start-an-XQL-Query), [results](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-XQL-Query-Results) and [lookup writes](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Add-or-update-data-in-a-lookup-dataset).
 - [Cortex filter / IN](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/filter), [wildcard_match](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/wildcard_match), [JSON scalar arrays](https://docs-cortex.paloaltonetworks.com/r/Cortex/Cortex-XQL-Command-Reference/json_extract_scalar_array) and [lookup reads](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Get-data-from-a-lookup-dataset).
+- [Defender performance](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-best-practices), [lookup](https://learn.microsoft.com/en-us/kusto/query/lookup-operator?view=microsoft-fabric), [broadcast join](https://learn.microsoft.com/en-us/kusto/query/broadcast-join?view=microsoft-fabric) and [materialize](https://learn.microsoft.com/en-us/kusto/query/materialize-function?view=microsoft-fabric).
+- [Palo Alto XQL performance](https://live.paloaltonetworks.com/t5/cortex-xdr-articles/xdr-best-practices-5-tips-for-better-xql-queries/tac-p/575262) and [XQL APIs / actual query costs](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API/Running-XQL-Query-APIs).
 - [Freshservice discovery scope](https://support.freshservice.com/support/solutions/articles/50000009811-discovery-agent-architecture-and-working).
 
 LOLDrivers CSVs and their independent hash queries remain under data/ and

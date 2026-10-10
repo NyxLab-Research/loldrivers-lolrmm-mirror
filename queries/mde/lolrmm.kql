@@ -60,7 +60,7 @@ let OriginalAlias=(value:string){let name=tolower(value);iff(name endswith ".exe
 let FullPath=(folder:string,name:string){iff(tolower(folder) endswith tolower(name),folder,strcat(trim_end(@"[\\/]+",folder),iff(folder contains "\\","\\","/"),name))};
 let Host=(value:string){tolower(trim_end(@"[.]+",tostring(parse_url(iff(value contains "://",value,strcat("https://",value))).Host)))};
 let NameCandidate=(name:string){name in (CandidateNames) or tostring(split(name,"-")[0]) in (CandidatePrefixes) or tostring(split(name,"_")[0]) in (CandidatePrefixes)};
-let Sources=materialize(union
+let Sources=(union
  (DeviceNetworkEvents
   | where Timestamp>=ReportStart and Timestamp<ReportEnd
   | where ActionType=="ConnectionSuccess" or NameCandidate(tolower(InitiatingProcessFileName)) or NameCandidate(OriginalAlias(InitiatingProcessVersionInfoOriginalFileName))
@@ -79,17 +79,17 @@ let Sources=materialize(union
     SHA1=tolower(SHA1),SHA256=tolower(SHA256),OriginalName=ProcessVersionInfoOriginalFileName,
     User=AccountName,RemoteHost="",RemoteIP="",Activity="Process start",ActionType)
  | extend RuleName=tolower(ProcessName),RuleOriginal=tolower(OriginalName),OriginalKey=OriginalAlias(OriginalName),RulePath=NormalizePath(ProcessPath)
- | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath
  | extend SourceId=tostring(pack_array(DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType)));
-let ProcessCandidates=materialize(Sources
+let ProcessCandidates=Sources
  | extend MatchKeys=pack_array(strcat("name:",RuleName),strcat("name:",OriginalKey),strcat("prefix:",tostring(split(RuleName,"-")[0])),strcat("prefix:",tostring(split(RuleName,"_")[0])))
  | mv-expand MatchKey=MatchKeys to typeof(string)
  | lookup kind=inner ProcessIndicators on $left.MatchKey==$right.anchor_key
  | extend Parts=split(pattern,"*")
  | where (array_length(Parts)==1 and (RuleName==pattern or OriginalKey==pattern))
     or (array_length(Parts)==2 and RuleName startswith_cs tostring(Parts[0]) and RuleName endswith_cs tostring(Parts[1]) and strlen(RuleName)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | extend ProcessMatch=1,DomainMatch=0,MatchedDomain="");
-let DomainCandidates=materialize(Sources | where Activity=="Network activity" and isnotempty(RemoteHost)
+ | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role
+ | extend ProcessMatch=1,DomainMatch=0,MatchedDomain="";
+let DomainCandidates=Sources | where Activity=="Network activity" and isnotempty(RemoteHost)
  | extend Labels=split(RemoteHost,".")
  | mv-expand LabelIndex=range(0,array_length(Labels)-1,1) to typeof(long)
  | extend DomainKey=strcat("host:",strcat_array(array_slice(Labels,LabelIndex,-1),"."))
@@ -97,10 +97,11 @@ let DomainCandidates=materialize(Sources | where Activity=="Network activity" an
  | extend Parts=split(pattern,"*")
  | where (array_length(Parts)==1 and RemoteHost==pattern)
     or (array_length(Parts)==2 and RemoteHost startswith_cs tostring(Parts[0]) and RemoteHost endswith_cs tostring(Parts[1]) and strlen(RemoteHost)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1])))
- | extend ProcessMatch=0,DomainMatch=1,MatchedDomain=domain);
-let Raw=materialize(union ProcessCandidates,DomainCandidates
+ | summarize FirstObserved=min(_time),_time=max(_time),EventCount=count() by SourceId,DeviceName,DeviceId,ProcessName,ProcessPath,SHA1,SHA256,OriginalName,User,RemoteHost,RemoteIP,Activity,ActionType,RuleName,RuleOriginal,OriginalKey,RulePath,tool_id,tool_name,software_role,domain
+ | extend ProcessMatch=0,DomainMatch=1,MatchedDomain=domain;
+let Raw=materialize(union (ProcessCandidates),(DomainCandidates)
  | summarize ProcessMatch=max(ProcessMatch),DomainMatch=max(DomainMatch),MatchedDomains=make_set_if(MatchedDomain,isnotempty(MatchedDomain)),arg_max(_time,*) by SourceId,tool_id
- | project-away pattern,domain,row_id,record_type,release,expected_rows,release_digest
+ | project-away domain
  | extend SoftwareId=tool_id,Software=tool_name,SoftwareRole=software_role
  | project-away tool_id,tool_name,software_role
  | lookup kind=leftouter Profiles on $left.RuleName==$right.process_name
@@ -113,13 +114,15 @@ let Raw=materialize(union ProcessCandidates,DomainCandidates
      NameConflict=isnotempty(tool_id) and isnotempty(OriginalTool) and tool_id!=OriginalTool
  | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProfileTool,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,
      OriginalName,RuleName,RuleOriginal,RulePath,ExpectedSigners,RequiredPrefix,RequiredContains,AllowedOriginalNames,
-     NameConflict,User,RemoteHost,Activity,ActionType);
-let LocalCertificates=materialize(DeviceFileCertificateInfo
+     NameConflict,User,RemoteHost,Activity,ActionType
+ | where SoftwareRole=="rmm" and (ProfileTool==SoftwareId or (ProcessMatch==1 and DomainMatch==1)));
+let LocalCertificates=DeviceFileCertificateInfo
  | where Timestamp>=ReportStart and Timestamp<ReportEnd
  | extend SHA1=tolower(SHA1)
  | where SHA1 in (Raw | where isnotempty(SHA1) | distinct SHA1)
+ | project Timestamp,DeviceId,SHA1,IsSigned,IsTrusted,Signer
  | summarize arg_max(Timestamp,*) by DeviceId,SHA1
- | project DeviceId,SHA1=tolower(SHA1),LocalSeen=true,LocalSigned=IsSigned,LocalTrusted=IsTrusted,LocalSigner=Signer);
+ | project DeviceId,SHA1=tolower(SHA1),LocalSeen=true,LocalSigned=IsSigned,LocalTrusted=IsTrusted,LocalSigner=Signer;
 let WithLocal=materialize(Raw | lookup kind=leftouter LocalCertificates on DeviceId,SHA1);
 let MissingHashes=materialize(WithLocal
  | where FileProfileEnabled and coalesce(LocalSeen,false)==false and SHA1 matches regex @"^[a-f0-9]{40}$"
@@ -146,11 +149,13 @@ let Candidates=materialize(WithLocal | lookup kind=leftouter Cloud on SHA1
  | extend Evidence=case(EvidenceConflict,"Conflicting file metadata",SoftwareRole=="ambiguous","Ambiguous process name",IdentityValid,"Verified process identity",ProcessMatch==1 and DomainMatch==1,"Process and domain match",DomainMatch==1,"Domain match only","Process match only"),
      SignatureStatus=case(SignatureValid,"Valid",SignatureSource=="missing","Unavailable","Not valid or not trusted")
  | project _time,FirstObserved,EventCount,DeviceName,DeviceId,SoftwareId,Software,SoftwareRole,ProcessName,ProcessPath,SHA1,SHA256,ProcessMatch,DomainMatch,MatchedDomains,RemoteIP,Evidence,SignatureStatus,EvidenceConflict,
-     RuleName,RulePath,User,RemoteHost,Activity,ActionType,Publisher,SignatureValid,SignatureSource,IdentityValid,CandidateId);
-let RuleMatches=materialize(Candidates
+     RuleName,RulePath,User,RemoteHost,Activity,ActionType,Publisher,SignatureValid,SignatureSource,IdentityValid,CandidateId
+ | where (IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and not(EvidenceConflict));
+let RuleMatches=Candidates
+ | project CandidateId,DeviceId,DeviceName,RuleName,RulePath,SHA1,SHA256,Publisher,SignatureStatus,SignatureValid,RemoteHost,SoftwareId,SoftwareRole
  | extend PolicyKeys=pack_array(strcat("name:",RuleName),strcat("tool:",SoftwareId),"*")
  | mv-expand PolicyKey=PolicyKeys to typeof(string)
- | join kind=inner hint.strategy=broadcast Rules on $left.PolicyKey==$right.anchor_key
+ | lookup kind=inner Rules on $left.PolicyKey==$right.anchor_key
  | extend Actual=case(field_name=="device_id",DeviceId,field_name=="device_name",tolower(DeviceName),field_name=="process_name",RuleName,field_name=="process_path",RulePath,field_name=="sha1",SHA1,field_name=="sha256",SHA256,field_name=="signer",tolower(Publisher),field_name=="signature_valid",iff(SignatureStatus=="Unavailable","",tolower(tostring(SignatureValid))),field_name=="remote_host",RemoteHost,field_name=="tool_id",SoftwareId,field_name=="software_role",SoftwareRole,""),RuleValue=value
  | where isnotempty(Actual)
  | where (operator in ("equals","exact") and Actual==RuleValue)
@@ -161,12 +166,12 @@ let RuleMatches=materialize(Candidates
    by CandidateId,rule_id,rule_kind,group_id
  | where MatchedConditions==RequiredConditions
  | summarize GeneralHits=make_set_if(rule_id,rule_kind=="general"),RetainHits=make_set_if(rule_id,rule_kind=="retain"),
-   WhitelistHits=make_set_if(rule_id,rule_kind in ("customer","general_whitelist")) by CandidateId);
-let Classified=materialize(Candidates | lookup kind=leftouter RuleMatches on CandidateId
+   WhitelistHits=make_set_if(rule_id,rule_kind in ("customer","general_whitelist")) by CandidateId;
+let Classified=Candidates | lookup kind=leftouter RuleMatches on CandidateId
  | extend GeneralHits=coalesce(GeneralHits,dynamic([])),RetainHits=coalesce(RetainHits,dynamic([])),WhitelistHits=coalesce(WhitelistHits,dynamic([]))
  | extend GeneralExcluded=array_length(GeneralHits)>0 and not(array_length(RetainHits)>0),
      Whitelisted=array_length(WhitelistHits)>0
- | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review"));
+ | extend ReportSection=iff((IdentityValid or (ProcessMatch==1 and DomainMatch==1)) and SoftwareRole=="rmm" and not(EvidenceConflict or GeneralExcluded or Whitelisted),"main","review");
 Classified | where ReferencesOK and EngineOK and ReportSection=="main"
  | summarize FirstSeen=min(FirstObserved),LastSeen=max(_time),Activities=make_set(Activity),RemoteHosts=make_set_if(RemoteHost,isnotempty(RemoteHost)),RemoteIPs=make_set_if(RemoteIP,isnotempty(RemoteIP)),MatchedDomains=make_set(MatchedDomains),Evidence=make_set(Evidence),arg_max(_time,*) by DeviceId,SoftwareId,ReportSection
  | extend ReportStatus=iff(CloudOverflow or CloudFailed,"enrichment_incomplete","ok")
