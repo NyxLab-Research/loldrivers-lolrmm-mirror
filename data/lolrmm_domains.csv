@@ -469,6 +469,7 @@ parallels.com,Parallels Access,*.parallels.com,^(?:.*\.parallels\.com)$
 parsec.app,Parsec,*.parsec.app,^(?:.*\.parsec\.app)$
 parsec.app,Parsec,parsec.app,^(?:parsec\.app)$
 parsec.gg,Parsec,parsec.gg,^(?:parsec\.gg)$
+paternal-angrily.com,NetSupport Manager,paternal-angrily.com,^(?:paternal-angrily\.com)$
 pcvisit.de,Pcvisit,*.pcvisit.de,^(?:.*\.pcvisit\.de)$
 pcvisit.de,Pcvisit,pcvisit.de,^(?:pcvisit\.de)$
 pilixo.com,Pilixo,*.pilixo.com,^(?:.*\.pilixo\.com)$

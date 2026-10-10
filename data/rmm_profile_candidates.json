@@ -2166,6 +2166,11 @@
   },
   {
     "tool": "NetSupport Manager",
+    "process_name": "hypersnap.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "NetSupport Manager",
     "process_name": "pcicfgui.exe",
     "status": "needs_review"
   },
