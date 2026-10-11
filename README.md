@@ -1,7 +1,7 @@
 # LOLDrivers + LOLRMM queries
 
-Public reference data and MDE/Cortex queries. Credentials, customer approvals,
-private queries and validation results stay in ignored config/, output/ and tmp/.
+Public reference data, General/Custom report rules and MDE/Cortex queries.
+Credentials, private queries and validation results stay in ignored config/, output/ and tmp/.
 LOLDrivers hash queries are independent and unchanged.
 
 ## Current domain report
@@ -9,7 +9,8 @@ LOLDrivers hash queries are independent and unchanged.
 Use queries/mde/lolrmm.kql or queries/cortex/lolrmm.xql. One public RMM query per
 platform, default seven days. Validate with **one hour** and the same explicit
 API timeframe. Dev owns the existing Excel/email/report executor; this repository
-supplies queries, reference maintenance and a private MDE customer-filter adapter.
+supplies queries and reference maintenance. No repository Python function is
+required in Dev's MDE report executor.
 
 Domain match -> general noise exclusions -> customer whitelist -> aggregation.
 There is no process identity requirement, process-start scan, certificate join,
@@ -44,9 +45,8 @@ streams and verify totals. Export by schema; Graph OData annotations are metadat
 
 | Source | Consumption |
 |---|---|
-| rules/rmm_report_exclusions.json | Current noise rules -> public data/rmm_general_rules.csv |
-| rules/rmm_general_whitelist.json | Explicit general approvals -> the same table; initially empty |
-| config/rmm_customers/customer.json | Private customer whitelist, expiry, retain/disable overrides |
+| [rules/rmm_general_rules.json](rules/rmm_general_rules.json) | General noise rules and global whitelist -> public data/rmm_general_rules.csv |
+| [rules/rmm_customer_rules.json](rules/rmm_customer_rules.json) | One master for all customers, keyed by customer code -> public data/rmm_customer_rules.csv |
 | data/lolrmm_domains.csv | LOLRMM network patterns -> MDE externaldata / Cortex lookup |
 
 Default rules use browser names plus browser paths, Sogou input component paths
@@ -72,10 +72,51 @@ UTC expiry is evaluated at execution. Explicit whitelists win; retain_rules
 only override general noise. disabled_default_rules disables chosen noise IDs.
 These rules affect report visibility, not EDR enforcement or alerting.
 
-Cortex applies both tables natively. The public MDE query directly shows the
-general-filtered report. Customer handling uses the adapter below, retaining
-general-excluded contexts until private retain/disable/whitelist evaluation.
-Private customer rules never enter public feeds or generated query branches.
+Edit only the two linked JSON source files. On a main-branch change, **Publish RMM
+rule feeds** validates the sources, advances changed release numbers and commits
+the generated CSV feeds. Wait for that workflow to succeed before expecting a
+rule change to apply. MDE reads the published feeds at query time; Cortex receives
+them through the daily reference sync. Neither rule values nor customer-specific
+branches are copied into query text. Source-only commits keep the previous CSV
+active until successful publication; a failed build does not publish new rules.
+
+Customer codes and rule conditions in this master are public, as are General
+rules. Keep API keys, tokens and any future sensitive rule values out of it.
+All 39 registered customers initially have empty Custom rules. For a new customer,
+add an entry with empty whitelist/retain_rules/disabled_default_rules arrays;
+register its credentials privately only if API access is needed.
+
+Both queries apply General and Custom natively, before aggregation. In MDE, set
+the registered customer code near the top of the query, for example:
+
+```kusto
+let CustomerId="fung";
+```
+
+Dev substitutes this quoted value in its existing script along with the report
+time window, calls its existing hunting API and exports the returned rows. Validate
+the code against the master and allow only lowercase letters, digits, hyphens and
+underscores when substituting. The default `set-customer-id`, a typo or a missing
+customer manifest returns a health error, not a General-only report. An explicitly
+registered empty customer is valid. Cortex needs no customer parameter: each
+physical tenant's `rmm_customer_rules` lookup contains only its own subset.
+
+Example entry inside the master `customers` object (fictional; not an active rule):
+
+```json
+"example": {
+  "disabled_default_rules": [],
+  "retain_rules": [],
+  "whitelist": [{
+    "id": "example-approved-support", "reason": "Approved support on one device",
+    "enabled": true, "target": "association", "expires_at": "2027-01-01T00:00:00Z",
+    "conditions": [
+      {"field": "device_id", "operator": "equals", "value": "example-device-id"},
+      {"field": "rmm_tool", "operator": "equals", "value": "TeamViewer"}
+    ]
+  }]
+}
+```
 
 Current Cortex RMM queries need only `lolrmm_domains`, `rmm_general_rules` and
 `rmm_customer_rules`. The retired `rmm_tool_profiles`, `rmm_tool_profiles_v2`
@@ -83,41 +124,27 @@ and `rmm_discovery_indicators` lookups are no longer synchronized by the schedul
 jobs. Before removing old lookups, back up their data and check tenant dependencies.
 Keep `loldrivers_hashes` for the independent LOLDrivers query.
 
-```python
-from pathlib import Path
-from rmm_domain_report import prepare_mde_query, finalize_mde_report
-
-query = prepare_mde_query(Path('queries/mde/lolrmm.kql').read_text())
-# Existing executor sets the window and retrieves complete API results.
-response = existing_hunting_executor(query)
-report = finalize_mde_report(response, Path('config/rmm_customers/example.json'), 'example')
-existing_excel_export(report['rows'])
-```
-
-The adapter accepts Graph results/schema or Defender Results/Schema, checks
-customer_id, rejects health errors/missing schema/apparent truncation and filters
-**before aggregation**. Independent path/hash/domain arrays cannot form approvals.
-Dev must connect these two functions in its existing executor; that source is not
-here. Until then, copying the public MDE query applies general rules only.
+The previous per-customer config files and `rmm_domain_report` Python adapter are
+legacy compatibility tools. The current public queries and scheduled Cortex job
+do not consume those private customer files. Do not maintain rules in both places.
 
 ## Generation and tests
 
 Python 3.10+; generation/customer filtering use the standard library.
 
 ```console
-python scripts/rmm_reference_data.py
+python scripts/refresh_rmm_rules.py
 python scripts/build_rmm_queries.py
 python scripts/rmm_reference_data.py --check
 python scripts/build_rmm_queries.py --check
 python -m unittest discover -s scripts/tests -v
 python scripts/build_rmm_queries.py --timeframe 1h --output-dir output/rmm/test
-python scripts/build_rmm_queries.py --platform mde --contexts --timeframe 1h --output-dir output/rmm/dev
+python scripts/build_rmm_queries.py --platform mde --customer-id fung --timeframe 1h --output-dir output/rmm/dev
 ```
 
-Default writes only two public query files. --customer validates private rules;
-MDE emits contexts and Cortex reads its private lookup. Customer/context/test
-outputs remain under output/ or tmp/. Start from rules/rmm_customer.example.json;
-rules/rmm_customer.whitelist.example.json demonstrates a fictional scoped approval.
+Default writes only two public query files. --customer-id validates a registered
+code and fills the MDE parameter. --contexts is for internal debugging only.
+Customer/context/test outputs remain under output/ or tmp/.
 Historical identity code/data and rules/legacy remain for regression/rollback,
 and are not used by the current default query or Cortex updater.
 
@@ -130,9 +157,16 @@ python scripts/sync_rmm_references.py --published --apply
 ```
 
 Private centralized config/cortex_credentials.yml drives synchronization. MDE
-keys are never needed on that server. --tenant selects aliases, --customer-dir
-selects private policies, --state-dir stores inventories/backups/receipts.
-New aliases are inventoried on subsequent runs. customer_id must match the alias.
+keys are never needed on that server. --tenant selects aliases; --state-dir stores
+inventories/backups/receipts. --published reads the same public Custom master feed
+as MDE, pinned to the same commit as General/domains. Local development can use
+--customer-file to select an alternative JSON master.
+New aliases must be registered in the master before synchronization.
+
+Current provisioned Cortex scope: **k11-hk, newworld, nwcl, cpy, shunhing, jec,
+glshk, nws, esf** (nine physical tenants). ESF's three credential aliases share
+one API host and are inventoried/synchronized once. Do not add an unprovisioned
+Cortex customer to report scheduling merely because it is registered for MDE.
 
 The updater inventories and backs up before mutation. It maintains only
 lolrmm_domains, rmm_general_rules and rmm_customer_rules. Historical identity and
@@ -141,9 +175,10 @@ domain hash/count/pattern grammar, rule schema and recomputed digest. Rule rows
 are staged/read back, and the manifest is written **last**. Re-runs verify;
 three complete releases remain for rollback. Domain deletions over 25% are blocked.
 
-General releases are immutable: increment RELEASE in scripts/rmm_domain_policy.py,
-regenerate and publish the CSV for general changes. No query branches or manual
-per-tenant imports are needed. Customer revisions advance from remote state.
+General releases are immutable: the publication workflow advances the release
+when compiled content changes. Customer master releases are also automatic;
+tenant-local Customer revisions advance from remote state only when that tenant's
+subset changes. No query branches or manual per-tenant imports are needed.
 Shared API hosts sync once; different customer approvals remain blocked until
 customer/device isolation is known. Empty shared policies are allowed.
 

@@ -114,15 +114,19 @@ def main():
     import rmm_domain_policy as domain
     import rmm_domain_queries as queries
     parser=argparse.ArgumentParser(description='Generate the two current domain-only report queries')
-    parser.add_argument('--customer',type=Path,help='Validate private rules; MDE emits customer-filter contexts')
+    parser.add_argument('--customer-id',help='Registered code in the public customer master')
     parser.add_argument('--platform',choices=['all','mde','cortex'],default='all')
     parser.add_argument('--timeframe',default='7d')
-    parser.add_argument('--contexts',action='store_true',help='MDE contexts for the private customer adapter')
+    parser.add_argument('--contexts',action='store_true',help='Internal MDE context inspection before aggregation')
     parser.add_argument('--output-dir',type=Path)
     parser.add_argument('--check',action='store_true')
     args=parser.parse_args()
-    policy,config=domain.load_policy(args.customer)
-    private=args.customer is not None or args.contexts or args.timeframe!='7d'
+    policy,config=domain.load_policy()
+    if args.customer_id:
+        source=domain.load_customers()
+        if args.customer_id not in source['customers']: raise ValueError('Customer code is not registered')
+        config=dict(source['customers'][args.customer_id],schema_version=1,customer_id=args.customer_id)
+    private=args.customer_id is not None or args.contexts or args.timeframe!='7d'
     output=(args.output_dir or rr.ROOT/('output/rmm/generated' if private else 'queries')).resolve()
     if private and not any(output.is_relative_to(rr.ROOT/d) for d in ('output','tmp')):
         raise ValueError('Customer/context/test queries must stay in private output/ or tmp/')
@@ -130,7 +134,7 @@ def main():
     generated=[]
     for platform in platforms:
         domain.validate_config(policy,config,platform)
-        text=queries.build_mde(args.timeframe,contexts=args.contexts or args.customer is not None) if platform=='mde' else queries.build_cortex(args.timeframe)
+        text=queries.build_mde(args.timeframe,contexts=args.contexts,customer_id=args.customer_id or 'set-customer-id') if platform=='mde' else queries.build_cortex(args.timeframe)
         path=output/platform/('lolrmm.kql' if platform=='mde' else 'lolrmm.xql')
         if args.check:
             if not path.exists() or path.read_text(encoding='utf-8')!=text:

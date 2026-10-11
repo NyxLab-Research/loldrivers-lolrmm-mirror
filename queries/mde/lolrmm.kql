@@ -1,6 +1,7 @@
-// RMM-related domain connections; general rules are external data. See README.md.
+// Set CustomerId to the configured customer code. Rules are external data; see README.md.
 let ReportStart=ago(7d);
 let ReportEnd=now();
+let CustomerId="set-customer-id";
 let Domains=materialize(externaldata(Domain:string,Software:string,Pattern:string,Regex:string)
  [h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/lolrmm_domains.csv'] with(format='csv',ignoreFirstRecord=true)
  | extend Domain=tolower(Domain),Pattern=tolower(Pattern) | distinct Domain,Software,Pattern);
@@ -12,8 +13,17 @@ let GeneralOK=toscalar(GeneralActive | where record_type=="manifest" | count)==1
  and toscalar(GeneralActive | summarize by row_id | count)==toscalar(GeneralActive | count)
  and toscalar(GeneralActive | summarize by release_digest | count)==1
  and toscalar(GeneralMarker | project tolong(expected_rows))>=0;
-let Rules=materialize(GeneralActive | where record_type=="condition" | where isempty(expires_at) or now()<todatetime(expires_at));
-let ReferencesOK=GeneralOK and toscalar(Domains | count)>0 and toscalar(Rules | where field_name !in ("device_id","device_name","matched_domain","process_name","process_path","remote_host","rmm_tool","sha1","sha256") or operator !in ("contains","domain_suffix","equals","exact","glob","path_prefix") | count)==0;
+let CustomerRaw=materialize(externaldata(customer_id:string,row_id:string,record_type:string,release:string,rule_id:string,rule_kind:string,rule_target:string,group_id:string,condition_id:string,condition_count:string,anchor_key:string,field_name:string,operator:string,value:string,regex_key:string,expires_at:string,expected_rows:string,release_digest:string)[h'https://raw.githubusercontent.com/NyxLab-Research/loldrivers-lolrmm-mirror/main/data/rmm_customer_rules.csv'] with(format='csv',ignoreFirstRecord=true) | where customer_id==CustomerId | project-away customer_id);
+let CustomerMarker=materialize(CustomerRaw | where record_type=="manifest" | top 1 by release desc);
+let CustomerRelease=toscalar(CustomerMarker | project release);
+let CustomerActive=materialize(CustomerRaw | where release==CustomerRelease);
+let CustomerOK=toscalar(CustomerActive | where record_type=="manifest" | count)==1 and toscalar(CustomerActive | count)==toscalar(CustomerMarker | project tolong(expected_rows))+1
+ and toscalar(CustomerActive | summarize by row_id | count)==toscalar(CustomerActive | count)
+ and toscalar(CustomerActive | summarize by release_digest | count)==1
+ and toscalar(CustomerMarker | project tolong(expected_rows))>=0;
+let Disabled=CustomerActive | where record_type=="disabled" | project rule_id;
+let Rules=materialize(union GeneralActive,CustomerActive | where record_type=="condition" | where isempty(expires_at) or now()<todatetime(expires_at) | where rule_kind!="general" or rule_id !in (Disabled));
+let ReferencesOK=coalesce(GeneralOK and CustomerOK,false) and toscalar(Domains | count)>0 and toscalar(Rules | where field_name !in ("device_id","device_name","matched_domain","process_name","process_path","remote_host","rmm_tool","sha1","sha256") or operator !in ("contains","domain_suffix","equals","exact","glob","path_prefix") | count)==0;
 let DomainTerms=toscalar(Domains | extend Term=extract(@"[a-z0-9]{3,}",0,Domain) | summarize make_set(Term));
 let DomainScan=toscalar(Domains | where isempty(extract(@"[a-z0-9]{3,}",0,Domain)) or not(Domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
 let Terms0=array_slice(DomainTerms,0,119);
@@ -51,11 +61,14 @@ let Hits=Raw | extend RuleKeys=pack_array(strcat("name:",RuleName),strcat("tool:
      operator=="glob",(array_length(Parts)==1 and Actual==value) or (array_length(Parts)==2 and Actual startswith_cs tostring(Parts[0]) and Actual endswith_cs tostring(Parts[1]) and strlen(Actual)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1]))),false)
  | summarize Conditions=make_set_if(condition_id,Hit),Required=max(toint(condition_count)) by ContextId,rule_id,rule_kind,group_id
  | where Required>0 and array_length(Conditions)==Required
- | summarize GeneralRuleIds=make_set_if(rule_id,rule_kind=="general"),GeneralWhitelistIds=make_set_if(rule_id,rule_kind=="general_whitelist") by ContextId;
+ | summarize GeneralRuleIds=make_set_if(rule_id,rule_kind=="general"),GeneralWhitelistIds=make_set_if(rule_id,rule_kind=="general_whitelist"),
+     CustomerWhitelistIds=make_set_if(rule_id,rule_kind=="customer"),RetainRuleIds=make_set_if(rule_id,rule_kind=="retain") by ContextId;
 let Contexts=Raw | lookup kind=leftouter Hits on ContextId
- | extend GeneralRuleIds=coalesce(GeneralRuleIds,dynamic([])),GeneralWhitelistIds=coalesce(GeneralWhitelistIds,dynamic([]));
-// OUTPUT: replaced by the private MDE customer adapter before aggregation.
-Contexts | where ReferencesOK and array_length(GeneralRuleIds)==0 and array_length(GeneralWhitelistIds)==0
+ | extend GeneralRuleIds=coalesce(GeneralRuleIds,dynamic([])),GeneralWhitelistIds=coalesce(GeneralWhitelistIds,dynamic([])),
+     CustomerWhitelistIds=coalesce(CustomerWhitelistIds,dynamic([])),RetainRuleIds=coalesce(RetainRuleIds,dynamic([]));
+// OUTPUT: report aggregation; internal context adapter boundary.
+Contexts | where ReferencesOK and (array_length(GeneralRuleIds)==0 or array_length(RetainRuleIds)>0)
+     and array_length(GeneralWhitelistIds)==0 and array_length(CustomerWhitelistIds)==0
  | summarize FirstSeen=min(FirstSeen),LastSeen=max(LastSeen),EventCount=max(EventCount),Domains=make_set(MatchedDomain) by DeviceName,DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP
  | mv-expand MatchedDomain=Domains to typeof(string)
  | summarize FirstSeen=min(FirstSeen),EventCount=max(EventCount),MatchedDomains=make_set(MatchedDomain),arg_max(LastSeen,*) by DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP

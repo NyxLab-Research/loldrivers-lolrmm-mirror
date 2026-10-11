@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "rule_version": "2.0.0",
+  "rules": [
+    {
+      "id": "rpt-browser-standard",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Known browser process and browser installation path: outside domain-report scope; no file-trust assertion",
+      "alternatives": [
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "chrome.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/google/chrome/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "msedge.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/microsoft/edge/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "firefox.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/mozilla firefox/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "vivaldi.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/vivaldi/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "qqbrowser.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/tencent/qqbrowser/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "sogouexplorer.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/sogou/sogouexplorer/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "google chrome",
+              "google chrome helper",
+              "google chrome helper (renderer)",
+              "google chrome helper (gpu)",
+              "google chrome helper (plugin)"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Google Chrome.app/Contents/"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "microsoft edge",
+              "microsoft edge helper",
+              "microsoft edge helper (renderer)",
+              "microsoft edge helper (gpu)",
+              "microsoft edge helper (plugin)"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Microsoft Edge.app/Contents/"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "rpt-sogou-input-mdt",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Sogou input component in its input directory accessing the shared telemetry host",
+      "alternatives": [
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "biz_helper.exe",
+              "sgbizlauncher.exe",
+              "pinyinup.exe",
+              "sgtool.exe",
+              "sgsmartassistant.exe",
+              "sogouexe.exe",
+              "sogoucloud.exe",
+              "sogousmartassistant.exe",
+              "biz_aurfx.exe",
+              "sgmyinput.exe",
+              "sgwangzai.exe",
+              "usernetschedule.exe",
+              "crashrpt.exe",
+              "biz_tool.exe",
+              "sgpicfacetool.exe",
+              "wubiup.exe",
+              "imeutil.exe",
+              "wbcrashrpt.exe",
+              "isgpet.exe",
+              "sgiguidehelper.exe",
+              "wbusernetschedule.exe",
+              "write_spirit.exe",
+              "sgwizard.exe",
+              "sogou_voice_assistant.exe",
+              "sgfeedbackhelper.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/sogouinput/"
+          },
+          {
+            "field": "remote_host",
+            "operator": "exact",
+            "value": "oth.eve.mdt.qq.com"
+          }
+        ],
+        [
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "biz_helper.exe",
+              "sgbizlauncher.exe",
+              "pinyinup.exe",
+              "sgtool.exe",
+              "sgsmartassistant.exe",
+              "sogouexe.exe",
+              "sogoucloud.exe",
+              "sogousmartassistant.exe",
+              "biz_aurfx.exe",
+              "sgmyinput.exe",
+              "sgwangzai.exe",
+              "usernetschedule.exe",
+              "crashrpt.exe",
+              "biz_tool.exe",
+              "sgpicfacetool.exe",
+              "wubiup.exe",
+              "imeutil.exe",
+              "wbcrashrpt.exe",
+              "isgpet.exe",
+              "sgiguidehelper.exe",
+              "wbusernetschedule.exe",
+              "write_spirit.exe",
+              "sgwizard.exe",
+              "sogou_voice_assistant.exe",
+              "sgfeedbackhelper.exe"
+            ]
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/sogouwbinput/"
+          },
+          {
+            "field": "remote_host",
+            "operator": "exact",
+            "value": "oth.eve.mdt.qq.com"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "rpt-manageengine-endpointcentral",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Endpoint Central / Desktop Central excluded by report scope, not a denial of its remote capability",
+      "alternatives": [
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files/manageengine/uems_agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files (x86)/manageengine/uems_agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files/desktopcentral_agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files (x86)/desktopcentral_agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Library/ManageEngine/UEMS_Agent/"
+          }
+        ],
+        [
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/Library/Desktopcentral_Agent/"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "rpt-outlook-mdt",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
+      "conditions": [
+        {
+          "field": "process_name",
+          "operator": "in",
+          "values": [
+            "outlook.exe"
+          ]
+        },
+        {
+          "field": "process_path",
+          "operator": "contains",
+          "value": "/microsoft office/"
+        },
+        {
+          "field": "remote_host",
+          "operator": "exact",
+          "value": "oth.eve.mdt.qq.com"
+        }
+      ]
+    },
+    {
+      "id": "rpt-yuanbao-mdt",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
+      "conditions": [
+        {
+          "field": "process_name",
+          "operator": "in",
+          "values": [
+            "yuanbao.exe"
+          ]
+        },
+        {
+          "field": "process_path",
+          "operator": "contains",
+          "value": "/yuanbao/"
+        },
+        {
+          "field": "remote_host",
+          "operator": "exact",
+          "value": "oth.eve.mdt.qq.com"
+        }
+      ]
+    },
+    {
+      "id": "rpt-ima-mdt",
+      "enabled": true,
+      "target": "activity",
+      "expires_at": null,
+      "reason": "Known application directory accessing the shared telemetry host; outside RMM domain-report scope",
+      "conditions": [
+        {
+          "field": "process_name",
+          "operator": "in",
+          "values": [
+            "ima.copilot.exe"
+          ]
+        },
+        {
+          "field": "process_path",
+          "operator": "contains",
+          "value": "/ima.copilot/"
+        },
+        {
+          "field": "remote_host",
+          "operator": "exact",
+          "value": "oth.eve.mdt.qq.com"
+        }
+      ]
+    },
+    {
+      "id": "rpt-freshservice-inventory",
+      "enabled": true,
+      "target": "association",
+      "expires_at": null,
+      "reason": "Freshservice Discovery Agent/Probe inventory components are outside report scope; vendor domains are not globally approved",
+      "alternatives": [
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "contains",
+            "value": "/program files (x86)/freshworks/freshservice discovery agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "path_prefix",
+            "value": "/Library/Freshservice-Agent/Freshservice-Discovery-Agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_path",
+            "operator": "path_prefix",
+            "value": "/usr/local/sbin/Freshservice/Discovery-Agent/"
+          }
+        ],
+        [
+          {
+            "field": "rmm_tool",
+            "operator": "equals",
+            "value": "Freshservice"
+          },
+          {
+            "field": "process_name",
+            "operator": "in",
+            "values": [
+              "freshservice.discoveryprobe.scanservice.exe",
+              "freshservice.discoveryprobe.window.exe",
+              "freshservice.discoveryprobe.autoflush.exe",
+              "freshservice.discoveryprobe.oidlibrarypuller.exe",
+              "fsprobereporter.exe",
+              "fswmiscanner.exe"
+            ]
+          }
+        ]
+      ]
+    }
+  ],
+  "release": "000002",
+  "whitelist": []
+}

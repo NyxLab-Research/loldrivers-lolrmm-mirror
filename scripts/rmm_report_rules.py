@@ -158,16 +158,21 @@ def validate_rule(rule, *, trusted=False):
 
 
 def load_policy(rules_path=None, customer_path=None):
-    policy = load_json(rules_path or ROOT / 'rules/rmm_report_exclusions.json')
+    source = load_json(rules_path or ROOT / 'rules/rmm_general_rules.json')
+    policy = source if rules_path else {k: source[k] for k in ('schema_version','rule_version','rules')}
+    config = load_json(customer_path) if customer_path else {
+        'schema_version': 1, 'customer_id': 'default', 'disabled_default_rules': [],
+        'retain_rules': [], 'whitelist': []}
+    return validate_policy(policy, config)
+
+
+def validate_policy(policy, config):
     if set(policy) - {'schema_version', 'rule_version', 'rules'} or type(policy.get('schema_version')) is not int or policy.get('schema_version') != 1:
         raise ValueError('Unsupported policy schema')
     if not re.fullmatch(r'\d+\.\d+\.\d+', policy.get('rule_version', '')):
         raise ValueError('rule_version must be a semantic version')
     if not isinstance(policy.get('rules'), list):
         raise ValueError('rules must be an array')
-    config = load_json(customer_path) if customer_path else {
-        'schema_version': 1, 'customer_id': 'default', 'disabled_default_rules': [],
-        'retain_rules': [], 'whitelist': []}
     if set(config) - {'schema_version', 'customer_id', 'disabled_default_rules', 'retain_rules', 'whitelist', 'mde_hash_signature_fallback', 'mde_file_profile_fallback'} or type(config.get('schema_version')) is not int or config.get('schema_version') != 1:
         raise ValueError('Unsupported customer schema or unknown keys')
     if type(config.get('mde_hash_signature_fallback', True)) is not bool:

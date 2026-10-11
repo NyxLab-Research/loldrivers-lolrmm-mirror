@@ -11,7 +11,7 @@ REPORT_FIELDS = ['DeviceName', 'Software', 'LastSeen', 'FirstSeen', 'RemoteHosts
 CONTEXT_FIELDS = ['DeviceName', 'DeviceId', 'Software', 'LastSeen', 'FirstSeen', 'RemoteHost', 'RemoteIP',
                   'MatchedDomain', 'ProcessName', 'ProcessPath', 'User', 'SHA1', 'SHA256', 'EventCount',
                   'GeneralRuleIds', 'GeneralWhitelistIds', 'GeneralRelease', 'ReportStatus']
-OUTPUT_MARKER = '// OUTPUT: replaced by the private MDE customer adapter before aggregation.\n'
+OUTPUT_MARKER = '// OUTPUT: report aggregation; internal context adapter boundary.\n'
 EXPRESSIONS = {'device_id': 'DeviceId', 'device_name': 'tolower(DeviceName)', 'process_name': 'RuleName',
                'process_path': 'RulePath', 'sha1': 'SHA1', 'sha256': 'SHA256', 'remote_host': 'RemoteHost',
                'matched_domain': 'MatchedDomain', 'rmm_tool': 'tolower(Software)'}
@@ -32,18 +32,25 @@ def mde_context_output():
             ' | project ' + ','.join(CONTEXT_FIELDS) + '\n | union ' + mde_control() + '\n')
 
 
-def build_mde(time='7d', contexts=False):
-    q='// RMM-related domain connections; general rules are external data. See README.md.\n'
+def build_mde(time='7d', contexts=False, customer_id='set-customer-id'):
+    if not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,79}',customer_id): raise ValueError('Invalid customer code')
+    q='// Set CustomerId to the configured customer code. Rules are external data; see README.md.\n'
     q+='let ReportStart=ago('+timeframe(time)+');\nlet ReportEnd=now();\n'
+    q+='let CustomerId='+json.dumps(customer_id)+';\n'
     q+='let Domains=materialize(externaldata(Domain:string,Software:string,Pattern:string,Regex:string)\n'
     q+=" [h'"+BASE+"lolrmm_domains.csv'] with(format='csv',ignoreFirstRecord=true)\n"
     q+=' | extend Domain=tolower(Domain),Pattern=tolower(Pattern) | distinct Domain,Software,Pattern);\n'
     q+=('let GeneralRaw=materialize(externaldata('+','.join(k+':string' for k in ref.POLICY_FIELDS)+
         ")[h'"+BASE+"rmm_general_rules.csv'] with(format='csv',ignoreFirstRecord=true));\n")
     q+=health_mde('General','condition',0)
-    q=q.replace('let GeneralOK=', 'let GeneralOK=toscalar(GeneralActive | where record_type=="manifest" | count)==1 and ')
-    q+='let Rules=materialize(GeneralActive | where record_type=="condition" | where isempty(expires_at) or now()<todatetime(expires_at));\n'
-    q+='let ReferencesOK=GeneralOK and toscalar(Domains | count)>0 and toscalar(Rules | where field_name !in ('+','.join(json.dumps(k) for k in sorted(policy.FIELDS))+') or operator !in ('+','.join(json.dumps(k) for k in sorted(policy.OPERATORS-{'in'}))+') | count)==0;\n'
+    q+=('let CustomerRaw=materialize(externaldata('+','.join(k+':string' for k in policy.CUSTOMER_FIELDS)+
+        ")[h'"+BASE+"rmm_customer_rules.csv'] with(format='csv',ignoreFirstRecord=true) | where customer_id==CustomerId | project-away customer_id);\n")
+    q+=health_mde('Customer','condition',0)
+    for name in ('General','Customer'):
+        q=q.replace('let '+name+'OK=', 'let '+name+'OK=toscalar('+name+'Active | where record_type=="manifest" | count)==1 and ')
+    q+='let Disabled=CustomerActive | where record_type=="disabled" | project rule_id;\n'
+    q+='let Rules=materialize(union GeneralActive,CustomerActive | where record_type=="condition" | where isempty(expires_at) or now()<todatetime(expires_at) | where rule_kind!="general" or rule_id !in (Disabled));\n'
+    q+='let ReferencesOK=coalesce(GeneralOK and CustomerOK,false) and toscalar(Domains | count)>0 and toscalar(Rules | where field_name !in ('+','.join(json.dumps(k) for k in sorted(policy.FIELDS))+') or operator !in ('+','.join(json.dumps(k) for k in sorted(policy.OPERATORS-{'in'}))+') | count)==0;\n'
     q+='''let DomainTerms=toscalar(Domains | extend Term=extract(@"[a-z0-9]{3,}",0,Domain) | summarize make_set(Term));
 let DomainScan=toscalar(Domains | where isempty(extract(@"[a-z0-9]{3,}",0,Domain)) or not(Domain matches regex @"^[a-z0-9.-]+$") | count)>0 or array_length(DomainTerms)>480;
 let Terms0=array_slice(DomainTerms,0,119),Terms1=array_slice(DomainTerms,120,239),Terms2=array_slice(DomainTerms,240,359),Terms3=array_slice(DomainTerms,360,479);
@@ -78,16 +85,19 @@ let Hits=Raw | extend RuleKeys=pack_array(strcat("name:",RuleName),strcat("tool:
      operator=="glob",(array_length(Parts)==1 and Actual==value) or (array_length(Parts)==2 and Actual startswith_cs tostring(Parts[0]) and Actual endswith_cs tostring(Parts[1]) and strlen(Actual)>=strlen(tostring(Parts[0]))+strlen(tostring(Parts[1]))),false)
  | summarize Conditions=make_set_if(condition_id,Hit),Required=max(toint(condition_count)) by ContextId,rule_id,rule_kind,group_id
  | where Required>0 and array_length(Conditions)==Required
- | summarize GeneralRuleIds=make_set_if(rule_id,rule_kind=="general"),GeneralWhitelistIds=make_set_if(rule_id,rule_kind=="general_whitelist") by ContextId;
+ | summarize GeneralRuleIds=make_set_if(rule_id,rule_kind=="general"),GeneralWhitelistIds=make_set_if(rule_id,rule_kind=="general_whitelist"),
+     CustomerWhitelistIds=make_set_if(rule_id,rule_kind=="customer"),RetainRuleIds=make_set_if(rule_id,rule_kind=="retain") by ContextId;
 let Contexts=Raw | lookup kind=leftouter Hits on ContextId
- | extend GeneralRuleIds=coalesce(GeneralRuleIds,dynamic([])),GeneralWhitelistIds=coalesce(GeneralWhitelistIds,dynamic([]));
+ | extend GeneralRuleIds=coalesce(GeneralRuleIds,dynamic([])),GeneralWhitelistIds=coalesce(GeneralWhitelistIds,dynamic([])),
+     CustomerWhitelistIds=coalesce(CustomerWhitelistIds,dynamic([])),RetainRuleIds=coalesce(RetainRuleIds,dynamic([]));
 '''
     # Separate let statements avoid depending on multi-binding syntax in Defender.
     q=q.replace('let Terms0=array_slice(DomainTerms,0,119),Terms1=array_slice(DomainTerms,120,239),Terms2=array_slice(DomainTerms,240,359),Terms3=array_slice(DomainTerms,360,479);',
                 '\n'.join(f'let Terms{i}=array_slice(DomainTerms,{120*i},{120*i+119});' for i in range(4)))
     q+=OUTPUT_MARKER
     if contexts: return q+mde_context_output()
-    q+='''Contexts | where ReferencesOK and array_length(GeneralRuleIds)==0 and array_length(GeneralWhitelistIds)==0
+    q+='''Contexts | where ReferencesOK and (array_length(GeneralRuleIds)==0 or array_length(RetainRuleIds)>0)
+     and array_length(GeneralWhitelistIds)==0 and array_length(CustomerWhitelistIds)==0
  | summarize FirstSeen=min(FirstSeen),LastSeen=max(LastSeen),EventCount=max(EventCount),Domains=make_set(MatchedDomain) by DeviceName,DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP
  | mv-expand MatchedDomain=Domains to typeof(string)
  | summarize FirstSeen=min(FirstSeen),EventCount=max(EventCount),MatchedDomains=make_set(MatchedDomain),arg_max(LastSeen,*) by DeviceId,Software,ProcessName,ProcessPath,User,SHA1,SHA256,RemoteHost,RemoteIP

@@ -35,7 +35,8 @@ class ReferenceTransportTests(unittest.TestCase):
             self.assertEqual(result['commit'], revision)
             self.assertGreater(len(result['general']), 1)
             self.assertEqual(requested[0], requested[1])
-            self.assertEqual(len(requested), 5)
+            self.assertEqual(len(requested), 6)
+            sync.domain.validate_customer_feed(result['customers'])
 
     def test_invalid_reference_is_not_retried_or_activated(self):
         response = io.BytesIO(b'not JSON')

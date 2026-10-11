@@ -1,0 +1,48 @@
+name: Publish RMM rule feeds
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'rules/rmm_general_rules.json'
+      - 'rules/rmm_customer_rules.json'
+      - 'scripts/refresh_rmm_rules.py'
+      - 'scripts/rmm_domain_policy.py'
+      - 'scripts/rmm_reference_data.py'
+      - '.github/workflows/publish-rmm-rules.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rmm-data-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile and validate the current sources
+        run: |
+          python -m pip install -r requirements-rmm.txt
+          python scripts/refresh_rmm_rules.py
+          python scripts/rmm_reference_data.py --check
+          python scripts/build_rmm_queries.py --check
+          python -m unittest discover -s scripts/tests -v
+      - name: Publish validated feeds
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add rules/rmm_general_rules.json rules/rmm_customer_rules.json data/rmm_general_rules.csv data/rmm_customer_rules.csv
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore(rmm): publish validated rule feeds'
+            git push
+          fi

@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "release": "000001",
+  "customers": {
+    "aeon": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "cpy": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "ctfe": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "ctfj": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "ctfs": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "esf-dc": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "esf-hq": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "esf-sis": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "ftlife": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "fung": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "geg": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "glshk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "hkexpress": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "je-pilot": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "jec": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "k11-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "k11": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "kadensa": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "kerryprops": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "longreach-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "longreach-jp": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "lsh-kr-hsmcl": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "lsh-kr-smc": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "lsh-tw": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "maxims-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "mizuho-sc": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "newworld": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "nwcl": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "nws": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "nyxlabsoc": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "shunhing": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "spac-haeco-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "spac-motors": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "spac-resources-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "spac-sugar-hk": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "swireproperties": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "towngas": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "toysrus": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    },
+    "zungfu": {
+      "disabled_default_rules": [],
+      "retain_rules": [],
+      "whitelist": []
+    }
+  }
+}

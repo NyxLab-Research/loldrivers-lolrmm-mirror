@@ -38,6 +38,10 @@ def published_references():
         if tuple(reader.fieldnames or ())!=spec.fields:raise ValueError('Published reference schema mismatch')
         rows=list(reader);ref.validate(rows,spec.fields);result[kind]=rows
     domain.validate_rows(result['general'])
+    reader=csv.DictReader(io.StringIO(get(base+'rmm_customer_rules.csv').decode('utf-8-sig')))
+    if tuple(reader.fieldnames or ())!=domain.CUSTOMER_FIELDS:raise ValueError('Published customer schema mismatch')
+    result['customers']=list(reader)
+    domain.validate_customer_feed(result['customers'])
     manifest=json.loads(get(base+'manifest.json'));payload=get(base+'lolrmm_domains.csv')
     if hashlib.sha256(payload).hexdigest()!=manifest['lolrmm_csv_sha256']:raise ValueError('Published domain content hash mismatch')
     reader=csv.DictReader(io.StringIO(payload.decode('utf-8-sig')))
@@ -113,27 +117,19 @@ def sync_release(client,spec,desired,*,apply=False,limiter=None):
     for batch in api.chunks(stale):limiter.run(lambda batch=batch:client.remove_rows(spec,batch))
     return dict(result,status='activated',rows=len(desired)-1)
 
-def customer_config(name,directory):
-    path=Path(directory)/(name+'.json')
-    if path.exists():
-        config=domain.load_policy(path)[1]
-        if config['customer_id']!=name:raise ValueError('Customer policy ID does not match the tenant alias')
-        return config
-    return {'schema_version':1,'customer_id':name,'disabled_default_rules':[],'retain_rules':[],'whitelist':[]}
-
 def inventory(client):
     raw=api.unwrap_api_reply(client.post('/public_api/v1/xql/get_datasets',{}))
     if isinstance(raw,dict):raw=raw.get('data') or raw.get('datasets')
     if not isinstance(raw,list):raise api.SyncError('Invalid dataset inventory response')
     return {str(r.get('Dataset Name') or r.get('dataset_name') or '').lower():str(r.get('Type') or r.get('dataset_type') or '').lower() for r in raw}
 
-def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=None):
+def run_tenant(tenant,*,apply=False,customer_feed=None,output_dir=None,published=None):
     client=api.CortexClient(tenant,90);existing=inventory(client)
     result={'tenant':tenant.name,'existing_lookups':sorted(n for n,k in existing.items() if k=='lookup'),'references':{}}
     desired={'general':published['general'] if published else domain.policy_rows()}
     if published:result['source_commit']=published['commit']
-    config=customer_config(tenant.name,customer_dir or ref.ROOT/'config/rmm_customers')
-    domain.validate_config(domain.load_policy()[0],config,'cortex')
+    customer_feed=published['customers'] if published else customer_feed if customer_feed is not None else domain.customer_feed()
+    domain.customer_rows(tenant.name,customer_feed)
     # Determine the next revision from the tenant, so a lost local cache cannot overwrite a policy.
     release='000001'
     if SPECS['customer'].name in existing:
@@ -142,9 +138,9 @@ def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=
         active=[r for r in current if r['release']==release]
         if any(r['record_type']=='manifest' for r in active):
             ref.validate(active,ref.POLICY_FIELDS)
-            candidate=domain.policy_rows(config=config,customer=True,release=release)
+            candidate=domain.customer_rows(tenant.name,customer_feed,release)
             if sorted(active,key=lambda r:r['row_id'])!=sorted(candidate,key=lambda r:r['row_id']):release=f'{int(release)+1:06d}'
-    desired['customer']=domain.policy_rows(config=config,customer=True,release=release)
+    desired['customer']=domain.customer_rows(tenant.name,customer_feed,release)
     if output_dir:
         target=Path(output_dir)/tenant.name;target.mkdir(parents=True,exist_ok=True)
         (target/'inventory_before.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
@@ -165,13 +161,13 @@ def run_tenant(tenant,*,apply=False,customer_dir=None,output_dir=None,published=
     result['domains']=sync_domains(client,spec.name in existing,apply=apply,limiter=limiter,desired=published['domains'] if published else None)
     if output_dir:
         (target/'result.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
-        if apply:(target/'customer_release.json').write_text(json.dumps({'release':release,'config_digest':rr.digest(config)}),encoding='utf-8')
+        if apply:(target/'customer_release.json').write_text(json.dumps({'release':release,'content_digest':rr.digest(desired['customer'])}),encoding='utf-8')
     return result
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--credentials',type=Path)
-    parser.add_argument('--customer-dir',type=Path,default=ref.ROOT/'config/rmm_customers')
+    parser.add_argument('--customer-file',type=Path,default=domain.CUSTOMER_SOURCE)
     parser.add_argument('--state-dir',type=Path,default=ref.ROOT/'output/rmm/sync')
     parser.add_argument('--tenant',action='append',default=[])
     parser.add_argument('--apply',action='store_true')
@@ -180,6 +176,7 @@ def main():
     unknown=set(args.tenant)-{t.name for t in tenants}
     if unknown:raise ValueError('Unknown or disabled customer selection')
     published=published_references() if args.published else None
+    customer_feed=published['customers'] if published else domain.customer_feed(domain.load_customers(args.customer_file))
     failures=[]
     seen=set()
     for tenant in tenants:
@@ -189,10 +186,10 @@ def main():
         aliases=[t.name for t in tenants if t.api_fqdn==tenant.api_fqdn]
         try:
             if len(aliases)>1:
-                policies=[customer_config(n,args.customer_dir) for n in aliases]
-                if any(c.get('whitelist') or c.get('retain_rules') or c.get('disabled_default_rules') for c in policies):
+                policies=[domain.customer_rows(n,customer_feed) for n in aliases]
+                if any(len(rows)>1 for rows in policies):
                     raise ValueError('Shared API host: customer-specific scope must be resolved before enabling exclusions')
-            result=run_tenant(tenant,apply=args.apply,customer_dir=args.customer_dir,output_dir=args.state_dir,published=published)
+            result=run_tenant(tenant,apply=args.apply,customer_feed=customer_feed,output_dir=args.state_dir,published=published)
             result['tenant_aliases']=aliases
             print(json.dumps(result),flush=True)
         except Exception as exc:

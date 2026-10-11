@@ -34,7 +34,7 @@ def data_source(kind,config,inline=False):
     return 'externaldata('+','.join(k+':string' for k in fields)+")[h'"+BASE+ref.REFERENCE_NAMES[kind]+".csv'] with(format='csv',ignoreFirstRecord=true)"
 
 def check_config(policy,config):
-    general=rr.load_json(ref.ROOT/'rules/rmm_general_whitelist.json')
+    general=rr.load_json(ref.ROOT/'rules/legacy/rmm_general_whitelist_v1.json')
     for rule in policy['rules']+general['rules']+config.get('whitelist',[])+config.get('retain_rules',[]):
         if any(c['field'] not in FIELD_EXPRESSIONS for g in rr.groups(rule) for c in g):
             raise ValueError('Native identity policy uses tool_id and remote_host; IOC-label association rules require migration')

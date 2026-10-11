@@ -28,7 +28,6 @@ def write_legacy_keys(tenants,directory):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--credentials',type=Path,required=True)
-    parser.add_argument('--customer-dir',type=Path,required=True)
     parser.add_argument('--state-dir',type=Path,required=True)
     parser.add_argument('--legacy-script',type=Path)
     parser.add_argument('--legacy-tenant',action='append',default=[])
@@ -37,7 +36,7 @@ def main():
     args.state_dir.mkdir(parents=True,exist_ok=True)
     if os.name=='posix':args.state_dir.chmod(0o700)
     result=subprocess.run([sys.executable,str(ROOT/'scripts/sync_rmm_references.py'),
-        '--credentials',str(args.credentials),'--customer-dir',str(args.customer_dir),
+        '--credentials',str(args.credentials),
         '--state-dir',str(args.state_dir/'rmm'),'--published','--apply']).returncode
     # Keep the existing LOLDrivers/legacy deployment scope; do not extend it implicitly.
     if args.legacy_script and args.legacy_tenant:

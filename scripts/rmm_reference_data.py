@@ -104,7 +104,7 @@ def policy_rows(policy=None, config=None, *, customer=False, release=RELEASE):
         source=[(r,'customer') for r in config.get('whitelist',[])]+[(r,'retain') for r in config.get('retain_rules',[])]
     else:
         source=[(r,'general') for r in policy['rules']]
-        general=rr.load_json(ROOT/'rules/rmm_general_whitelist.json')
+        general=rr.load_json(ROOT/'rules/legacy/rmm_general_whitelist_v1.json')
         for r in general['rules']: rr.validate_rule(r)
         source += [(r,'general_whitelist') for r in general['rules']]
     records=[]
@@ -135,20 +135,23 @@ def policy_rows(policy=None, config=None, *, customer=False, release=RELEASE):
     return seal(records,POLICY_FIELDS,release)
 
 def regex_pool(policy,config):
-    general=rr.load_json(ROOT/'rules/rmm_general_whitelist.json')
+    general=rr.load_json(ROOT/'rules/legacy/rmm_general_whitelist_v1.json')
     rules=policy['rules']+general['rules']+config.get('whitelist',[])+config.get('retain_rules',[])
     return dict(sorted({regex_for(c) for r in rules for g in rr.groups(r) for c in g if c['operator'] in ('glob','regex')}))
 
 def write(check=False):
     import rmm_domain_policy as domain
     entries=[('rmm_tool_profiles_v2.csv',profiles(),PROFILE_FIELDS),
-             ('rmm_general_rules.csv',domain.policy_rows(),POLICY_FIELDS)]
+             ('rmm_general_rules.csv',domain.policy_rows(),POLICY_FIELDS),
+             ('rmm_customer_rules.csv',domain.customer_feed(),domain.CUSTOMER_FIELDS)]
     for filename,records,fields in entries:
-        validate(records,fields);target=ROOT/'data'/filename;payload=csv_bytes(records,fields)
+        if filename=='rmm_customer_rules.csv': domain.validate_customer_feed(records)
+        else: validate(records,fields)
+        target=ROOT/'data'/filename;payload=csv_bytes(records,fields)
         if check:
             if not target.exists() or target.read_bytes()!=payload: raise ValueError('Reference CSV is stale: '+filename)
         else: target.write_bytes(payload)
-    return {filename:len(records)-1 for filename,records,_ in entries}
+    return {filename:len(records) if filename=='rmm_customer_rules.csv' else len(records)-1 for filename,records,_ in entries}
 
 if __name__=='__main__':
     import argparse
