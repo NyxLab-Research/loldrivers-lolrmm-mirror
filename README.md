@@ -77,6 +77,12 @@ general-filtered report. Customer handling uses the adapter below, retaining
 general-excluded contexts until private retain/disable/whitelist evaluation.
 Private customer rules never enter public feeds or generated query branches.
 
+Current Cortex RMM queries need only `lolrmm_domains`, `rmm_general_rules` and
+`rmm_customer_rules`. The retired `rmm_tool_profiles`, `rmm_tool_profiles_v2`
+and `rmm_discovery_indicators` lookups are no longer synchronized by the scheduled
+jobs. Before removing old lookups, back up their data and check tenant dependencies.
+Keep `loldrivers_hashes` for the independent LOLDrivers query.
+
 ```python
 from pathlib import Path
 from rmm_domain_report import prepare_mde_query, finalize_mde_report
