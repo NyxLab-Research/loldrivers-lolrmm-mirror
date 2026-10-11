@@ -43,7 +43,11 @@ def read_response(response):
 
 def instant(value):
     if not isinstance(value,str): raise ValueError('Missing context timestamp')
-    date=dt.datetime.fromisoformat(value.replace('Z','+00:00'))
+    # Python 3.10 accepts only millisecond/microsecond ISO fractions. time_key
+    # retains the full fraction separately when ordering API timestamps.
+    normalized=re.sub(r'\.(\d+)(?=Z|[+-]\d\d:\d\d|$)',
+                      lambda match: '.'+match.group(1)[:6].ljust(6,'0'),value)
+    date=dt.datetime.fromisoformat(normalized.replace('Z','+00:00'))
     if date.tzinfo is None: raise ValueError('Context timestamps require a timezone')
     return date.astimezone(dt.timezone.utc)
 
