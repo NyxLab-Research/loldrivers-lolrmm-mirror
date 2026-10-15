@@ -119,6 +119,54 @@ class DomainTests(unittest.TestCase):
         with self.assertRaises(ValueError):p.validate_config(policy,config)
         config['whitelist']=[rule('complex-path',[condition('process_path','*support*agent.exe','glob')])]
         with self.assertRaises(ValueError):p.validate_config(policy,config)
+    def test_servicedeskplus_exclusion_is_exact_and_independent_of_process_fields(self):
+        policy,config=p.load_policy()
+        ident='rpt-manageengine-servicedeskplus'
+        context=dict(remote_host='support.manageengine.com',process_name='',process_path='',sha256='')
+        for tool in ('ManageEngine ServiceDesk Plus','manageengine servicedesk plus','MANAGEENGINE SERVICEDESK PLUS'):
+            with self.subTest(tool=tool):
+                actual=rr.evaluate(policy,config,dict(context,rmm_tool=tool))
+                self.assertTrue(actual['excluded'])
+                self.assertEqual(actual['excluded_by'],[ident])
+        for tool in ('Zoho Assist','ManageEngine Remote Access Plus','ManageEngine ServiceDesk Plus MSP',''):
+            with self.subTest(tool=tool):
+                self.assertFalse(rr.evaluate(policy,config,dict(context,rmm_tool=tool))['excluded'])
+    def test_servicedeskplus_exclusion_preserves_other_associations_of_same_event(self):
+        policy,config=p.load_policy()
+        contexts=[]
+        for tool in ('ManageEngine ServiceDesk Plus','Zoho Assist','ManageEngine Remote Access Plus'):
+            context=dict(row(),Software=tool,RemoteHost='shared.example.invalid',ProcessName='',ProcessPath='',SHA256='')
+            hit=rr.evaluate(policy,config,dict(rmm_tool=tool,remote_host=context['RemoteHost']))
+            context['GeneralRuleIds']=hit['default_rules']
+            contexts.append(context)
+        result=self.run_report(contexts)
+        self.assertEqual({r['Software'] for r in result['rows']},{'Zoho Assist','ManageEngine Remote Access Plus'})
+        self.assertEqual(result['summary']['contexts_excluded'],1)
+        self.assertTrue(all(r['EventCount']==3 for r in result['rows']))
+    def test_servicedeskplus_exclusion_respects_existing_customer_exceptions(self):
+        noisy=dict(row(),Software='ManageEngine ServiceDesk Plus',GeneralRuleIds=['rpt-manageengine-servicedeskplus'])
+        self.assertEqual(self.run_report([noisy])['rows'],[])
+        self.config['retain_rules']=[rule('retain-fixture',[condition('device_id','device-a')])]
+        self.assertEqual(len(self.run_report([noisy])['rows']),1)
+        self.config['whitelist']=[rule('approve-fixture',[condition('device_id','device-a'),condition('sha256','a'*64)])]
+        self.assertEqual(self.run_report([noisy])['rows'],[])
+        self.config['whitelist']=[];self.config['retain_rules']=[]
+        self.config['disabled_default_rules']=['rpt-manageengine-servicedeskplus']
+        self.assertEqual(len(self.run_report([noisy])['rows']),1)
+    def test_servicedeskplus_exclusion_is_one_general_association_condition(self):
+        policy,config=p.load_policy()
+        for platform in ('mde','cortex'):p.validate_config(policy,config,platform=platform)
+        rows=p.policy_rows();p.validate_rows(rows)
+        selected=[r for r in rows if r['rule_id']=='rpt-manageengine-servicedeskplus']
+        self.assertEqual(len(selected),1)
+        record=selected[0]
+        self.assertEqual((record['rule_kind'],record['rule_target'],record['anchor_key'],record['field_name'],record['operator'],record['value']),
+            ('general','association','tool:manageengine servicedesk plus','rmm_tool','equals','manageengine servicedesk plus'))
+        self.assertEqual(record['condition_count'],'1')
+        self.assertEqual(record['expires_at'],'')
+        for text in (q.build_mde(),q.build_cortex()):
+            self.assertNotIn('rpt-manageengine-servicedeskplus',text)
+            self.assertNotIn('ManageEngine ServiceDesk Plus',text)
     def test_source_patterns_are_validated_before_publish(self):
         p.domain_rows()
         with self.assertRaises(ValueError):p.validate_domains([dict(domain='example.invalid',rmm_tool='fixture',pattern='*.x*.example.invalid')])

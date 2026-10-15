@@ -418,6 +418,20 @@
           }
         ]
       ]
+    },
+    {
+      "id": "rpt-manageengine-servicedeskplus",
+      "enabled": true,
+      "target": "association",
+      "expires_at": null,
+      "reason": "ServiceDesk Plus excluded from RMM report scope per SOC review; broad vendor domains do not establish remote-control activity",
+      "conditions": [
+        {
+          "field": "rmm_tool",
+          "operator": "equals",
+          "value": "ManageEngine ServiceDesk Plus"
+        }
+      ]
     }
   ],
   "release": "000002",
