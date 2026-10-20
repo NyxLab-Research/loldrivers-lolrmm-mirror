@@ -2525,6 +2525,16 @@
     "status": "needs_review"
   },
   {
+    "tool": "Ping32",
+    "process_name": "nsecds.exe",
+    "status": "needs_review"
+  },
+  {
+    "tool": "Ping32",
+    "process_name": "nsecrts.exe",
+    "status": "needs_review"
+  },
+  {
     "tool": "Pocket Cloud (Wyse)",
     "process_name": "pocketcloudservice.exe",
     "status": "needs_review"

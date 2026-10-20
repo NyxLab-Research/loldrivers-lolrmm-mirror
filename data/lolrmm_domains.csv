@@ -131,6 +131,7 @@ cloud-233f9.firebaseapp.com,NetBird,cloud-233f9.firebaseapp.com,^(?:cloud-233f9\
 cloud-ed980.firebaseapp.com,NetBird,cloud-ed980.firebaseapp.com,^(?:cloud-ed980\.firebaseapp\.com)$
 cloud.acronis.com,Acronis Cyber Protect (Remotix),cloud.acronis.com,^(?:cloud\.acronis\.com)$
 cloud.faronics.com,Faronics Deep Freeze,cloud.faronics.com,^(?:cloud\.faronics\.com)$
+cloud.nsecsoft.com,Ping32,cloud.nsecsoft.com,^(?:cloud\.nsecsoft\.com)$
 cloud.shellhub.io,ShellHub,cloud.shellhub.io,^(?:cloud\.shellhub\.io)$
 cloud.tanium.com,Tanium,*.cloud.tanium.com,^(?:.*\.cloud\.tanium\.com)$
 cloud.tanium.com,Tanium,cloud.tanium.com,^(?:cloud\.tanium\.com)$
