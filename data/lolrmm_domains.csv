@@ -265,6 +265,7 @@ getscreen.me,GetScreen,*.getscreen.me,^(?:.*\.getscreen\.me)$
 getscreen.me,GetScreen,getscreen.me,^(?:getscreen\.me)$
 getscreen.me,GetScreen,px-*.getscreen.me,^(?:px-.*\.getscreen\.me)$
 ghcr.io,Komari,ghcr.io,^(?:ghcr\.io)$
+global.rel.tunnels.api.visualstudio.com,VS Code Remote Tunnels,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
 global.rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
 glpi-network.com,GLPI Agent,glpi-network.com,^(?:glpi-network\.com)$
 glpi-project.org,GLPI Agent,glpi-project.org,^(?:glpi-project\.org)$

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "https://lolrmm.io/api/rmm_tools.json",
-  "source_sha256": "b0cc81de64d7a2a013fc384563e23f3bf4dc988219816fd6c4ac94a5ce564889",
+  "source_sha256": "2ffeae53a8e570a150010929826991a8b8c57ebe179f05ef3bd7ca52b6874ebb",
   "tools": [
     {
       "name": "247ithelp.com (ConnectWise)",
@@ -2781,6 +2781,10 @@
       "patterns": [
         "*"
       ]
+    },
+    {
+      "name": "VS Code Remote Tunnels",
+      "patterns": []
     },
     {
       "name": "Veyon",
