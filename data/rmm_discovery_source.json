@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "https://lolrmm.io/api/rmm_tools.json",
-  "source_sha256": "93a9c2f174874e849f103a4ab822f5b8be28f49386359be989f079cae8b906a2",
+  "source_sha256": "9566b08ecee6bf81a7c3bbf43187672f4237a2ace8d072750f5edbf6d36f1aa4",
   "tools": [
     {
       "name": "247ithelp.com (ConnectWise)",
@@ -1214,20 +1214,6 @@
       "name": "Level",
       "patterns": [
         "*",
-        "level.exe"
-      ]
-    },
-    {
-      "name": "Level.io",
-      "patterns": [
-        "level-remote-control-ffmpeg.exe",
-        "level-windows-amd64.exe",
-        "level.exe"
-      ]
-    },
-    {
-      "name": "Level.io",
-      "patterns": [
         "level-remote-control-ffmpeg.exe",
         "level-windows-amd64.exe",
         "level.exe"
@@ -1359,12 +1345,6 @@
         "meshagent*.exe",
         "meshagent.exe",
         "meshcentral*.exe"
-      ]
-    },
-    {
-      "name": "Microsoft Quick Assist",
-      "patterns": [
-        "quickassist.exe"
       ]
     },
     {
@@ -2048,6 +2028,14 @@
       ]
     },
     {
+      "name": "RdViewer",
+      "patterns": [
+        "rdclient.exe",
+        "rdserver.exe",
+        "rdservice.exe"
+      ]
+    },
+    {
       "name": "RealVNC",
       "patterns": []
     },
@@ -2474,6 +2462,13 @@
       "name": "SpyAnywhere",
       "patterns": [
         "sysdiag.exe"
+      ]
+    },
+    {
+      "name": "StifleR (2Pint Software)",
+      "patterns": [
+        "*",
+        "stifler.clientapp.exe"
       ]
     },
     {

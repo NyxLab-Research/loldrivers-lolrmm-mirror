@@ -45,7 +45,6 @@ anyviewer.com,AnyViewer,*.anyviewer.com,^(?:.*\.anyviewer\.com)$
 aomeisoftware.com,AnyViewer,*.aomeisoftware.com,^(?:.*\.aomeisoftware\.com)$
 api-ca-1.lavawall.com,Lavawall,api-ca-1.lavawall.com,^(?:api-ca-1\.lavawall\.com)$
 api.allocentra.co.za,Allocentra,api.allocentra.co.za,^(?:api\.allocentra\.co\.za)$
-api.cloudflare.com,CloudFlare Tunnel,api.cloudflare.com,^(?:api\.cloudflare\.com)$
 api.fdcollab.com,Freshservice,api.fdcollab.com,^(?:api\.fdcollab\.com)$
 api.helpwire.app,HelpWire,api.helpwire.app,^(?:api\.helpwire\.app)$
 api.hoptodesk.com,HopToDesk,api.hoptodesk.com,^(?:api\.hoptodesk\.com)$
@@ -264,7 +263,6 @@ getgo.com,GoToAssist,*.getgo.com,^(?:.*\.getgo\.com)$
 getscreen.me,GetScreen,*.getscreen.me,^(?:.*\.getscreen\.me)$
 getscreen.me,GetScreen,getscreen.me,^(?:getscreen\.me)$
 getscreen.me,GetScreen,px-*.getscreen.me,^(?:px-.*\.getscreen\.me)$
-ghcr.io,Komari,ghcr.io,^(?:ghcr\.io)$
 global.rel.tunnels.api.visualstudio.com,VS Code Remote Tunnels,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
 global.rel.tunnels.api.visualstudio.com,Visual Studio Dev Tunnel,global.rel.tunnels.api.visualstudio.com,^(?:global\.rel\.tunnels\.api\.visualstudio\.com)$
 glpi-network.com,GLPI Agent,glpi-network.com,^(?:glpi-network\.com)$
@@ -353,9 +351,8 @@ lavawinupdate.lavawall.com,Lavawall,lavawinupdate.lavawall.com,^(?:lavawinupdate
 lb-insight-001.invgate.net,InvGate,lb-insight-001.invgate.net,^(?:lb-insight-001\.invgate\.net)$
 ld.aurelius.host,Syncro,ld.aurelius.host,^(?:ld\.aurelius\.host)$
 le.laplink.com,Laplink Everywhere,le.laplink.com,^(?:le\.laplink\.com)$
+level.io,Level,*.level.io,^(?:.*\.level\.io)$
 level.io,Level,level.io,^(?:level\.io)$
-level.io,Level.io,*.level.io,^(?:.*\.level\.io)$
-level.io,Level.io,level.io,^(?:level\.io)$
 light-rmm-monitor-20260825.azurewebsites.net,LightRmmAgent,light-rmm-monitor-20260825.azurewebsites.net,^(?:light-rmm-monitor-20260825\.azurewebsites\.net)$
 lisa.rg-supervision.com,RG System (RG Supervision),lisa.rg-supervision.com,^(?:lisa\.rg-supervision\.com)$
 litemanager.com,LiteManager,*.litemanager.com,^(?:.*\.litemanager\.com)$
@@ -492,6 +489,7 @@ r1.rmm.uw.gorelo.tech,Gorelo RMM,r1.rmm.uw.gorelo.tech,^(?:r1\.rmm\.uw\.gorelo\.
 r2.cloudflarestorage.com,PDQ Connect,pdqinstallers.*.r2.cloudflarestorage.com,^(?:pdqinstallers\..*\.r2\.cloudflarestorage\.com)$
 radmin.com,RAdmin,radmin.com,^(?:radmin\.com)$
 rdp.duetdisplay.com,Duet Display,rdp.duetdisplay.com,^(?:rdp\.duetdisplay\.com)$
+rdviewer.oss-cn-hangzhou.aliyuncs.com,RdViewer,rdviewer.oss-cn-hangzhou.aliyuncs.com,^(?:rdviewer\.oss-cn-hangzhou\.aliyuncs\.com)$
 real-time-collaboration.com,Mikogo,*.real-time-collaboration.com,^(?:.*\.real-time-collaboration\.com)$
 region1.v2.argotunnel.com,CloudFlare Tunnel,region1.v2.argotunnel.com,^(?:region1\.v2\.argotunnel\.com)$
 region2.v2.argotunnel.com,CloudFlare Tunnel,region2.v2.argotunnel.com,^(?:region2\.v2\.argotunnel\.com)$
@@ -608,7 +606,6 @@ staging.helpwire.app,HelpWire,staging.helpwire.app,^(?:staging\.helpwire\.app)$
 startsupport.com,RemoteCall,*.startsupport.com,^(?:.*\.startsupport\.com)$
 static.freshdev.io,Freshservice,static.freshdev.io,^(?:static\.freshdev\.io)$
 stun.helpwire.app,HelpWire,stun.helpwire.app,^(?:stun\.helpwire\.app)$
-stunserver.stunprotocol.org,HelpWire,stunserver.stunprotocol.org,^(?:stunserver\.stunprotocol\.org)$
 sunlogin.oray.com,SunLogin,sunlogin.oray.com,^(?:sunlogin\.oray\.com)$
 superops.ai,SuperOps,*.superops.ai,^(?:.*\.superops\.ai)$
 superops.ai,SuperOps,superops.ai,^(?:superops\.ai)$
@@ -616,7 +613,6 @@ superopsalpha.com,SuperOps,*.superopsalpha.com,^(?:.*\.superopsalpha\.com)$
 superopsbeta.com,SuperOps,*.superopsbeta.com,^(?:.*\.superopsbeta\.com)$
 support.faronics.com,Faronics Deploy,support.faronics.com,^(?:support\.faronics\.com)$
 support.faronics.com,Faronics Insight,support.faronics.com,^(?:support\.faronics\.com)$
-support.services.microsoft.com,Microsoft Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
 support.services.microsoft.com,Quick Assist,*.support.services.microsoft.com,^(?:.*\.support\.services\.microsoft\.com)$
 supremocontrol.com,Supremo,*.supremocontrol.com,^(?:.*\.supremocontrol\.com)$
 swi-rc.cdn-sw.net,N-able N-central,swi-rc.cdn-sw.net,^(?:swi-rc\.cdn-sw\.net)$
